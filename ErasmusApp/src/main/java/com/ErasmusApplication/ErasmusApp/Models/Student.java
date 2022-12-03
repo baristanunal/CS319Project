@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-public class StudentModel extends User {
+public class Student extends User {
     // properties
     private String department;
     private String academicYear;
