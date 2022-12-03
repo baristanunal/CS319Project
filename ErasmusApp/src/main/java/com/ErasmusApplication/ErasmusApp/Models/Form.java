@@ -5,6 +5,6 @@ public class Form {
     // Properties
     private boolean isApproved;
     private boolean signedByDepCoordinator;
-    private Wish[] wishes;
+//    private Wish[] wishes;
 
 }
