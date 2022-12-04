@@ -35,3 +35,4 @@ build/
 
 .idea
 application
+ErasmusApp/src/main/resources/application.properties
