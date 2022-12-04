@@ -1,10 +1,11 @@
-package com.ErasmusApplication.ErasmusApp.Models;
+package com.ErasmusApplication.ErasmusApp.Services;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Scope("singleton")
-@Component
+@Service
 public class NotificationManager {
 
 }

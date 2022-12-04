@@ -1,5 +1,8 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
+import lombok.Data;
+
+@Data
 public class Task {
     private String content;
     private String deadline;
@@ -12,19 +15,4 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(String deadline) {
-        this.deadline = deadline;
-    }
 }
