@@ -1,13 +1,17 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class StudentService extends UserService {
-
+public class StudentService {
+    ErasmusManager erasmusManager;
+    LoginManager loginManager;
     //TODO  idk how this works
-    public StudentService(ErasmusManager erasmusManager, LoginManager loginManager) {
-        super(erasmusManager, loginManager);
-    }
 
+    @Autowired
+    public StudentService(ErasmusManager erasmusManager, LoginManager loginManager) {
+        this.erasmusManager = erasmusManager;
+        this.loginManager = loginManager;
+    }
 }
