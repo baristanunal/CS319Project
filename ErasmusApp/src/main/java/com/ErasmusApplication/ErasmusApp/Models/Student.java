@@ -1,5 +1,8 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class Student extends User {
     // properties
     private String department;

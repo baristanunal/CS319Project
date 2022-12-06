@@ -6,12 +6,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
     ErasmusManager erasmusManager;
-    LoginManager loginManager;
+//    LoginManager loginManager;
     //TODO  idk how this works
 
     @Autowired
-    public StudentService(ErasmusManager erasmusManager, LoginManager loginManager) {
+    public StudentService(ErasmusManager erasmusManager) {
         this.erasmusManager = erasmusManager;
-        this.loginManager = loginManager;
     }
 }

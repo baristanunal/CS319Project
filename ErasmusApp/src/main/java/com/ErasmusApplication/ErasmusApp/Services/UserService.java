@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserService {
     ErasmusManager erasmusManager;
-    LoginManager loginManager;
 
     @Autowired
-    public UserService(ErasmusManager erasmusManager, LoginManager loginManager) {
+    public UserService(ErasmusManager erasmusManager) {
         this.erasmusManager = erasmusManager;
-        this.loginManager = loginManager;
     }
 }
