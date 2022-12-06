@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-public class FacultyAdminCommittee extends User {
+public class FacultyAdminCommittee extends UserClass {
     // Properties
 
     // Constructors

@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-public class DepartmentErasmusCoordinator extends User {
+public class DepartmentErasmusCoordinator extends UserClass {
     // Properties
     //private PlacementManager placementManager;
 

@@ -12,8 +12,8 @@ public class ErasmusAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ErasmusAppApplication.class, args);
 	}
-	@RequestMapping("/h")
-	public String h(){
-		return  "hello";
-	}
+//	@RequestMapping("/h")
+//	public String h(){
+//		return  "hello";
+//	}
 }

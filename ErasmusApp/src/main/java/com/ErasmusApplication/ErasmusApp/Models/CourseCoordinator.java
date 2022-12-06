@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-public class CourseCoordinator extends User{
+public class CourseCoordinator extends UserClass{
     // Properties
     private String faculty;
     private String department;
