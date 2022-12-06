@@ -1,36 +1,38 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @MappedSuperclass
 public abstract class User {
 
-//    @OneToMany
-//    private ArrayList<Task> tasks;
+    @OneToMany(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(name = "userId")
+    private List<Task> tasks;
     private String email;
     private String firstName;
     private String lastName;
 
     @Id
-    private Long ID; //TODO
+    private Long userId; //TODO
 
     public User() {
     }
 
 
-    public User( String email, String firstName, String lastName, Long ID) {
+    public User( String email, String firstName, String lastName, Long userId) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.ID = ID;
+        this.userId = userId;
     }
 
 
