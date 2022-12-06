@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
+
 import lombok.Data;
 
 import java.util.ArrayList;

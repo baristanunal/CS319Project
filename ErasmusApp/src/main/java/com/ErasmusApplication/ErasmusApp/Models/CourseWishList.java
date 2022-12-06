@@ -5,5 +5,5 @@ public class CourseWishList {
     private int totalCredit;
 
     private Wish[] wishes;
-    private PreApprovalManager preApprovalManager;
+    //private PreApprovalManager preApprovalManager;
 }
