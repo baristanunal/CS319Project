@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
     ErasmusManager erasmusManager;
-//    LoginManager loginManager;
+    //LoginManager loginManager;
     //TODO  idk how this works
 
     @Autowired
