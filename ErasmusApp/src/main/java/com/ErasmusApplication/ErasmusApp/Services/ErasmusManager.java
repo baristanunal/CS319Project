@@ -7,8 +7,11 @@ import org.springframework.stereotype.Service;
 @Scope("singleton")
 @Service
 public class ErasmusManager {
+    // Properties
     private DocumentManager documentManager;
     private NotificationManager notificationManager;
+
+    // Constructors
 
     @Autowired
     public ErasmusManager(DocumentManager documentManager, NotificationManager notificationManager) {

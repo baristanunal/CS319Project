@@ -61,8 +61,8 @@ public class StudentService {
         // but in that situation we restricted to that  we cannot set "" any attribute but may be we want that.
 
         //Code below does not work, we need to use .set for each attribute if
-//        student = updatedStudent; //TODO try to write deepcopy in short way or in class. That is, do smth like student.setMail(updatedStudent.getMail() ); for all attributes
-//        student.setId(userId); //TODO also dele this after writing deepcopy
+        // student = updatedStudent; //TODO try to write deepcopy in short way or in class. That is, do smth like student.setMail(updatedStudent.getMail() ); for all attributes
+        //   student.setId(userId); //TODO also dele this after writing deepcopy
 
 //        Student student = studentRepository.findById(updatedStudent.getId()).get();  // This also works but idk the difference, I will look this later
 
