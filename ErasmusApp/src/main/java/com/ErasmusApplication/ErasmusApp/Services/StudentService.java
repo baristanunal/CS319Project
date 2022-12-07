@@ -39,6 +39,8 @@ public class StudentService {
     }
 
     public void deleteUser(Long userId) {
+        //TODO add cornercase
+
         studentRepository.deleteById(userId);
     }
 
