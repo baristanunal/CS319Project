@@ -11,7 +11,5 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 //    List<User> findByUserId(Long userId);
-//
-//    @Transactional
-//    void deleteByUserId(Long userId);
+
 }
