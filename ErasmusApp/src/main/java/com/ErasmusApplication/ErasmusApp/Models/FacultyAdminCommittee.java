@@ -1,6 +1,9 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 public class FacultyAdminCommittee extends UserClass {
+    public FacultyAdminCommittee(String email, String firstName, String lastName, long schoolId) {
+        super(email, firstName, lastName, schoolId);
+    }
     // Properties
 
     // Constructors

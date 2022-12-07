@@ -6,9 +6,11 @@ public class CourseCoordinator extends UserClass{
     private String department;
     private String course;
 
+    public CourseCoordinator(String email, String firstName, String lastName, long schoolId) {
+        super(email, firstName, lastName, schoolId);
+    }
+
     // Constructors
 
-    // Default Constructor
-    public CourseCoordinator() {
-    }
+
 }
