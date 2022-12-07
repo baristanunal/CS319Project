@@ -9,32 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Entity
-//@Inheritance(strategy = InheritanceType.JOINED)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-
-//@MappedSuperclass
+@Inheritance(strategy = InheritanceType.JOINED)
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@MappedSuperclass
+@Table(name = "UserClass")
+
 public class UserClass {
 
-//    @OneToMany(
-//            mappedBy = "user",
-//            orphanRemoval = true,
-//            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-//            fetch = FetchType.LAZY
-////            cascade = CascadeType.ALL
-//    )
-//    @OneToMany(mappedBy = "user")
-//    @JoinColumn(name = "userId")
-//    @OneToMany(mappedBy = "user")
-//    private List<Task> tasks2;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Task> tasks2;
     private String email2;
     private String firstName2;
     private String lastName2;
-
+    private Long schoolId;
     @Id
-    private Long UserId; //TODO
+    private Long Id; //TODO
 
 
 

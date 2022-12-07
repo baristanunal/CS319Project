@@ -7,34 +7,24 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity(name = "Task")
+@Table(name = "Task")
 public class Task {
     private String content;
     private String deadline;
     @Id
-//    @SequenceGenerator(
-//            name = "task_sequence",
-//            sequenceName = "task_sequence",
-//            allocationSize = 1
-//    )
-//    @GeneratedValue(
-//            strategy = SEQUENCE,
-//            generator = "task_sequence"
-//    )
+    @SequenceGenerator(
+            name = "task_sequence",
+            sequenceName = "task_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = SEQUENCE,
+            generator = "task_sequence"
+    )
     private Long Id;
 
-//    @ManyToOne
-//    private User user;
-//    @ManyToOne
-//    @JoinColumn(
-//            name = "student_id",
-//            nullable = false,
-//            referencedColumnName = "id",
-//            foreignKey = @ForeignKey(
-//                    name = "student_book_fk"
-//            )
-//    )
-//    private User user;
-
+    @ManyToOne( fetch = FetchType.LAZY)
+    private UserClass user;
 
 
     public Task() {

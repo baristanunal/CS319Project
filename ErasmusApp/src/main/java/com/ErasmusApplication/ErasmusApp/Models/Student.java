@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 
 @Entity
+@Table(name = "Student")
+
 public class Student extends UserClass {
     // properties
     private String department;
