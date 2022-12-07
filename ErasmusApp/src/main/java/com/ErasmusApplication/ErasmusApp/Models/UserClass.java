@@ -18,6 +18,8 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Table(name = "UserClass")
 
 public class UserClass {
+    // Properties
+
 
 
     @OneToMany(
@@ -49,6 +51,7 @@ public class UserClass {
         this.lastName = lastName;
         this.schoolId = schoolId;
     }
+    // Constructors
 
     public UserClass() {
 
@@ -60,6 +63,13 @@ public class UserClass {
     public void addTask(Task newTask){
         tasks.add(newTask);
     }
+    // Methods
+    //    public void removeTask(Task task) {
+    //        tasks.remove(task);
+    //    }
+    //    public void addTask(Task newTask){
+    //        tasks.add(newTask);
+    //    }
 
 
 

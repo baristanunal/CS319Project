@@ -14,4 +14,5 @@ public interface UserClassRepository extends JpaRepository<UserClass, Long> {
     @Query("select u from UserClass u where u.schoolId = ?1")
     Optional<UserClass> findBySchoolId(long schoolId);
 
+
 }
