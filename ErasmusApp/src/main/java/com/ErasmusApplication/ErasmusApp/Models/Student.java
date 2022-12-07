@@ -13,8 +13,8 @@ public class Student extends UserClass {
     private String nationality;
     private String gender;
 
-//    @Id
-//    private Long studentId;
+    // @Id
+    // private Long studentId;
     //private BilkentCourse[] passedCourses;
     //private CourseWishList courseWishList;
     // private Application application; // array olup olmayacağına karar vermeliyiz

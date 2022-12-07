@@ -9,6 +9,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Entity(name = "Task")
 @Table(name = "Task")
 public class Task {
+    // Properties
     private String content;
     private String deadline;
     @Id
@@ -27,6 +28,9 @@ public class Task {
     private UserClass user;
 
 
+    // Constructors
+
+    // Default Constructor
     public Task() {
 
     }
@@ -41,5 +45,7 @@ public class Task {
         this.content = content;
         this.deadline = deadline;
     }
+
+    // Methods
 
 }

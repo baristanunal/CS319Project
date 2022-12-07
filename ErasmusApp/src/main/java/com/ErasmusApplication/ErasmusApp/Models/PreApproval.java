@@ -5,4 +5,6 @@ public class PreApproval extends Form {
    private String preApprovalDeadline;
 
    // Constructors
+
+   // Methods
 }

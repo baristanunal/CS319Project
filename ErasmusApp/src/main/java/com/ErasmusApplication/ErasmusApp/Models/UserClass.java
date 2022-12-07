@@ -16,6 +16,8 @@ import java.util.List;
 @Table(name = "UserClass")
 
 public class UserClass {
+    // Properties
+
 
 
     @OneToMany(
@@ -32,17 +34,17 @@ public class UserClass {
     private Long Id; //TODO
 
 
+    // Constructors
 
 
 
-
-
-//    public void removeTask(Task task) {
-//        tasks.remove(task);
-//    }
-//    public void addTask(Task newTask){
-//        tasks.add(newTask);
-//    }
+    // Methods
+    //    public void removeTask(Task task) {
+    //        tasks.remove(task);
+    //    }
+    //    public void addTask(Task newTask){
+    //        tasks.add(newTask);
+    //    }
 
 
 
