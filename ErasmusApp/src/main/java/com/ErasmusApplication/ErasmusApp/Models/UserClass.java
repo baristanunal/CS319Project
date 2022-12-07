@@ -25,10 +25,10 @@ public class UserClass {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Task> tasks2;
-    private String email2;
-    private String firstName2;
-    private String lastName2;
+    private List<Task> tasks;
+    private String email;
+    private String firstName;
+    private String lastName;
     private Long schoolId;
     @Id
     private Long Id; //TODO
