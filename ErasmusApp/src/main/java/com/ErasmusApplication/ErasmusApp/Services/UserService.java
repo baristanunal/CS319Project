@@ -7,6 +7,7 @@ public class UserService {
 
     @Autowired
     public UserService(ErasmusManager erasmusManager) {
+
         this.erasmusManager = erasmusManager;
     }
 }
