@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +25,7 @@ public class Task {
     )
     private Long Id;
 
+    @JsonBackReference
     @ManyToOne( fetch = FetchType.LAZY)
     private UserClass user;
 

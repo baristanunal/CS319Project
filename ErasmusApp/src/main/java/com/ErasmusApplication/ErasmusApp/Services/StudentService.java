@@ -1,6 +1,7 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Models.Student;
+import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,43 +29,70 @@ public class StudentService {
     public List<Student> getStudents() {
         return studentRepository.findAll();
     }
+    public Student getStudent(Long userId){
+        return studentRepository.findById(userId)
+                .orElseThrow(() -> new IllegalStateException(
+                        "Student With Id: " + userId + " does not exist."
+                ));
+    }
 
-    public void addNewStudent(Student student) {
-        studentRepository.save(student);
-//        Optional<UserClass> userBySchoolId = studentRepository.findBySchoolId(student.getSchoolId());
-//        if( userBySchoolId.isPresent()){
-//            throw new IllegalStateException("School Id is taken!");
-//        }
-//        studentRepository.save(student);
+    public Student addNewStudent(Student student) {
+        Optional<UserClass> userBySchoolId = studentRepository.findBySchoolId(student.getSchoolId());
+        if( userBySchoolId.isPresent()){
+            throw new IllegalStateException("School Id is taken!");
+        }
+        return studentRepository.save(student);
     }
 
     public void deleteUser(Long userId) {
         //TODO add cornercase
-
+        boolean exist = studentRepository.existsById(userId);
+        if(!exist){
+            throw new IllegalStateException("User with Id: " + userId + " does not exist!");
+        }
         studentRepository.deleteById(userId);
     }
 
     @Transactional
     public void updateStudent(Long userId,Student updatedStudent){
-        Student student = studentRepository.findById(userId)
-                .orElseThrow(() -> new IllegalStateException(
-                        "Student With Id: " + updatedStudent.getId() + " does not exist."
-                ));
+        Student student = getStudent(userId);
+
+        student.setEmail(updatedStudent.getEmail());
+        student.setFirstName(updatedStudent.getFirstName()); //TODO  could they?
+        student.setLastName(updatedStudent.getLastName()); //TODO  could they?
+        student.setSchoolId(updatedStudent.getSchoolId()); //TODO  could they?
+        //TODO I probably understand this wrongly. What is academic year?  x.th semester or 21-22 stm like that. Why we need that value?
+        student.setAcademicYear(updatedStudent.getAcademicYear()); //TODO how could be sure that student passed all these courses. Also, we need to store the starting date instead of the just the year.
+        student.setBirthDate(updatedStudent.getBirthDate());
+        student.setDepartment(updatedStudent.getDepartment());
+        student.setGender(updatedStudent.getGender());
+        student.setNationality(updatedStudent.getNationality());
+
+    }
+
+    @Transactional
+    public Student addTaskToStudent(Long userId, Task newTask) {
+        Student student = getStudent(userId);
+        newTask.setUser(student);
+        student.addTask(newTask);
+
+        //TODO delete this part, I am not sure which way is the best but both of them works fine
+//        Student student = getStudent(userId);
+//        Task task = taskRepository.save(newTask);
+//        newTask.setUser(student);
+//        student.addTask(task);
 
 
-        student.setDepartment("asd");
-        student.setEmail("q@@@");
-        // look  https://youtu.be/9SGDpanrc8U?t=5047
-        // and add exception,corner case and
-        // also if request come for just 1 attribute, we assume other attributes are same with current student,
-        // If somehow frontend sends these data with empty string ""  and state that do not update the attibutes with "" or something like that then we need to update this code
-        // but in that situation we restricted to that  we cannot set "" any attribute but may be we want that.
+        return student;//TODO
+    }
 
-        //Code below does not work, we need to use .set for each attribute if
-        // student = updatedStudent; //TODO try to write deepcopy in short way or in class. That is, do smth like student.setMail(updatedStudent.getMail() ); for all attributes
-        //   student.setId(userId); //TODO also dele this after writing deepcopy
 
-//        Student student = studentRepository.findById(updatedStudent.getId()).get();  // This also works but idk the difference, I will look this later
+    @Transactional
+    public Student removeTaskFromStudent(Long userId, Long taskId) {
+        Student student = getStudent(userId);
+        student.removeTaskById(taskId);
 
+
+        return student;//TODO
     }
 }

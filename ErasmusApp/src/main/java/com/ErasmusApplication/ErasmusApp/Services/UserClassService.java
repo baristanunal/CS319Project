@@ -28,12 +28,12 @@ public class UserClassService {
         return userClassRepository.findAll();
     }
 
-    public void addNewUser(UserClass user) {
+    public UserClass addNewUser(UserClass user) {
         Optional<UserClass> userBySchoolId = userClassRepository.findBySchoolId(user.getSchoolId());
         if( userBySchoolId.isPresent()){
             throw new IllegalStateException("School Id is taken!");
         }
-        userClassRepository.save(user);
+        return userClassRepository.save(user);
     }
 
     public void deleteStudent(Long userClassId) {

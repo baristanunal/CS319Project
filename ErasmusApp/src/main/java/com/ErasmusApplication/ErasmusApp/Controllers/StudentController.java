@@ -1,9 +1,13 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
 import com.ErasmusApplication.ErasmusApp.Models.Student;
+import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +42,16 @@ public class StudentController {
         studentService.updateStudent(userId, student);
     }
 
-
+    @PostMapping("{userId}/tasks/add")
+    public ResponseEntity<Student> addTaskToStudent(@PathVariable Long userId, @RequestBody Task newTask){
+        Student student = studentService.addTaskToStudent(userId,newTask);
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+    @PostMapping("{userId}/tasks/remove/{taskId}")
+    public ResponseEntity<Student> removeTaskFromStudent(@PathVariable Long userId, @PathVariable Long taskId){
+        Student student = studentService.removeTaskFromStudent(userId, taskId);
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
 //    @PutMapping(path = "{userId}")
 //    public void updateStudent(
 //            @PathVariable("userId") Long userId,

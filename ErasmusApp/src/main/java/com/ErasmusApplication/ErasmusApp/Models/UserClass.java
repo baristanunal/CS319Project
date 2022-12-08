@@ -1,11 +1,13 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
@@ -21,7 +23,7 @@ public class UserClass {
     // Properties
 
 
-
+    @JsonManagedReference
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -62,6 +64,15 @@ public class UserClass {
     }
     public void addTask(Task newTask){
         tasks.add(newTask);
+    }
+    public void removeTaskById(Long taskId) {
+        Iterator<Task> iterator = tasks.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getId() == taskId){
+                iterator.remove();
+            }
+        }
+
     }
     // Methods
     //    public void removeTask(Task task) {
