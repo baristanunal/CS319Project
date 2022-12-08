@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
+import com.ErasmusApplication.ErasmusApp.Models.Application;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
@@ -50,6 +51,12 @@ public class StudentController {
     @PostMapping("{userId}/tasks/remove/{taskId}")
     public ResponseEntity<Student> removeTaskFromStudent(@PathVariable Long userId, @PathVariable Long taskId){
         Student student = studentService.removeTaskFromStudent(userId, taskId);
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+
+    @PostMapping("{userId}/application/add")
+    public ResponseEntity<Student> addApplicationToStudent(@PathVariable Long userId, @RequestBody Application newApplication){
+        Student student = studentService.addApplicationToStudent(userId,newApplication);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 //    @PutMapping(path = "{userId}")

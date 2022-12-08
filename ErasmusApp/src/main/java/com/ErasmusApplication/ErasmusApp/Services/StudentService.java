@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
+import com.ErasmusApplication.ErasmusApp.Models.Application;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
@@ -87,12 +88,20 @@ public class StudentService {
     }
 
 
+    //TODO  move the remove part to TaskService  and handle the other operations there, CRUD
     @Transactional
     public Student removeTaskFromStudent(Long userId, Long taskId) {
         Student student = getStudent(userId);
         student.removeTaskById(taskId);
 
-
         return student;//TODO
+    }
+
+    @Transactional
+    public Student addApplicationToStudent(Long userId, Application newApplication) {
+        Student student = getStudent(userId);
+        newApplication.setStudent(student);
+        student.addApplication(newApplication);
+        return student;
     }
 }
