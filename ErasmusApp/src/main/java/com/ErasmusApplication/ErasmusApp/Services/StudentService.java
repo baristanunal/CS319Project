@@ -9,8 +9,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.SerializationUtils;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -20,12 +22,14 @@ public class StudentService {
     //TODO  add erasmus manager with its implementation
 
     StudentRepository studentRepository;
-
+    TaskService taskService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, TaskService taskService) {
         this.studentRepository = studentRepository;
+        this.taskService = taskService;
     }
+
 
     public List<Student> getStudents() {
         return studentRepository.findAll();
@@ -38,7 +42,7 @@ public class StudentService {
     }
 
     public Student addNewStudent(Student student) {
-        Optional<UserClass> userBySchoolId = studentRepository.findBySchoolId(student.getSchoolId());
+        Optional<Student> userBySchoolId = studentRepository.findBySchoolId(student.getSchoolId());
         if( userBySchoolId.isPresent()){
             throw new IllegalStateException("School Id is taken!");
         }
@@ -57,6 +61,7 @@ public class StudentService {
     @Transactional
     public void updateStudent(Long userId,Student updatedStudent){
         Student student = getStudent(userId);
+
 
         student.setEmail(updatedStudent.getEmail());
         student.setFirstName(updatedStudent.getFirstName()); //TODO  could they?
@@ -103,5 +108,18 @@ public class StudentService {
         newApplication.setStudent(student);
         student.addApplication(newApplication);
         return student;
+    }
+
+    @Transactional
+    public boolean updateTask(Long userId, Long taskId, Task taskToUpdate) {
+        Student student = getStudent(userId);
+        boolean isExist = student.checkExistenceOfTask(taskId);
+
+        if (!isExist){
+            throw new NoSuchElementException("Task with Id: " + taskId + " is not belong to Student with Id: " +userId);
+        }
+
+        taskService.updateTask(taskId,taskToUpdate);
+        return true;
     }
 }

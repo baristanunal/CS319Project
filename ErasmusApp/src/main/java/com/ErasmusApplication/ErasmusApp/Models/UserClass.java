@@ -59,6 +59,15 @@ public class UserClass {
 
     }
 
+    public boolean checkExistenceOfTask(Long taskId){
+        Iterator<Task> iterator = tasks.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getId() == taskId){
+                return true;
+            }
+        }
+        return false;
+    }
     public void removeTask(Task task) {
         tasks.remove(task);
     }
@@ -74,6 +83,18 @@ public class UserClass {
         }
 
     }
+
+    public Task getTaskById(Long taskId) {
+        Iterator<Task> iterator = tasks.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getId() == taskId){
+               return iterator.next();
+            }
+        }
+        return null;
+    }
+
+
     // Methods
     //    public void removeTask(Task task) {
     //        tasks.remove(task);

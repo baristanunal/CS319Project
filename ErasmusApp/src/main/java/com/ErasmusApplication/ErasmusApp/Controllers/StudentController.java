@@ -53,12 +53,23 @@ public class StudentController {
         Student student = studentService.removeTaskFromStudent(userId, taskId);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
+    @PutMapping("{userId}/tasks/update/{taskId}")
+    public ResponseEntity<Task> updateTask(@PathVariable Long userId, @PathVariable Long taskId, @RequestBody Task taskToUpdate){
+        Boolean success = studentService.updateTask(userId, taskId, taskToUpdate);
+
+        if (success){
+            return new ResponseEntity<>(taskToUpdate, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(taskToUpdate, HttpStatus.BAD_REQUEST); //TODO does not work
+    }
+
 
     @PostMapping("{userId}/application/add")
     public ResponseEntity<Student> addApplicationToStudent(@PathVariable Long userId, @RequestBody Application newApplication){
         Student student = studentService.addApplicationToStudent(userId,newApplication);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
+
 //    @PutMapping(path = "{userId}")
 //    public void updateStudent(
 //            @PathVariable("userId") Long userId,
