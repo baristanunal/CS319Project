@@ -1,6 +1,7 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,7 +24,7 @@ public class UserClass {
     // Properties
 
 
-    @JsonManagedReference
+    @JsonIgnore
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -44,16 +45,16 @@ public class UserClass {
             strategy = SEQUENCE,
             generator = "user_sequence"
     )
-    private Long Id; //TODO
+    @Column(name = "id", nullable = false)
+    private Long id; //TODO
 
-
+    // Constructors
     public UserClass(String email, String firstName, String lastName, long schoolId) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.schoolId = schoolId;
     }
-    // Constructors
 
     public UserClass() {
 
@@ -68,20 +69,23 @@ public class UserClass {
         }
         return false;
     }
-    public void removeTask(Task task) {
-        tasks.remove(task);
+    //TODO useless delete
+    public boolean removeTask(Task task) {
+        return tasks.remove(task);
     }
-    public void addTask(Task newTask){
-        tasks.add(newTask);
+    public boolean addTask(Task newTask){
+        return tasks.add(newTask);
     }
-    public void removeTaskById(Long taskId) {
+    public boolean removeTaskById(Long taskId) {
         Iterator<Task> iterator = tasks.iterator();
         while (iterator.hasNext()) {
             if(iterator.next().getId() == taskId){
                 iterator.remove();
+                return true;
             }
         }
 
+        return false;
     }
 
     public Task getTaskById(Long taskId) {
@@ -94,16 +98,15 @@ public class UserClass {
         return null;
     }
 
-
-    // Methods
-    //    public void removeTask(Task task) {
-    //        tasks.remove(task);
-    //    }
-    //    public void addTask(Task newTask){
-    //        tasks.add(newTask);
-    //    }
-
-
+    public boolean updateTaskByTaskId(Long taskId, Task task) {
+        for (int i = 0; i < tasks.size(); i++){
+            if(tasks.get(i).getId() == taskId){
+                tasks.get(i).setAll(task);
+                return true;
+            }
+        }
+        return false; // if task does not exist in User return false
+    }
 
 }
 
