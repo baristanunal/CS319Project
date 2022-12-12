@@ -8,8 +8,10 @@ import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,10 +26,12 @@ public class StudentService {
     StudentRepository studentRepository;
     TaskService taskService;
 
+    ApplicationService applicationService;
     @Autowired
-    public StudentService(StudentRepository studentRepository, TaskService taskService) {
+    public StudentService(StudentRepository studentRepository, TaskService taskService, ApplicationService applicationService) {
         this.studentRepository = studentRepository;
         this.taskService = taskService;
+        this.applicationService = applicationService;
     }
 
 
@@ -76,19 +80,20 @@ public class StudentService {
 
     }
 
+    //TASKS
     @Transactional
     public Student addTaskToStudent(Long userId, Task newTask) {
         Student student = getStudent(userId);
         newTask.setUser(student);
-        student.addTask(newTask);
+        boolean success = student.addTask(newTask);
 
-        //TODO delete this part, I am not sure which way is the best but both of them works fine
-//        Student student = getStudent(userId);
-//        Task task = taskRepository.save(newTask);
-//        newTask.setUser(student);
-//        student.addTask(task);
-
-
+        //TODO
+        if (!success) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Failed to add task to Student with Id: " + userId)
+            );
+        }
         return student;//TODO
     }
 
@@ -97,29 +102,87 @@ public class StudentService {
     @Transactional
     public Student removeTaskFromStudent(Long userId, Long taskId) {
         Student student = getStudent(userId);
-        student.removeTaskById(taskId);
-
+        boolean success = student.removeTaskById(taskId);
+        if (!success) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Student with Id: " + userId + " does not have task with Id: " + taskId)
+            );
+        }
         return student;//TODO
     }
 
     @Transactional
+    public Student updateTask(Long userId, Long taskId, Task taskToUpdate) {
+        Student student = getStudent(userId);
+        boolean isExist = student.updateTaskByTaskId(taskId,taskToUpdate);
+
+        if (!isExist){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Task with Id: " + taskId + " is not belong to Student with Id: " +userId)
+            );
+        }
+
+        return student;
+    }
+
+    public List<Task> getAllTasks(Long userId){
+        Student student = getStudent(userId);
+        List<Task> tasks = student.getTasks();
+
+        if (tasks.isEmpty()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format( "Student with With Id: " + userId + " does not have any tasks"
+                    ));
+        }
+        return tasks;
+
+    }
+    //Application
+    @Transactional
     public Student addApplicationToStudent(Long userId, Application newApplication) {
         Student student = getStudent(userId);
+        if (student.getApplications().size() == 2){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_ACCEPTABLE,
+                    String.format( "Student with Id: " + userId + " has 2 applications. Student cannot have more than 2 application")
+            );
+        }
         newApplication.setStudent(student);
         student.addApplication(newApplication);
         return student;
     }
 
-    @Transactional
-    public boolean updateTask(Long userId, Long taskId, Task taskToUpdate) {
-        Student student = getStudent(userId);
-        boolean isExist = student.checkExistenceOfTask(taskId);
 
-        if (!isExist){
-            throw new NoSuchElementException("Task with Id: " + taskId + " is not belong to Student with Id: " +userId);
+    @Transactional
+    public Student removeApplicationFromStudent(Long userId, Long applicationId) {
+        Student student = getStudent(userId);
+        boolean success = student.removeApplicationById(applicationId);
+
+        if(!success){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Application With Id: " + applicationId + " does not exist in Student with Id:" + userId)
+            );
+        }
+        return student;
+    }
+
+
+    @Transactional
+    public Student updateApplication(Long userId, Long applicationId, Application updatedApplication) {
+        Student student = getStudent(userId);
+        boolean success = student.updateApplicationByApplicationId(applicationId, updatedApplication);
+
+        if(!success){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Application With Id: " + applicationId + " does not exist in Student with Id:" + userId)
+            );
         }
 
-        taskService.updateTask(taskId,taskToUpdate);
-        return true;
+        return student;
     }
 }
