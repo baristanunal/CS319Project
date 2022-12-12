@@ -1,6 +1,8 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,47 +16,82 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY)
     private Student student;
     private boolean isPlaced;
-    private String studyCycle;
-    @Transient
-    private List<String> preferredUniversities; //TODO solve this problem, where to store it
-    private String hostUniversity;
-    private String applicationType;
-    private String appliedAcademicSemester;
-    public Application() {
-    }
+    private boolean isInWaitingBin;
 
-    public Application(Student student, boolean isPlaced, String studyCycle, List<String> preferredUniversities, String hostUniversity, String applicationType, String appliedAcademicSemester) {
+    @JsonIgnore
+    @ManyToOne
+    private HostUniversity placedHostUniversity;
+    private String applicationType;
+    private Double totalPoints;
+    //    private Transcript transcript;
+    private String appliedAcademicSemester;
+    @JsonIgnore
+    @ManyToMany
+    private List<HostUniversity> preferredUniversities = new java.util.ArrayList<>(); //TODO solve this problem, where to store it
+
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "application",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Form> forms;
+
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    private CourseWishList courseWishList;
+
+
+    public Application(Student student, boolean isPlaced, boolean isInWaitingBin, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester) {
         this.student = student;
         this.isPlaced = isPlaced;
-        this.studyCycle = studyCycle;
-        this.preferredUniversities = preferredUniversities;
-        this.hostUniversity = hostUniversity;
+        this.isInWaitingBin = isInWaitingBin;
+        this.placedHostUniversity = placedHostUniversity;
         this.applicationType = applicationType;
+        this.totalPoints = totalPoints;
         this.appliedAcademicSemester = appliedAcademicSemester;
     }
 
+    public Application() {
+    }
 
-    //TODO  remove all above accordingto your choice about List<String> vs. Universities object etc.
-    public void removePrefferedUniversity(String preferredUniversity) {
+
+
+    /**
+    * This method sets all properties, except relational objects : @OneToMany @OneToOne @ManyToOne  etc.
+     * */
+    public void setAll(Application application){
+        this.isPlaced = application.isPlaced;
+        this.isInWaitingBin = application.isInWaitingBin;
+        this.preferredUniversities = application.preferredUniversities;
+        this.placedHostUniversity = application.placedHostUniversity;
+        this.applicationType = application.applicationType;
+        this.totalPoints = application.totalPoints;
+        this.appliedAcademicSemester = application.appliedAcademicSemester;
+    }
+
+
+    public void removePreferredUniversity(HostUniversity preferredUniversity) {
         preferredUniversities.remove(preferredUniversity);
     }
-    public void addPrefferedUniversity(String preferredUniversity){
+    public void addPreferredUniversity(HostUniversity preferredUniversity){
         preferredUniversities.add(preferredUniversity);
     }
-    public void removePrefferedUniversityByName(String universityName) {
-        Iterator<String> iterator = preferredUniversities.iterator();
+    public void removePreferredUniversityByName(String universityName) {
+        Iterator<HostUniversity> iterator = preferredUniversities.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next() == universityName){
+            if(iterator.next().getNameOfInstitution() == universityName){
                 iterator.remove();
             }
         }
 
     }
 
-    //    private Transcript transcript;
-//    private Form[] forms;
+
+    //TODO if is not placed the we should not get hostUniversity
 }
