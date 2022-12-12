@@ -1,9 +1,7 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,6 +11,7 @@ import java.util.List;
 @Data
 public class BilkentCourse extends Course {
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "bilkent_courses_prerequisites",
             joinColumns = @JoinColumn(name = "bilkent_course_id"),
@@ -23,11 +22,21 @@ public class BilkentCourse extends Course {
     @ManyToMany(mappedBy = "bilkentCourse")
     private List<BilkentCourse> prerequisites;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "corresponding_bilkent-host_courses",
             joinColumns = @JoinColumn(name = "bilkent_course_id"),
             inverseJoinColumns = @JoinColumn(name = "host_course_id"))
     private List<HostCourse> correspondingHostCourses;
+
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "bilkentCourse",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Wish> wishes;
 
     public List<HostCourse> getCorrespondingHostCourses() {
         return correspondingHostCourses;

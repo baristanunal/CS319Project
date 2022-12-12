@@ -2,17 +2,15 @@ package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Models.Application;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Repositories.ApplicationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ApplicationService {

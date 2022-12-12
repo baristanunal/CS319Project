@@ -21,23 +21,21 @@ public class Wish {
     private String standing;
     private String syllabus;
 
+
+    @JsonIgnore
+    @ManyToOne
+    private BilkentCourse bilkentCourse;
+
+    @ManyToMany(mappedBy = "wishes")
+    private List<HostCourse> courseToCountAsBilkentCourse = new ArrayList<>();
+
+//    private List<HostCourse> courseToCountAsBilkentCourse;
+
     @JsonIgnore
     @ManyToOne
     private CourseWishList courseWishList;
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "wish_forms",
-            joinColumns = @JoinColumn(name = "wish_id"),
-            inverseJoinColumns = @JoinColumn(name = "form_id"))
-    private List<Form> forms;
 
-    public List<Form> getForms() {
-        return forms;
-    }
 
-    public void setForms(List<Form> forms) {
-        this.forms = forms;
-    }
 
 
     // Constructors

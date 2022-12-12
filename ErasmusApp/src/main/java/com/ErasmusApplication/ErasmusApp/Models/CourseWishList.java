@@ -26,6 +26,14 @@ public class CourseWishList {
     //TODO @Transient
     private Double totalCredit;
 
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "courseWishList",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Form> forms;
+
     @OneToOne(orphanRemoval = true)
     @MapsId
     private Application application;

@@ -20,9 +20,7 @@ public class PlacementManager {
 
     @JsonIgnore
     @OneToMany(
-            mappedBy = "placementManager",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+            mappedBy = "placementManager"
     )
     private List<DepartmentErasmusCoordinator> departmentErasmusCoordinators;
 

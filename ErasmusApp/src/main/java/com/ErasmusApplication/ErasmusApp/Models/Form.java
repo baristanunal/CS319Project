@@ -30,16 +30,9 @@ public class Form {
     //TODO add relation
     //TODO Add method to Create Update Remove List object
     @JsonIgnore
-    @ManyToMany(mappedBy = "forms")
-    private List<Wish> wishes = new ArrayList<>();
+    @ManyToOne
+    private CourseWishList courseWishList;
 
-    public List<Wish> getWishes() {
-        return wishes;
-    }
-
-    public void setWishes(List<Wish> wishes) {
-        this.wishes = wishes;
-    }
 
 //    private List<Wish> wishes;
 

@@ -25,10 +25,8 @@ public class HostUniversity {
     @OneToMany(mappedBy = "placedHostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Application> placedApplications = new ArrayList<>();
 
-
-
-
-
+    @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HostCourse> hostCourses = new ArrayList<>();
 
 
 }

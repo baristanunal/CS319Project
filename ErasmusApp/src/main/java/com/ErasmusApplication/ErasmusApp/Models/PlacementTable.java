@@ -19,6 +19,7 @@ public class PlacementTable {
     @MapsId
     private PlacementManager placementManager;
 
+    //TODO determine whether keep students or applications
     @JsonIgnore
     @OneToMany(
             mappedBy = "placementTable"

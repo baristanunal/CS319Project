@@ -1,10 +1,10 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
+import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/Application")
@@ -20,4 +20,6 @@ public class ApplicationController {
     public void removeApplication(@PathVariable Long applicationId){
         applicationService.removeApplication(applicationId);
     }
+
+
 }
