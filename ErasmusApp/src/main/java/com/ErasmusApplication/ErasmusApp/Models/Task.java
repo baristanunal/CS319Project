@@ -1,6 +1,7 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,9 +24,10 @@ public class Task {
             strategy = SEQUENCE,
             generator = "task_sequence"
     )
-    private Long Id;
+    @Column(name = "id", nullable = false)
+    private Long id;
 
-    @JsonBackReference
+    @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY)
     private UserClass user;
 
@@ -37,15 +39,15 @@ public class Task {
 
     }
 
-    public Task(String content, String deadline,  Long Id) {
+    public Task(String content, String deadline) {
         this.content = content;
         this.deadline = deadline;
-        this.Id = Id;
     }
 
-    public Task(String content, String deadline ) {
-        this.content = content;
-        this.deadline = deadline;
+
+    public void setAll(Task task) {
+        this.content = task.getContent();
+        task.deadline = task.getDeadline();
     }
 
 
