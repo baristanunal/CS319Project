@@ -44,7 +44,6 @@ public class StudentController {
     }
 
     //TASKS
-
     @GetMapping("{userId}/getAllTasks")
     public List<Task> getAllTasks(@PathVariable Long userId){
         return studentService.getAllTasks(userId);
