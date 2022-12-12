@@ -41,15 +41,15 @@ public class TaskService {
     }
 
     @Transactional
-    public void updateTask(Long taskId,Task updatedTask){
+    public Task updateTask(Long taskId,Task updatedTask){
         try {
             Task task = getTask(taskId);
             task.setContent(updatedTask.getContent());
             task.setDeadline(updatedTask.getDeadline());
+            return task;
         }
         catch( IllegalStateException e){
             throw e; //TODO  I do not know how to deal with exceptions
         }
-
     }
 }
