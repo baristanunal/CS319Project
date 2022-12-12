@@ -43,6 +43,13 @@ public class StudentController {
         studentService.updateStudent(userId, student);
     }
 
+    //TASKS
+
+    @GetMapping("{userId}/getAllTasks")
+    public List<Task> getAllTasks(@PathVariable Long userId){
+        return studentService.getAllTasks(userId);
+    }
+
     @PostMapping("{userId}/tasks/add")
     public ResponseEntity<Student> addTaskToStudent(@PathVariable Long userId, @RequestBody Task newTask){
         Student student = studentService.addTaskToStudent(userId,newTask);
@@ -54,35 +61,32 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
     @PutMapping("{userId}/tasks/update/{taskId}")
-    public ResponseEntity<Task> updateTask(@PathVariable Long userId, @PathVariable Long taskId, @RequestBody Task taskToUpdate){
-        Boolean success = studentService.updateTask(userId, taskId, taskToUpdate);
+    public ResponseEntity<Student> updateTask(@PathVariable Long userId, @PathVariable Long taskId, @RequestBody Task taskToUpdate){
+        Student student = studentService.updateTask(userId, taskId, taskToUpdate);
 
-        if (success){
-            return new ResponseEntity<>(taskToUpdate, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(taskToUpdate, HttpStatus.BAD_REQUEST); //TODO does not work
+        return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
 
+
+    //Application
     @PostMapping("{userId}/application/add")
     public ResponseEntity<Student> addApplicationToStudent(@PathVariable Long userId, @RequestBody Application newApplication){
         Student student = studentService.addApplicationToStudent(userId,newApplication);
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
-//    @PutMapping(path = "{userId}")
-//    public void updateStudent(
-//            @PathVariable("userId") Long userId,
-//            @RequestParam(required = false) String email,
-//            @RequestParam(required = false) String firstName,
-//            @RequestParam(required = false) String lastName,
-//            @RequestParam(required = false) long schoolId,
-//            @RequestParam(required = false) String department,
-//            @RequestParam(required = false) String academicYear,
-//            @RequestParam(required = false) String birthDate,
-//            @RequestParam(required = false) String nationality,
-//            @RequestParam(required = false) String gender,
-//        ){
-//
-//    }
+
+    //TODO type of return
+    @PostMapping("{userId}/application/remove/{applicationId}")
+    public Student removeApplication(@PathVariable Long userId, @PathVariable Long applicationId){
+        return studentService.removeApplicationFromStudent(userId,applicationId);
+    }
+
+
+    //TODO type of return
+    @PostMapping("{userId}/application/update/{applicationId}")
+    public Student updateApplication(@PathVariable Long userId, @PathVariable Long applicationId, @RequestBody Application updatedApplication){
+        return studentService.updateApplication(userId, applicationId, updatedApplication);
+    }
 }
