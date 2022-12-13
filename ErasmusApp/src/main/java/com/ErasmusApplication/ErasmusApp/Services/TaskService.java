@@ -1,15 +1,11 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Models.Task;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Repositories.TaskRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import javax.transaction.Transactional;
 
-import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class TaskService {

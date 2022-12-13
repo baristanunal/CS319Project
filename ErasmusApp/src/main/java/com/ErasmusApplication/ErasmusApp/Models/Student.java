@@ -2,8 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
-import jakarta.persistence.Entity;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.util.Iterator;
@@ -14,11 +13,6 @@ import java.util.List;
 @Data
 public class Student extends UserClass {
     // properties
-    private String department;
-    private String academicYear;
-    private String birthDate;
-    private String nationality;
-    private String gender;
     @JsonIgnore
     @OneToMany(
             mappedBy = "student",
@@ -35,51 +29,25 @@ public class Student extends UserClass {
     @ManyToOne(fetch = FetchType.LAZY)
     private PlacementTable placementTable;
 
-//    public Student(String email, String firstName, String lastName, long schoolId) {
-//        super(email, firstName, lastName, schoolId);
-//    }
-
-
-    public Student(String email, String firstName, String lastName, long schoolId, String department, String academicYear, String birthDate, String nationality, String gender, List<Application> applications) {
-        super(email, firstName, lastName, schoolId);
-        this.department = department;
-        this.academicYear = academicYear;
-        this.birthDate = birthDate;
-        this.nationality = nationality;
-        this.gender = gender;
-        this.applications = applications;
-    }
-
-    public Student(String department, String academicYear, String birthDate, String nationality, String gender, List<Application> applications) {
-        this.department = department;
-        this.academicYear = academicYear;
-        this.birthDate = birthDate;
-        this.nationality = nationality;
-        this.gender = gender;
-        this.applications = applications;
-    }
-
-    public Student(String email, String firstName, String lastName, long schoolId, String department, String academicYear, String birthDate, String nationality, String gender) {
-        super(email, firstName, lastName, schoolId);
-        this.department = department;
-        this.academicYear = academicYear;
-        this.birthDate = birthDate;
-        this.nationality = nationality;
-        this.gender = gender;
-    }
-
-    public Student(String department, String academicYear, String birthDate, String nationality, String gender) {
-        this.department = department;
-        this.academicYear = academicYear;
-        this.birthDate = birthDate;
-        this.nationality = nationality;
-        this.gender = gender;
-    }
+    private String academicYear;
+    private String birthDate;
+    private String nationality;
+    private String gender;
 
     public Student() {
-
     }
 
+    public Student(String email, String firstName, String lastName, String schoolId, String faculty, String department, String academicYear, String birthDate, String nationality, String gender, String password) {
+        super(email, firstName, lastName, schoolId, faculty, department,password);
+        this.academicYear = academicYear;
+        this.birthDate = birthDate;
+        this.nationality = nationality;
+        this.gender = gender;
+    }
+
+    public Student(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {
+        super(email, firstName, lastName, schoolId, faculty, department,password);
+    }
 
     //TODO unnecessary, if we want to delete or remove, we will iterate over List and we could handle it if it does not exist
     public boolean checkExistenceOfApplication(Long applicationId){

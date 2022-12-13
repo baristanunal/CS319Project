@@ -1,40 +1,27 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 
+import javax.persistence.*;
+import javax.persistence.Inheritance;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import static javax.persistence.GenerationType.SEQUENCE;
 
-@Data
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 //@MappedSuperclass
-@Table(name = "UserClass")
 
-public class UserClass {
+@Data@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "UserClass")
+public class UserClass{
     // Properties
 
-
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Task> tasks;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private long schoolId;
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -46,18 +33,35 @@ public class UserClass {
             generator = "user_sequence"
     )
     @Column(name = "id", nullable = false)
-    private Long id; //TODO
+    private Long id;
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Task> tasks;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String schoolId;
+    private String faculty;
+    private String department;
+    private String password;
 
-    // Constructors
-    public UserClass(String email, String firstName, String lastName, long schoolId) {
+    public UserClass(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.schoolId = schoolId;
+        this.faculty = faculty;
+        this.department = department;
+        this.password  = password;
     }
 
     public UserClass() {
-
     }
 
     public boolean checkExistenceOfTask(Long taskId){

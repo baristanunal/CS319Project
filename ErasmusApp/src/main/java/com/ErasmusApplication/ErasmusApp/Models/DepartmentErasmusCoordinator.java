@@ -2,7 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -21,8 +21,9 @@ public class DepartmentErasmusCoordinator extends UserClass {
     public DepartmentErasmusCoordinator(PlacementManager placementManager) {
         this.placementManager = placementManager;
     }
-    public DepartmentErasmusCoordinator(String email, String firstName, String lastName, long schoolId) {
-        super(email, firstName, lastName, schoolId);
+
+    public DepartmentErasmusCoordinator(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {
+        super(email, firstName, lastName, schoolId, faculty, department,password);
     }
 
     public DepartmentErasmusCoordinator() {

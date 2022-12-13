@@ -1,7 +1,7 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.util.List;
@@ -52,6 +52,9 @@ public class CourseWishList {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public CourseWishList() {
     }
 
 }

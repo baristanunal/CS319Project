@@ -3,14 +3,14 @@ package com.ErasmusApplication.ErasmusApp.Controllers;
 import com.ErasmusApplication.ErasmusApp.Models.Application;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Models.Task;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
-import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
+
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -24,13 +24,13 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<Student> getStudents(){
-        return studentService.getStudents();
+    public ResponseEntity<List<Student>> getStudents(){
+        return ResponseEntity.ok().body(studentService.getStudents());
     }
 
-    @PostMapping
-    public void addNewStudent(@RequestBody Student student){
-        studentService.addNewStudent(student);
+    @PostMapping("/save")
+    public void saveStudent(@RequestBody Student student){
+        studentService.saveStudent(student);
     }
 
     @DeleteMapping("{userId}")

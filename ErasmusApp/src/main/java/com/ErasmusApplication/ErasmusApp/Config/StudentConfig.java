@@ -18,12 +18,14 @@ public class StudentConfig {
                     "user1@hotmail.com",
                     "ahmet",
                     "sahin",
-                    21900900,
+                    "21900900",
+                    "Engineering",
                     "CS",
-                    "3.semester",
+                    "2022/FALL",
                     "11.11.2000",
                     "TR",
-                    "male"
+                    "male",
+                    "123"
 
             );
 
@@ -31,12 +33,14 @@ public class StudentConfig {
                     "user2@hotmail.com",
                     "murat",
                     "kartal",
-                    19800800,
+                    "19800800",
+                    "Engineering",
                     "CS",
-                    "2.semester",
+                    "2022/FALL",
                     "11.11.2001",
                     "TR",
-                    "female"
+                    "female",
+                    "123"
             );
 
             repository.saveAll(

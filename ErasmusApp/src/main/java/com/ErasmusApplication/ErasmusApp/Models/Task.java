@@ -2,10 +2,10 @@ package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import static javax.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity(name = "Task")

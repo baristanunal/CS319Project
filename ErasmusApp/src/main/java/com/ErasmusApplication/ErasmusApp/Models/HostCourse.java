@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -13,6 +13,9 @@ import java.util.Set;
 public class HostCourse extends Course{
     private boolean isApproved;
     private String hostCourseName;
+
+
+
 
     @ManyToMany(mappedBy = "correspondingHostCourses")
     private List<BilkentCourse> correspondingBilkentCourses;
@@ -27,4 +30,9 @@ public class HostCourse extends Course{
     private HostUniversity hostUniversity;
 
 
+    public HostCourse() {
+    }
+    public HostCourse(Double ECTS_credit, String nameOfCourse, String courseCode) {
+        super(ECTS_credit, nameOfCourse, courseCode);
+    }
 }

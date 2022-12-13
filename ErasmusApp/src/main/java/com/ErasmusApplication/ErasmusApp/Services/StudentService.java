@@ -6,13 +6,13 @@ import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.SerializationUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -45,8 +45,8 @@ public class StudentService {
                 ));
     }
 
-    public Student addNewStudent(Student student) {
-        Optional<Student> userBySchoolId = studentRepository.findBySchoolId(student.getSchoolId());
+    public Student saveStudent(Student student) {
+        Optional<Student> userBySchoolId = studentRepository.findBySchoolIdOpt(student.getSchoolId());
         if( userBySchoolId.isPresent()){
             throw new IllegalStateException("School Id is taken!");
         }

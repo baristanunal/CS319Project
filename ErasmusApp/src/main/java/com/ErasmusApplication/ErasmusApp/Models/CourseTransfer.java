@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Type;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +18,9 @@ public class CourseTransfer extends Form {
 
 
     // Constructors
+
+    public CourseTransfer() {
+    }
 
 
     //TODO Add method to Create Update Remove List object

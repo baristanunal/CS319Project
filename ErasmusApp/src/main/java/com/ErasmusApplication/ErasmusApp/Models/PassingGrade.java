@@ -2,7 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -29,4 +29,6 @@ public class PassingGrade {
     }
 
 
+    public PassingGrade() {
+    }
 }

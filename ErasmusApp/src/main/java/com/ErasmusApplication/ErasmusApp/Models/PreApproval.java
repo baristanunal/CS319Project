@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-import jakarta.persistence.Entity;
+import javax.persistence.Entity;
 import lombok.Data;
 
 @Entity

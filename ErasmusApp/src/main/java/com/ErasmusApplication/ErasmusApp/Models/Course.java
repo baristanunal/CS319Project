@@ -1,6 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -24,7 +24,7 @@ public class Course {
     }
 
     public Course() {
-        this.getId();
+
     }
 
 
