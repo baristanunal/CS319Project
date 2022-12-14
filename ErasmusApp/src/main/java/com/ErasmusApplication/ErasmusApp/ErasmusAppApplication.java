@@ -3,16 +3,21 @@ package com.ErasmusApplication.ErasmusApp;
 
 import com.ErasmusApplication.ErasmusApp.Models.Role;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
+@EnableConfigurationProperties({
+		FileStorageProperties.class
+})
 public class ErasmusAppApplication {
 
 	public static void main(String[] args) {
