@@ -7,14 +7,19 @@ import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 //@RequiredArgsConstructor
 @Service  @Transactional
-public class UserClassService implements UserService{
+public class UserClassService implements UserDetailsService {
 //    ErasmusManager erasmusManager;
     private final RoleRepository roleRepository;
     private final UserClassRepository userClassRepository;
@@ -25,7 +30,13 @@ public class UserClassService implements UserService{
         this.userClassRepository = userClassRepository;
     }
 
-    @Override
+
+    public User loginCheck(String id){
+        UserClass user = userClassRepository.findBySchoolIdOpt(id)
+                .orElseThrow( () -> new UsernameNotFoundException("No user was found!!"));
+
+        return new User(user.getSchoolId(),user.getPassword(),user.getAuthorities());
+    }
     public UserClass saveUser(UserClass user) {
         Optional<UserClass> userBySchoolId = userClassRepository.findBySchoolIdOpt(user.getSchoolId());
         if( userBySchoolId.isPresent()){
@@ -34,21 +45,42 @@ public class UserClassService implements UserService{
         return userClassRepository.save(user);
     }
 
-    @Override
+    @Transactional
+    public UserClass updatePassword(Long userId) {
+        UserClass user = getUser(userId);
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        return user;
+    }
+    public UserClass registrateUser(UserClass user, String roleName){
+        UserClass userFromDatabase = saveUser(user);
+
+        String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.addRole(roleRepository.findByName(roleName));
+        return user;
+    }
+
     public Role saveRole(Role role) {
         return roleRepository.save(role);
     }
 
-    @Override
+
     public void addRoleToUser(String schoolId, String roleName) {
-        UserClass user = getUser(schoolId);
+        UserClass user = getUserBySchoolId(schoolId);
         Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
     }
 
-    @Override
-    public UserClass getUser(String schoolId) {
-        return userClassRepository.findBySchoolId(schoolId);
+    public UserClass getUser(Long userId) {
+
+        return userClassRepository.findById(userId).orElseThrow(() -> new IllegalStateException(
+                "User With Id: " + userId + " does not exist."
+        ));
+    }
+
+    public UserClass getUserBySchoolId(String schoolId) {
+        UserClass user = userClassRepository.findBySchoolId(schoolId);
+        return user;
     }
 
     //    @Autowired
@@ -67,5 +99,25 @@ public class UserClassService implements UserService{
             throw new IllegalStateException("User with Id: " + userClassId + " does not exist!");
         }
         userClassRepository.deleteById(userClassId);
+    }
+
+//    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
+//            new User(
+//                    "admin",
+//                    "admin",
+//                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
+//            ),
+//            new User(
+//                    "user",
+//                    "user",
+//                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
+//            )
+//    );
+    @Override
+    public UserDetails loadUserByUsername(String username) {
+        //We userd schooldId as username so
+
+        UserClass user = getUserBySchoolId(username);
+        return new User(user.getSchoolId(),user.getPassword(),user.getRoles());
     }
 }

@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Student")
+@RequestMapping("/student")
 public class StudentController {
     private final StudentService studentService;
 
@@ -45,8 +45,8 @@ public class StudentController {
 
     //TASKS
     @GetMapping("{userId}/getAllTasks")
-    public List<Task> getAllTasks(@PathVariable Long userId){
-        return studentService.getAllTasks(userId);
+    public ResponseEntity<List<Task>> getAllTasks(@PathVariable Long userId){
+            return new ResponseEntity<>(studentService.getAllTasks(userId), HttpStatus.OK);
     }
 
     @PostMapping("{userId}/tasks/add")

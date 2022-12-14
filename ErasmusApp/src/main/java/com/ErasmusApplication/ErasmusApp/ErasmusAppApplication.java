@@ -19,27 +19,27 @@ public class ErasmusAppApplication {
 		SpringApplication.run(ErasmusAppApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner run(UserClassService userClassService){
-		return args -> {
-			userClassService.saveRole(new Role(null,"ROLE_USER"));
-			userClassService.saveRole(new Role(null,"ROLE_STUDENT"));
-			userClassService.saveRole(new Role(null,"ROLE_COURSE_COORDINATOR"));
-			userClassService.saveRole(new Role(null,"ROLE_ADMIN"));
-
-			userClassService.saveUser(new UserClass("@","ali","çakar","22000000","Engineering","EEE","a123"));
-			userClassService.saveUser(new UserClass("@","mehmet","basan","18000000","Engineering","CS","a123"));
-			userClassService.saveUser(new UserClass("@","murat","alık","17000000","Engineering","CS","a123"));
-
-			userClassService.addRoleToUser("22000000","ROLE_USER");
-			userClassService.addRoleToUser("18000000","ROLE_USER");
-			userClassService.addRoleToUser("18000000","ROLE_ADMIN");
-			userClassService.addRoleToUser("17000000","ROLE_USER");
-			userClassService.addRoleToUser("17000000","ROLE_COURSE_COORDINATOR");
-
-
-		};
-	}
+//	@Bean
+//	CommandLineRunner run(UserClassService userClassService){
+//		return args -> {
+//			userClassService.saveRole(new Role(null,"ROLE_USER"));
+//			userClassService.saveRole(new Role(null,"ROLE_STUDENT"));
+//			userClassService.saveRole(new Role(null,"ROLE_COURSE_COORDINATOR"));
+//			userClassService.saveRole(new Role(null,"ROLE_ADMIN"));
+//
+//			userClassService.saveUser(new UserClass("@","ali","çakar","22000000","Engineering","EEE","a123"));
+//			userClassService.saveUser(new UserClass("@","mehmet","basan","18000000","Engineering","CS","a123"));
+//			userClassService.saveUser(new UserClass("@","murat","alık","17000000","Engineering","CS","a123"));
+//
+//			userClassService.addRoleToUser("22000000","ROLE_USER");
+//			userClassService.addRoleToUser("18000000","ROLE_USER");
+//			userClassService.addRoleToUser("18000000","ROLE_ADMIN");
+//			userClassService.addRoleToUser("17000000","ROLE_USER");
+//			userClassService.addRoleToUser("17000000","ROLE_COURSE_COORDINATOR");
+//
+//
+//		};
+//	}
 	@RequestMapping("/h")
 	public String h(){
 		return  "hello";
