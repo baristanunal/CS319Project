@@ -106,4 +106,5 @@ public class Application {
 
 
     //TODO if is not placed the we should not get hostUniversity
+    // Possible solution: If the student is not placed, then we can make HostUniversity null.
 }

@@ -1,5 +1,4 @@
 package com.ErasmusApplication.ErasmusApp.Exceptions;
 
-public class NoSuchSemesterException {
-
+public class NoSuchSemesterException extends RuntimeException{
 }

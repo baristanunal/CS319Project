@@ -41,8 +41,19 @@ public class StudentService {
     public Student getStudent(Long userId){
         return studentRepository.findById(userId)
                 .orElseThrow(() -> new IllegalStateException(
-                        "Student With Id: " + userId + " does not exist."
+                        "Student with ID: " + userId + " does not exist."
                 ));
+    }
+
+    public Student getStudentBySchoolId( String schoolId ){
+        Student student = studentRepository.findBySchoolId(schoolId);
+      if (student == null) {
+        throw new IllegalStateException( "Student with school ID: "
+          + schoolId + " does not exist in the database." );
+      }
+      else{
+        return student;
+      }
     }
 
     public Student saveStudent(Student student) {
