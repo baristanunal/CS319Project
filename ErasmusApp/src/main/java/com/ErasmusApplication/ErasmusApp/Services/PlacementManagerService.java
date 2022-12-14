@@ -21,7 +21,7 @@ import java.util.List;
 public class PlacementManagerService {
 
   @PostMapping("/import")
-  public List<Application> mapReapExcelDataToDB(@RequestParam("file") MultipartFile reapExcelDataFile, int academicYear) throws IOException {
+  public List<Application> getApplicationsFromExcel(@RequestParam("file") MultipartFile reapExcelDataFile, int academicYear) throws IOException {
 
     List<Application> applicationList = new ArrayList<Application>();
     XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
@@ -71,5 +71,6 @@ public class PlacementManagerService {
 
       applicationList.add(tempApplication);
     }
+    return applicationList;
   }
 }
