@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Payload;
 
+
 public class UploadFileResponse {
     // Properties
     private String fileName;
