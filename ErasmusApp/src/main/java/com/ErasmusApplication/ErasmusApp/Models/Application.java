@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import lombok.Data;
+import org.apache.catalina.Host;
 
 import java.util.Iterator;
 import java.util.List;
@@ -55,6 +56,17 @@ public class Application {
         this.applicationType = applicationType;
         this.totalPoints = totalPoints;
         this.appliedAcademicSemester = appliedAcademicSemester;
+    }
+
+    public Application(Student student, boolean isPlaced, boolean isInWaitingBin, List<HostUniversity> preferredUniversities, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester){
+      this.student = student;
+      this.isPlaced = isPlaced;
+      this.isInWaitingBin = isInWaitingBin;
+      this.placedHostUniversity = placedHostUniversity;
+      this.preferredUniversities = preferredUniversities;
+      this.applicationType = applicationType;
+      this.totalPoints = totalPoints;
+      this.appliedAcademicSemester = appliedAcademicSemester;
     }
 
     public Application() {
