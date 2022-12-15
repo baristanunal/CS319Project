@@ -105,13 +105,18 @@ public class PlacementManagerService {
     return applicationList;
   }
 
-  public List<List<Application>> placeStudents( List<Application> allApplications ){
+  public List<List<Application>> placeStudents( List<Application> allApplications, String departmentName ){
 
     List<Application> mainList = new ArrayList<>();
     List<Application> waitingBin = new ArrayList<>();
     List<List<Application>> combinedList = new ArrayList<>();
 
+    // 1. Get all universities with department "departmentName".
+    List<HostUniversityDepartment> allUniversityDepartments = new ArrayList<>();
+    
 
+    // 2. Get all quotas of those universities.
+    // 3. Place students according to their preferences.
 
     combinedList.add(mainList);
     combinedList.add(waitingBin);

@@ -28,6 +28,9 @@ public class HostUniversity {
     @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostCourse> hostCourses = new ArrayList<>();
 
+    @ManyToMany
+    private List<HostUniversityDepartment> departments = new ArrayList<>();
+
     public HostUniversity( String nameOfInstitution ){
       this.nameOfInstitution = nameOfInstitution;
     }
