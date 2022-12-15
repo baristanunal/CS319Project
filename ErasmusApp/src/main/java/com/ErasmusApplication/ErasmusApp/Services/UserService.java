@@ -9,7 +9,7 @@ public interface UserService {
     UserClass saveUser(UserClass user);
     Role saveRole(Role role);
     void addRoleToUser(String schoolId, String roleName);
-    UserClass getUser(String schoolId);
+    UserClass getUserBySchoolId(String schoolId);
     List<UserClass> getUsers();
 
 }

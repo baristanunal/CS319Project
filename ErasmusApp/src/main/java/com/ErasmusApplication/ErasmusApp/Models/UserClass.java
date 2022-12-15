@@ -2,6 +2,9 @@ package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.persistence.Inheritance;
@@ -9,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -19,7 +23,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Data@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "UserClass")
-public class UserClass{
+public class UserClass  { //implements UserDetails
     // Properties
 
     @Id
@@ -42,7 +46,7 @@ public class UserClass{
     )
     private List<Task> tasks;
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles = new ArrayList<>();
+    private Collection<Role> roles;
     private String email;
     private String firstName;
     private String lastName;
@@ -88,7 +92,6 @@ public class UserClass{
                 return true;
             }
         }
-
         return false;
     }
 
@@ -112,5 +115,53 @@ public class UserClass{
         return false; // if task does not exist in User return false
     }
 
+    public boolean addRole(Role role){
+        roles.add(role);
+        return true;
+    }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<SimpleGrantedAuthority> roles = getRoles().stream()
+                .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
+                .collect(Collectors.toList());
+        return roles;
+    }
+
+//    public Collection<? extends GrantedAuthority> getRoleNames() {
+//        Collection<? extends GrantedAuthority> coll;
+//        for (int i = 0; i < roles.size(); i++){
+//            coll.add(roles);
+//        }
+//    }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return roles;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return schoolId;
+//    }
+//
+//    //TODO below
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
 }
 
