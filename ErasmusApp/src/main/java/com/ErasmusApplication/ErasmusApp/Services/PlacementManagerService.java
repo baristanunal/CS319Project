@@ -113,7 +113,7 @@ public class PlacementManagerService {
 
     // 1. Get all universities with department "departmentName".
     List<HostUniversityDepartment> allUniversityDepartments = new ArrayList<>();
-    
+
 
     // 2. Get all quotas of those universities.
     // 3. Place students according to their preferences.
