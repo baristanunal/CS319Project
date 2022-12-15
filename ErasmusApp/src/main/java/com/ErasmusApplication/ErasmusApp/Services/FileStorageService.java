@@ -24,7 +24,7 @@ public class FileStorageService {
     private String fileName;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties, MultipartFile file) {
+    public FileStorageService(FileStorageProperties fileStorageProperties) {
 
         this.fileStorageLocation = Paths.get("myFolder/cs")
                 .toAbsolutePath().normalize();
