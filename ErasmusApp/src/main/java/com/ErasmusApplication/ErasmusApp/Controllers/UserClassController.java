@@ -2,8 +2,11 @@ package com.ErasmusApplication.ErasmusApp.Controllers;
 
 import com.ErasmusApplication.ErasmusApp.Models.Role;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
+import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
+import com.ErasmusApplication.ErasmusApp.Services.StudentService;
+import com.ErasmusApplication.ErasmusApp.Services.TaskService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import com.ErasmusApplication.ErasmusApp.TempClasses.RoleToUserForm;
 import io.jsonwebtoken.Claims;
@@ -29,14 +32,25 @@ public class UserClassController {
 
 
 
+
+    @GetMapping("/getUser/{userId}")
+    public ResponseEntity<UserClass> getUser( @PathVariable Long userId){
+
+        return new ResponseEntity<>(userClassService.getUser(userId), HttpStatus.OK);
+    }
     @GetMapping
     public List<UserClass> getUsers(@RequestHeader (name="Authorization") String token){
         String stringToken = token.substring(7);
         Claims a = jwtUtils.decrypt(stringToken);
 
-
         System.out.println(a);
         return userClassService.getUsers();
+    }
+
+    @PostMapping("{userId}/tasks/remove/{taskId}")
+    public ResponseEntity<UserClass> removeTaskFromUser(@PathVariable Long userId, @PathVariable Long taskId){
+        UserClass user = userClassService.removeTaskFromUser(userId, taskId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/save")
@@ -44,10 +58,9 @@ public class UserClassController {
 
         return userClassService.saveUser(userClass);
     }
-    @PostMapping("/role/save")
-    public Role saveRole(@RequestBody Role role) {
-
-        return userClassService.saveRole(role);
+    @PostMapping("/{userId}/addTasks")
+    public UserClass addTasks(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
+        return userClassService.addTasks(userId,taskToUpdate);
     }
 
     @PostMapping("/role/addRoleToUser")
@@ -59,6 +72,6 @@ public class UserClassController {
 
     @DeleteMapping(path = "{userClassId}")
     public void deleteUser(@PathVariable Long userClassId){
-        userClassService.deleteStudent(userClassId);
+        userClassService.deleteUser(userClassId);
     }
 }

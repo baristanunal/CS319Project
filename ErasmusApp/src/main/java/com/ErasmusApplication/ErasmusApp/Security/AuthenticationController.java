@@ -31,7 +31,7 @@ public class AuthenticationController {
 
     @PostMapping("/registrate")
     public ResponseEntity<UserClass> registrateUser(UserClass user, String roleName){
-        UserClass userClass = userClassService.registrateUser(user,roleName);
+        UserClass userClass = userClassService.registerUser(user,roleName);
         return new ResponseEntity<>(userClass,HttpStatus.OK );
     }
 

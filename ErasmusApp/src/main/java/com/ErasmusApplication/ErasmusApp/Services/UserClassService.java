@@ -1,12 +1,16 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Models.Role;
+import com.ErasmusApplication.ErasmusApp.Models.Student;
+import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Repositories.RoleRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,44 +18,38 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.transaction.Transactional;
 import java.util.*;
 
 //@RequiredArgsConstructor
-@Service  @Transactional
-public class UserClassService implements UserDetailsService {
-//    ErasmusManager erasmusManager;
+@Service  @Transactional @AllArgsConstructor
+public class UserClassService  { //implements UserDetailsService
+
+    //TODO  add erasmus manager with its implementation
+    //    ErasmusManager erasmusManager;
     private final RoleRepository roleRepository;
     private final UserClassRepository userClassRepository;
+    private final TaskService taskService;
 
-    @Autowired
-    public UserClassService(RoleRepository roleRepository, UserClassRepository userClassRepository) {
-        this.roleRepository = roleRepository;
-        this.userClassRepository = userClassRepository;
-    }
-
-
+    /**
+     * Methods for login of Users
+     */
     public User loginCheck(String id){
         UserClass user = userClassRepository.findBySchoolIdOpt(id)
                 .orElseThrow( () -> new UsernameNotFoundException("No user was found!!"));
 
         return new User(user.getSchoolId(),user.getPassword(),user.getAuthorities());
     }
-    public UserClass saveUser(UserClass user) {
-        Optional<UserClass> userBySchoolId = userClassRepository.findBySchoolIdOpt(user.getSchoolId());
-        if( userBySchoolId.isPresent()){
-            throw new IllegalStateException("School Id is taken!");
-        }
-        return userClassRepository.save(user);
-    }
 
-    @Transactional
+
     public UserClass updatePassword(Long userId) {
         UserClass user = getUser(userId);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return user;
     }
-    public UserClass registrateUser(UserClass user, String roleName){
+    public UserClass registerUser(UserClass user, String roleName){
         UserClass userFromDatabase = saveUser(user);
 
         String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
@@ -59,16 +57,30 @@ public class UserClassService implements UserDetailsService {
         user.addRole(roleRepository.findByName(roleName));
         return user;
     }
+    //TODO delete this just after you are sure that auth works fine
+//    @Override
+//    public UserDetails loadUserByUsername(String username) {
+//        //We userd schooldId as username so
+//
+//        UserClass user = getUserBySchoolId(username);
+//        return new User(user.getSchoolId(),user.getPassword(),user.getRoles());
+//    }
+    /**
+     * Methods for CRUD of Users
+     */
 
-    public Role saveRole(Role role) {
-        return roleRepository.save(role);
-    }
-
-
-    public void addRoleToUser(String schoolId, String roleName) {
-        UserClass user = getUserBySchoolId(schoolId);
-        Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+    /**
+     * This method is to save users. We will not use this frequently. We will use saveStudent saveCourseCoordinator etc.
+     * @param user to save
+     * @return saved user
+     */
+    public UserClass saveUser(UserClass user) {
+        Optional<UserClass> userBySchoolId = userClassRepository.findBySchoolIdOpt(user.getSchoolId());
+        if( userBySchoolId.isPresent()){
+            throw new IllegalStateException("School Id is taken!");
+        }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        return userClassRepository.save(user);
     }
 
     public UserClass getUser(Long userId) {
@@ -83,41 +95,100 @@ public class UserClassService implements UserDetailsService {
         return user;
     }
 
-    //    @Autowired
-//    public UserClassService(ErasmusManager erasmusManager) {
-//        this.erasmusManager = erasmusManager;
-//    }
-//TODO  add erasmus manager with its implementation
     public List<UserClass> getUsers(){
         return userClassRepository.findAll();
     }
 
+    public void updateStudent(Long userId,UserClass updatedUser){
+        UserClass user = getUser(userId);
+        user.setAll(updatedUser);
+    }
 
-    public void deleteStudent(Long userClassId) {
-        boolean exist = userClassRepository.existsById(userClassId);
+    public void deleteUser(Long userId) {
+        //TODO add cornercase
+        boolean exist = userClassRepository.existsById(userId);
         if(!exist){
-            throw new IllegalStateException("User with Id: " + userClassId + " does not exist!");
+            throw new IllegalStateException("User with Id: " + userId + " does not exist!");
         }
-        userClassRepository.deleteById(userClassId);
+        userClassRepository.deleteById(userId);
     }
 
-//    private final static List<UserDetails> APPLICATION_USERS = Arrays.asList(
-//            new User(
-//                    "admin",
-//                    "admin",
-//                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
-//            ),
-//            new User(
-//                    "user",
-//                    "user",
-//                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
-//            )
-//    );
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        //We userd schooldId as username so
 
-        UserClass user = getUserBySchoolId(username);
-        return new User(user.getSchoolId(),user.getPassword(),user.getRoles());
+    /**
+     * Methods related to tasks
+     */
+    public UserClass addTaskToUser(Long userId, Task newTask) {
+        UserClass user = getUser(userId);
+//        newTask.setUser(user);
+        boolean success = user.addTask(newTask);
+
+        //TODO
+        if (!success) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Failed to add task to Student with Id: " + userId)
+            );
+        }
+        return user;//TODO
     }
+    public List<Task> getAllTasks(Long userId){
+        UserClass user = getUser(userId);
+        List<Task> tasks = user.getTasks();
+
+        //TODO  return empty list
+        if (tasks.isEmpty()){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format( "user with With Id: " + userId + " does not have any tasks"
+                    ));
+        }
+        return tasks;
+
+    }
+
+    @Transactional
+    public UserClass addTasks(Long userId, Task taskToUpdate) {
+        UserClass user = getUser(userId);
+        Task task = taskService.addNewTask(taskToUpdate);
+        task.setUser(user);
+        List<Task> tasks = new ArrayList<>();
+        tasks.add(task);
+
+        user.addTasks(tasks);
+
+        return user;
+    }
+
+    public UserClass updateTask(Long userId, Long taskId, Task taskToUpdate) {
+        UserClass user = getUser(userId);
+        boolean isExist = user.updateTaskByTaskId(taskId,taskToUpdate);
+
+        if (!isExist){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Task with Id: " + taskId + " is not belong to User with Id: " +userId)
+            );
+        }
+
+        return user;
+    }
+    public UserClass removeTaskFromUser(Long userId, Long taskId) {
+        UserClass user = getUser(userId);
+
+        taskService.deleteTask(taskId);
+
+        return user;
+    }
+
+
+    /**
+     * Methods related to roles
+     */
+
+    public void addRoleToUser(String schoolId, String roleName) {
+        UserClass user = getUserBySchoolId(schoolId);
+        Role role = roleRepository.findByName(roleName);
+        user.getRoles().add(role);
+    }
+
 }

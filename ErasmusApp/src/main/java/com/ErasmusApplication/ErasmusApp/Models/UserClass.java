@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.persistence.Inheritance;
@@ -38,7 +39,7 @@ public class UserClass  { //implements UserDetails
     )
     @Column(name = "id", nullable = false)
     private Long id;
-    @JsonIgnore
+
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -62,7 +63,7 @@ public class UserClass  { //implements UserDetails
         this.schoolId = schoolId;
         this.faculty = faculty;
         this.department = department;
-        this.password  = password;
+        this.password  = new BCryptPasswordEncoder().encode(password);
     }
 
     public UserClass() {
@@ -71,23 +72,47 @@ public class UserClass  { //implements UserDetails
     public boolean checkExistenceOfTask(Long taskId){
         Iterator<Task> iterator = tasks.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next().getId() == taskId){
+            if(iterator.next().getId().equals(taskId)){
                 return true;
             }
         }
         return false;
     }
-    //TODO useless delete
-    public boolean removeTask(Task task) {
-        return tasks.remove(task);
+    public boolean checkExistenceOfRoles(String role){
+        Iterator<Role> iterator = roles.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getAuthority().equals(role)){
+                return true;
+            }
+        }
+        return false;
     }
+
+    public void setAll(UserClass user) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.schoolId = schoolId;
+        this.faculty = faculty;
+        this.department = department;
+    }
+    /**
+     * Methods related to tasks
+     * */
     public boolean addTask(Task newTask){
         return tasks.add(newTask);
+    }
+    public boolean addTasks(List<Task> newTasks){
+        for (int i = 0; i < newTasks.size(); i++){
+            tasks.add(newTasks.get(i));
+        }
+
+        return false;
     }
     public boolean removeTaskById(Long taskId) {
         Iterator<Task> iterator = tasks.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next().getId() == taskId){
+            if(iterator.next().getId().equals(taskId)) {
                 iterator.remove();
                 return true;
             }
@@ -98,7 +123,7 @@ public class UserClass  { //implements UserDetails
     public Task getTaskById(Long taskId) {
         Iterator<Task> iterator = tasks.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next().getId() == taskId){
+            if(iterator.next().getId().equals(taskId)){
                return iterator.next();
             }
         }
@@ -115,9 +140,32 @@ public class UserClass  { //implements UserDetails
         return false; // if task does not exist in User return false
     }
 
+    /**
+     * Methods related to roles
+     * */
     public boolean addRole(Role role){
         roles.add(role);
         return true;
+    }
+    public boolean removeRoleById(Long roleId) {
+        Iterator<Role> iterator = roles.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getId().equals(roleId) ){
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean removeRoleByRoleName(String roleName) {
+        Iterator<Role> iterator = roles.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getAuthority().equals(roleName) ){
+                iterator.remove();
+                return true;
+            }
+        }
+        return false;
     }
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> roles = getRoles().stream()
@@ -126,42 +174,5 @@ public class UserClass  { //implements UserDetails
         return roles;
     }
 
-//    public Collection<? extends GrantedAuthority> getRoleNames() {
-//        Collection<? extends GrantedAuthority> coll;
-//        for (int i = 0; i < roles.size(); i++){
-//            coll.add(roles);
-//        }
-//    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return roles;
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return schoolId;
-//    }
-//
-//    //TODO below
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return false;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return false;
-//    }
 }
 

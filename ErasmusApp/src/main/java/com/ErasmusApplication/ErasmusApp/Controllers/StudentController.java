@@ -35,7 +35,7 @@ public class StudentController {
 
     @DeleteMapping("{userId}")
     public void deleteUser(@PathVariable Long userId){
-        studentService.deleteUser(userId);
+        studentService.deleteStudent(userId);
     }
 
     @PutMapping("{userId}") // Try to delete this and combine this with just @RequestBody,  I tried but it gives the error : Content-Type '*/*;charset=UTF-8' is not supported
@@ -85,7 +85,18 @@ public class StudentController {
 
     //TODO type of return
     @PostMapping("{userId}/application/update/{applicationId}")
-    public Student updateApplication(@PathVariable Long userId, @PathVariable Long applicationId, @RequestBody Application updatedApplication){
-        return studentService.updateApplication(userId, applicationId, updatedApplication);
+    public Student updateApplicationByApplicationId(@PathVariable Long userId, @PathVariable Long applicationId, @RequestBody Application updatedApplication){
+        return studentService.updateApplicationByApplicationId(userId, applicationId, updatedApplication);
+    }
+
+    //TODO type of return
+    @PostMapping("{userId}/application/update/byType/{appTypeNo}")
+    public Student updateApplicationByApplicationType(@PathVariable Long userId, @PathVariable int appTypeNo, @RequestBody Application updatedApplication){
+        String applicationType = "Exchange";
+        if (appTypeNo == 0){
+            applicationType = "Erasmus";
+        }
+        System.out.println("AAAaa");
+        return studentService.updateApplicationByApplicationType(userId, applicationType, updatedApplication);
     }
 }

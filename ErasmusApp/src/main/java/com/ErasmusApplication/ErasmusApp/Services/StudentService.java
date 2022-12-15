@@ -6,6 +6,7 @@ import com.ErasmusApplication.ErasmusApp.Models.Task;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,24 +18,25 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service
+@Service @Transactional @AllArgsConstructor
 public class StudentService {
 //    ErasmusManager erasmusManager;
-//    LoginManager loginManager;
     //TODO  add erasmus manager with its implementation
 
     StudentRepository studentRepository;
     TaskService taskService;
-
     ApplicationService applicationService;
-    @Autowired
-    public StudentService(StudentRepository studentRepository, TaskService taskService, ApplicationService applicationService) {
-        this.studentRepository = studentRepository;
-        this.taskService = taskService;
-        this.applicationService = applicationService;
+
+    /**
+     * Methods for CRUD of Students
+     */
+    public Student saveStudent(Student student) { //TODO BEncrypt..
+        Optional<Student> userBySchoolId = studentRepository.findBySchoolIdOpt(student.getSchoolId());
+        if( userBySchoolId.isPresent()){
+            throw new IllegalStateException("School Id is taken!");
+        }
+        return studentRepository.save(student);
     }
-
-
     public List<Student> getStudents() {
         return studentRepository.findAll();
     }
@@ -55,17 +57,15 @@ public class StudentService {
         return student;
       }
     }
+    @Transactional
+    public void updateStudent(Long userId,Student updatedStudent){
+        Student student = getStudent(userId);
 
-    public Student saveStudent(Student student) {
-        Optional<Student> userBySchoolId = studentRepository.findBySchoolIdOpt(student.getSchoolId());
-        if( userBySchoolId.isPresent()){
-            throw new IllegalStateException("School Id is taken!");
-        }
-        return studentRepository.save(student);
+        student.setAll(updatedStudent);
+
     }
-
-    public void deleteUser(Long userId) {
-        //TODO add cornercase
+    public void deleteStudent(Long userId) {
+        //TODO add corner-case
         boolean exist = studentRepository.existsById(userId);
         if(!exist){
             throw new IllegalStateException("User with Id: " + userId + " does not exist!");
@@ -73,25 +73,11 @@ public class StudentService {
         studentRepository.deleteById(userId);
     }
 
-    @Transactional
-    public void updateStudent(Long userId,Student updatedStudent){
-        Student student = getStudent(userId);
-
-
-        student.setEmail(updatedStudent.getEmail());
-        student.setFirstName(updatedStudent.getFirstName()); //TODO  could they?
-        student.setLastName(updatedStudent.getLastName()); //TODO  could they?
-        student.setSchoolId(updatedStudent.getSchoolId()); //TODO  could they?
-        //TODO I probably understand this wrongly. What is academic year?  x.th semester or 21-22 stm like that. Why we need that value?
-        student.setAcademicYear(updatedStudent.getAcademicYear()); //TODO how could be sure that student passed all these courses. Also, we need to store the starting date instead of the just the year.
-        student.setBirthDate(updatedStudent.getBirthDate());
-        student.setDepartment(updatedStudent.getDepartment());
-        student.setGender(updatedStudent.getGender());
-        student.setNationality(updatedStudent.getNationality());
-
-    }
-
+    /**
+     * Methods for Task
+     * */
     //TASKS
+    //TODO just use method in UserClassService
     @Transactional
     public Student addTaskToStudent(Long userId, Task newTask) {
         Student student = getStudent(userId);
@@ -150,7 +136,10 @@ public class StudentService {
         return tasks;
 
     }
-    //Application
+
+    /**
+     * Methods for applications
+     */
     @Transactional
     public Student addApplicationToStudent(Long userId, Application newApplication) {
         Student student = getStudent(userId);
@@ -165,7 +154,15 @@ public class StudentService {
         return student;
     }
 
+    public Application getApplicationByApplicationType(Long userId, String applicationType) {
+        Student student = getStudent(userId);
+        return student.getApplicationByApplicationType(applicationType);
+    }
 
+    public Application getApplicationByApplicationId(Long userId,Long applicationId) {
+        Student student = getStudent(userId);
+        return student.getApplicationByApplicationId(applicationId);
+    }
     @Transactional
     public Student removeApplicationFromStudent(Long userId, Long applicationId) {
         Student student = getStudent(userId);
@@ -181,11 +178,12 @@ public class StudentService {
     }
 
 
-    @Transactional
-    public Student updateApplication(Long userId, Long applicationId, Application updatedApplication) {
+    public Student updateApplicationByApplicationId(Long userId, Long applicationId, Application updatedApplication) {
         Student student = getStudent(userId);
+//        Application application = student.getApplicationById(applicationId);
         boolean success = student.updateApplicationByApplicationId(applicationId, updatedApplication);
 
+//        boolean success = application.setCourseWishList(updatedApplication.getCourseWishList());
         if(!success){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -196,5 +194,20 @@ public class StudentService {
         return student;
     }
 
+    @Transactional
+    public Student updateApplicationByApplicationType(Long userId, String applicationType, Application updatedApplication) {
+        Student student = getStudent(userId);
+//        Application application = student.getApplicationById(applicationId);
+        boolean success = student.updateApplicationByApplicationType(applicationType, updatedApplication);
+
+        if(!success){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Application With Id: " + applicationType + " does not exist in Student with Id:" + userId)
+            );
+        }
+
+        return student;
+    }
 
 }

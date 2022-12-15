@@ -97,7 +97,7 @@ public class Application {
     public void removePreferredUniversityByName(String universityName) {
         Iterator<HostUniversity> iterator = preferredUniversities.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next().getNameOfInstitution() == universityName){
+            if(iterator.next().getNameOfInstitution().equals(universityName) ){
                 iterator.remove();
             }
         }
