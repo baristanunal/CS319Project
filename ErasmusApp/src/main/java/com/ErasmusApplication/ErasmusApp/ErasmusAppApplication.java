@@ -3,6 +3,8 @@ package com.ErasmusApplication.ErasmusApp;
 
 import com.ErasmusApplication.ErasmusApp.Models.Role;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
+import com.ErasmusApplication.ErasmusApp.Services.FileStorageService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,11 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-//@EnableConfigurationProperties({
-//		FileStorageProperties.class // Yusuf'un kodu. Silmeyiniz.
-//})
+@EnableConfigurationProperties({
+		FileStorageProperties.class // Yusuf'un kodu. Silmeyiniz.
+})
 public class ErasmusAppApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ErasmusAppApplication.class, args);
 	}
@@ -44,6 +45,7 @@ public class ErasmusAppApplication {
 //
 //		};
 //	}
+
 	@RequestMapping("/h")
 	public String h(){
 		return  "hello";
