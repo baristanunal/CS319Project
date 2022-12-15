@@ -43,7 +43,6 @@ public class UserClassController {
         String stringToken = token.substring(7);
         Claims a = jwtUtils.decrypt(stringToken);
 
-        System.out.println(a);
         return userClassService.getUsers();
     }
 

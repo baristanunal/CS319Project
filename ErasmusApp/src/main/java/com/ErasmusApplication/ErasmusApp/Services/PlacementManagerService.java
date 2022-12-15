@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -25,6 +27,7 @@ public class PlacementManagerService {
 
   // Properties
   StudentService studentService;
+  HostUniversityDepartmentService hostUniversityDepartmentService;
 
   // Methods
   @PostMapping("/import")
@@ -111,9 +114,29 @@ public class PlacementManagerService {
     List<Application> waitingBin = new ArrayList<>();
     List<List<Application>> combinedList = new ArrayList<>();
 
-    // 1. Get all universities with department "departmentName".
     List<HostUniversityDepartment> allUniversityDepartments = new ArrayList<>();
+    allUniversityDepartments = hostUniversityDepartmentService.getHostUniDeptByName( departmentName );
+    Map<String, Integer> quotas = new HashMap<>();
 
+    // Get quotas of
+    for( int i = 0; i < allUniversityDepartments.size(); i++ ){
+      String curHostUniName = allUniversityDepartments.get(i).getHostUniversity().getNameOfInstitution();
+      Integer curQuota = allUniversityDepartments.get(i).getQuota();
+      quotas.put( curHostUniName, curQuota );
+    }
+
+    for( int i = 0; i < allApplications.size(); i++ ){
+      List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
+      for( int j = 0; j < curPreferredUniversities.size(); j++ ){
+        Integer curQuota = quotas.get( curPreferredUniversities.get(i).getNameOfInstitution() );
+        if( curQuota > 0 ){
+          // Update quota.
+          curQuota--;
+          quotas.put( curPreferredUniversities.get(i).getNameOfInstitution(), curQuota );
+          
+        }
+      }
+    }
 
     // 2. Get all quotas of those universities.
     // 3. Place students according to their preferences.

@@ -82,13 +82,11 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
-        System.out.println("sec");
 
         return config.getAuthenticationManager();
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        System.out.println("sec");
         final DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());

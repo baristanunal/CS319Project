@@ -20,34 +20,32 @@ public class Application {
     @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY)
     private Student student;
-    @JsonIgnore
-    @ManyToOne
-    private HostUniversity placedHostUniversity;
-    @JsonIgnore
-    @ManyToMany
-    private List<HostUniversity> preferredUniversities = new java.util.ArrayList<>(); //TODO solve this problem, where to store it
-
-    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
-    private Form preApprovalForm;
-
-    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
-    private Form courseTransferForm;
-
-
-    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
-    private CourseWishList courseWishList;
     private boolean isPlaced;
     private boolean isInWaitingBin;
 
-
+    @JsonIgnore
+    @ManyToOne
+    private HostUniversity placedHostUniversity;
     private String applicationType;
     private Double totalPoints;
     //    private Transcript transcript;
     private String appliedAcademicSemester;
+    @JsonIgnore
+    @ManyToMany
+    private List<HostUniversity> preferredUniversities = new java.util.ArrayList<>(); //TODO solve this problem, where to store it
 
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "application",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Form> forms;
+
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    private CourseWishList courseWishList;
 
 
     public Application(Student student, boolean isPlaced, boolean isInWaitingBin, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester) {

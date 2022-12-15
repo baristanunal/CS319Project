@@ -2,10 +2,13 @@ package com.ErasmusApplication.ErasmusApp.Models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "HostUniversityDepartment")
+@Data
 public class HostUniversityDepartment {
 
   @Id

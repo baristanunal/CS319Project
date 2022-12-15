@@ -19,18 +19,31 @@ public class Form {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    // Properties
+    private boolean isApproved;
+    private boolean signedByDepCoordinator;
+
+    @JsonIgnore
+    @ManyToOne( fetch = FetchType.LAZY)
+    private Application application;
+
+    //TODO add relation
     //TODO Add method to Create Update Remove List object
     @JsonIgnore
     @ManyToOne
     private CourseWishList courseWishList;
 
-    @OneToOne(orphanRemoval = true)
-    @MapsId
-    private Application application;
 
-    private boolean isApproved;
-    private boolean signedByDepCoordinator;
-    private String nameOfFile;
+//    private List<Wish> wishes;
+
+
+    public Application getApplication() {
+        return application;
+    }
+    public void setApplication(Application application) {
+        this.application = application;
+    }
+
 
     public Form() {
     }

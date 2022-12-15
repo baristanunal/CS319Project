@@ -96,7 +96,6 @@ public class StudentController {
         if (appTypeNo == 0){
             applicationType = "Erasmus";
         }
-        System.out.println("AAAaa");
         return studentService.updateApplicationByApplicationType(userId, applicationType, updatedApplication);
     }
 }

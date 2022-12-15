@@ -51,7 +51,6 @@ public class AuthenticationController {
         catch (BadCredentialsException e){
             return new ResponseEntity<>("Incorrect username or password",HttpStatus.BAD_REQUEST);
         }
-        System.out.println("AAAa");
 
 //        authenticationManager.authenticate(
 //                new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
