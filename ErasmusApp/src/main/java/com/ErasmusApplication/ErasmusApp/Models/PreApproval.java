@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class PreApproval extends Form {
    // Properties
-   //TODO Change this to Date
+
    private String preApprovalDeadline;
 
    // Constructors

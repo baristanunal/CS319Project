@@ -21,24 +21,25 @@ import java.nio.file.StandardCopyOption;
 public class FileStorageService {
 
     private final Path fileStorageLocation;
+    private String fileName;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
-        this.fileStorageLocation = Paths.get("")
+    public FileStorageService(FileStorageProperties fileStorageProperties, MultipartFile file) {
+
+        this.fileStorageLocation = Paths.get("myFolder/cs")
                 .toAbsolutePath().normalize();
 
         try {
             Files.createDirectories(this.fileStorageLocation);
         } catch (Exception ex) {
-            //throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
-            System.out.println("Error occurred");
+            throw new FileStorageException("Could not create the directory where the uploaded files will be stored.", ex);
         }
     }
 
 
     public String storeFile(MultipartFile file) {
         // Normalize file name
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             // Check if the file's name contains invalid characters
