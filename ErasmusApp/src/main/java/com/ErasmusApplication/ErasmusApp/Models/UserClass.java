@@ -92,7 +92,6 @@ public class UserClass  { //implements UserDetails
                 return true;
             }
         }
-
         return false;
     }
 

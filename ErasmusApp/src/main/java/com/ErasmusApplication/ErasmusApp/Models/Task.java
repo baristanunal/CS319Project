@@ -14,6 +14,7 @@ public class Task {
     // Properties
     private String content;
     private String deadline;
+    private String status;
     @Id
     @SequenceGenerator(
             name = "task_sequence",
@@ -39,15 +40,17 @@ public class Task {
 
     }
 
-    public Task(String content, String deadline) {
+    public Task(String content, String deadline, String status) {
         this.content = content;
         this.deadline = deadline;
+        this.status = "Not Complete";
     }
 
 
     public void setAll(Task task) {
         this.content = task.getContent();
-        task.deadline = task.getDeadline();
+        this.deadline = task.getDeadline();
+        this.status = task.getStatus();
     }
 
 
