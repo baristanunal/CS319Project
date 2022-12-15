@@ -1,24 +1,26 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.HostUniversity;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import com.ErasmusApplication.ErasmusApp.Models.Application;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
+@Transactional
 public class PlacementManagerService {
 
   // Properties
@@ -109,7 +111,7 @@ public class PlacementManagerService {
     List<Application> waitingBin = new ArrayList<>();
     List<List<Application>> combinedList = new ArrayList<>();
 
-    // TODO
+
 
     combinedList.add(mainList);
     combinedList.add(waitingBin);

@@ -34,7 +34,8 @@ public class PlacementTable {
         this.placementManager = placementManager;
     }
 
-    public PlacementTable() {
+    public PlacementTable( List<Application> mainList ) {
+
     }
 
 }
