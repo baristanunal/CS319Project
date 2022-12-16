@@ -177,7 +177,10 @@ public class UserClassService  { //implements UserDetailsService
         UserClass user = getUserBySchoolId(schoolId);
         user.setRole(roleName);
     }
-
+    public void addRoleToUserById(Long userId, String roleName) {
+        UserClass user = getUser(userId);
+        user.setRole(roleName);
+    }
     public List<DepartmentErasmusCoordinator> getCoordinatorsByDepartment( String departmentName ){
         return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
     }
