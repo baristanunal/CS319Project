@@ -173,4 +173,14 @@ public class Student extends UserClass {
         }
         return null;
     }
+
+    public boolean hasThisTypeApplication(String applicationType) {
+        Iterator<Application> iterator = applications.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getApplicationType().equals(applicationType)){
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -29,21 +29,21 @@ public class UserClass  { //implements UserDetails
 
   @Id
   @SequenceGenerator(
-    name = "user_sequence",
-    sequenceName = "user_sequence",
-    allocationSize = 1
+          name = "user_sequence",
+          sequenceName = "user_sequence",
+          allocationSize = 1
   )
   @GeneratedValue(
-    strategy = SEQUENCE,
-    generator = "user_sequence"
+          strategy = SEQUENCE,
+          generator = "user_sequence"
   )
   @Column(name = "id", nullable = false)
   private Long id;
 
   @OneToMany(
-    mappedBy = "user",
-    cascade = CascadeType.ALL,
-    orphanRemoval = true
+          mappedBy = "user",
+          cascade = CascadeType.ALL,
+          orphanRemoval = true
   )
   private List<Task> tasks;
   private String role;
@@ -145,8 +145,8 @@ public class UserClass  { //implements UserDetails
     Collection<String> collection = new ArrayList<>();
     collection.add(role);
     List<SimpleGrantedAuthority> roles = collection.stream()
-      .map(item -> new SimpleGrantedAuthority(item))
-      .collect(Collectors.toList());
+            .map(item -> new SimpleGrantedAuthority(item))
+            .collect(Collectors.toList());
     return roles;
   }
 

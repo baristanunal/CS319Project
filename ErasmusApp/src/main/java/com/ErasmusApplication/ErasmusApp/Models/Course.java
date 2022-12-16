@@ -16,11 +16,13 @@ public class Course {
     private String nameOfCourse;
     private String courseCode;
 
+    private String courseType;
 
-    public Course(Double ECTS_credit, String nameOfCourse, String courseCode) {
+    public Course(Double ECTS_credit, String nameOfCourse, String courseCode,String courseType) {
         this.ECTS_credit = ECTS_credit;
         this.nameOfCourse = nameOfCourse;
         this.courseCode = courseCode;
+        this.courseType = courseType;
     }
 
     public Course() {

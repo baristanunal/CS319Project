@@ -35,7 +35,7 @@ public class HostCourse extends Course{
 
     public HostCourse() {
     }
-    public HostCourse(Double ECTS_credit, String nameOfCourse, String courseCode) {
-        super(ECTS_credit, nameOfCourse, courseCode);
+    public HostCourse(Double ECTS_credit, String nameOfCourse, String courseCode, String courseType) {
+        super(ECTS_credit, nameOfCourse, courseCode, courseType);
     }
 }

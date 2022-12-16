@@ -50,8 +50,8 @@ public class BilkentCourse extends Course {
 //    List<BilkentCourse> prerequisites;
 
 
-    public BilkentCourse(Double ECTS_credit, String nameOfCourse, String courseCode) {
-        super(ECTS_credit, nameOfCourse, courseCode);
+    public BilkentCourse(Double ECTS_credit, String nameOfCourse, String courseCode, String courseType) {
+        super(ECTS_credit, nameOfCourse, courseCode, courseType);
     }
 
     public BilkentCourse() {
