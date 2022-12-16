@@ -42,7 +42,7 @@ public class GeneralController {
     public void updateStudent( @PathVariable("userId") Long userId, @RequestBody UserClass user){
         //TODO using token find its type
         String role = "";
-        if (role.equals("ROLE_STUDENT")){
+        if (role.equals("student")){
             studentService.updateStudent(userId, (Student) user);
         }
         //TODO add for all users

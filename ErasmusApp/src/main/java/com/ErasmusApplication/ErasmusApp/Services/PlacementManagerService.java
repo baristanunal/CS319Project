@@ -33,7 +33,7 @@ public class PlacementManagerService {
 
   // Methods
   @PostMapping("/import")
-  public List<Application> importApplicationsFromExcel(@RequestParam("file") MultipartFile reapExcelDataFile, int academicYear, String applicationType) throws NoSuchSemesterException, IOException {
+  public List<Application> importApplicationsFromExcel(@RequestParam("file") MultipartFile reapExcelDataFile, String academicYear, String applicationType) throws NoSuchSemesterException, IOException {
 
     /*
     List<Application> applicationList = new ArrayList<Application>();
@@ -179,7 +179,7 @@ public class PlacementManagerService {
   }
 
 
-  public void getDataAndPlaceStudents( @RequestParam("file") MultipartFile reapExcelDataFile, int academicYear, String applicationType, String departmentName ){
+  public void getDataAndPlaceStudents( @RequestParam("file") MultipartFile reapExcelDataFile, String academicYear, String applicationType, String departmentName ){
 
     WaitingBin waitingBin = new WaitingBin();
     PlacementTable mainList = new PlacementTable();
