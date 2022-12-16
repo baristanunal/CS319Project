@@ -1,10 +1,14 @@
 package com.ErasmusApplication.ErasmusApp;
 
 
+import com.ErasmusApplication.ErasmusApp.Models.Application;
+import com.ErasmusApplication.ErasmusApp.Models.PreApproval;
 import com.ErasmusApplication.ErasmusApp.Models.Role;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
+import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
 import com.ErasmusApplication.ErasmusApp.Services.FileStorageService;
+import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +29,26 @@ public class ErasmusAppApplication {
 	}
 
 //	@Bean
+//	CommandLineRunner run(ApplicationService applicationService, StudentService studentService) {
+//		return args -> {
+////			Application a = new Application();
+////			a.setApplicationType("Erasmus");
+////			a.setPlaced(false);
+//			long id = 1;
+////			studentService.addApplicationToStudent(id,a);
+//
+////			PreApproval preApproval = new PreApproval();
+////			preApproval.setPreApprovalDeadline("11/11/1111");
+////			applicationService.addPreApproval(id, preApproval);
+//
+////			System.out.println(studentService.getApplicationByApplicationId(id, id));
+////			long p = 2;
+////			System.out.println(applicationService.getPreApproval(p));
+//
+//		};
+//	}
+
+// 	@Bean
 //	CommandLineRunner run(UserClassService userClassService){
 //		return args -> {
 //			userClassService.saveRole(new Role(null,"ROLE_USER"));

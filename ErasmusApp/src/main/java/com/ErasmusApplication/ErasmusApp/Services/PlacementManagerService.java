@@ -108,43 +108,44 @@ public class PlacementManagerService {
     return applicationList;
   }
 
-  public List<List<Application>> placeStudents( List<Application> allApplications, String departmentName ){
+//  public List<List<Application>> placeStudents( List<Application> allApplications, String departmentName ){
+//
+//    List<Application> mainList = new ArrayList<>();
+//    List<Application> waitingBin = new ArrayList<>();
+//    List<List<Application>> combinedList = new ArrayList<>();
+//
+//    List<HostUniversityDepartment> allUniversityDepartments = new ArrayList<>();
+//    allUniversityDepartments = hostUniversityDepartmentService.getHostUniDeptByName( departmentName );
+//    Map<String, Integer> quotas = new HashMap<>();
+//
+//    // 1. Get quotas of all universities with department "departmentName".
+//    for( int i = 0; i < allUniversityDepartments.size(); i++ ){
+//      String curHostUniName = allUniversityDepartments.get(i).getHostUniversity().getNameOfInstitution();
+//      Integer curQuota = allUniversityDepartments.get(i).getQuota();
+//      quotas.put( curHostUniName, curQuota );
+//    }
+//
+//    // 2. Place students.
+//    for( int i = 0; i < allApplications.size(); i++ ){
+//      List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
+//      for( int j = 0; j < curPreferredUniversities.size(); j++ ){
+//        Integer curQuota = quotas.get( curPreferredUniversities.get(i).getNameOfInstitution() );
+//        if( curQuota > 0 ){
+//          // Update quota.
+//          curQuota--;
+//          quotas.put( curPreferredUniversities.get(i).getNameOfInstitution(), curQuota );
+//
+//
+//        }
+//      }
+//    }
+//
+//
+//    combinedList.add(mainList);
+//    combinedList.add(waitingBin);
+//    return combinedList;
+//  }
 
-    List<Application> mainList = new ArrayList<>();
-    List<Application> waitingBin = new ArrayList<>();
-    List<List<Application>> combinedList = new ArrayList<>();
-
-    List<HostUniversityDepartment> allUniversityDepartments = new ArrayList<>();
-    allUniversityDepartments = hostUniversityDepartmentService.getHostUniDeptByName( departmentName );
-    Map<String, Integer> quotas = new HashMap<>();
-
-    // 1. Get quotas of all universities with department "departmentName".
-    for( int i = 0; i < allUniversityDepartments.size(); i++ ){
-      String curHostUniName = allUniversityDepartments.get(i).getHostUniversity().getNameOfInstitution();
-      Integer curQuota = allUniversityDepartments.get(i).getQuota();
-      quotas.put( curHostUniName, curQuota );
-    }
-
-    // 2. Place students.
-    for( int i = 0; i < allApplications.size(); i++ ){
-      List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
-      for( int j = 0; j < curPreferredUniversities.size(); j++ ){
-        Integer curQuota = quotas.get( curPreferredUniversities.get(i).getNameOfInstitution() );
-        if( curQuota > 0 ){
-          // Update quota.
-          curQuota--;
-          quotas.put( curPreferredUniversities.get(i).getNameOfInstitution(), curQuota );
-
-
-        }
-      }
-    }
-
-
-    combinedList.add(mainList);
-    combinedList.add(waitingBin);
-    return combinedList;
-  }
 
 
 

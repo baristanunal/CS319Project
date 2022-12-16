@@ -22,12 +22,17 @@ public class BilkentCourse extends Course {
     @ManyToMany(mappedBy = "bilkentCourse")
     private List<BilkentCourse> prerequisites;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "corresponding_bilkent-host_courses",
-            joinColumns = @JoinColumn(name = "bilkent_course_id"),
-            inverseJoinColumns = @JoinColumn(name = "host_course_id"))
-    private List<HostCourse> correspondingHostCourses;
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(name = "corresponding_bilkent-host_courses",
+//            joinColumns = @JoinColumn(name = "bilkent_course_id"),
+//            inverseJoinColumns = @JoinColumn(name = "host_course_id"))
+//    private List<HostCourse> correspondingHostCourses;
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(name = "bilkent_course_corresponding_host_courses",
+//            joinColumns = @JoinColumn(name = "bilkent_course_id", referencedColumnName = "corresponding_host_courses_id"))
+//    private List<HostCourse> correspondingHostCourses = new ArrayList<>();
 
 
     @JsonIgnore
@@ -38,13 +43,8 @@ public class BilkentCourse extends Course {
     )
     private List<Wish> wishes;
 
-    public List<HostCourse> getCorrespondingHostCourses() {
-        return correspondingHostCourses;
-    }
 
-    public void setCorrespondingHostCourses(List<HostCourse> correspondingHostCourses) {
-        this.correspondingHostCourses = correspondingHostCourses;
-    }
+
 
 
 //    List<BilkentCourse> prerequisites;

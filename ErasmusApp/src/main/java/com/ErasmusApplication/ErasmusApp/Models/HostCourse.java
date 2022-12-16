@@ -1,6 +1,8 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,17 +17,18 @@ public class HostCourse extends Course{
     private String hostCourseName;
 
 
+//    @JsonIgnore
+//    @ManyToMany(mappedBy = "correspondingHostCourses")
+//    private List<BilkentCourse> correspondingBilkentCourses;
 
-
-    @ManyToMany(mappedBy = "correspondingHostCourses")
-    private List<BilkentCourse> correspondingBilkentCourses;
-
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "host_course_wishes",
             joinColumns = @JoinColumn(name = "host_course_id"),
             inverseJoinColumns = @JoinColumn(name = "wishes_id"))
     private List<Wish> wishes = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne
     private HostUniversity hostUniversity;
 

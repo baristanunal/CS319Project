@@ -27,9 +27,9 @@ public class HostUniversity {
 
     @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostCourse> hostCourses = new ArrayList<>();
-
-    @OneToMany
-    private List<HostUniversityDepartment> departments = new ArrayList<>();
+//    @JsonIgnore
+//    @OneToMany
+//    private List<HostUniversityDepartment> departments = new ArrayList<>();
 
     public HostUniversity( String nameOfInstitution ){
       this.nameOfInstitution = nameOfInstitution;

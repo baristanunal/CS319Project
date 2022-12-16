@@ -1,10 +1,8 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
-import com.ErasmusApplication.ErasmusApp.Models.Role;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.Task;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
+import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.ErasmusApplication.ErasmusApp.Services.TaskService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
@@ -32,6 +30,27 @@ public class UserClassController {
 
 
 
+
+    //TODO sil
+    private final StudentService studentService;
+    private final ApplicationService applicationService;
+
+    @PostMapping("/deneme/{id1}/{id2}")
+    public ResponseEntity<Application> a(@PathVariable Long id1, @PathVariable Long id2){
+        try {
+            Application a = applicationService.addPlacedUni(id1, "hostUni1");
+            return new ResponseEntity<>(a,HttpStatus.OK);
+
+        }catch (IllegalStateException e){
+            System.out.println("BBB");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/deneme2/{id1}")
+    public ResponseEntity<HostUniversity> a2(@PathVariable Long id1){
+        HostUniversity a = applicationService.getPlacedUni(id1);
+        return new ResponseEntity<>(a,HttpStatus.OK);
+    }
 
     @GetMapping("/getUser/{userId}")
     public ResponseEntity<UserClass> getUser( @PathVariable Long userId){

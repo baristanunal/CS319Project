@@ -54,6 +54,7 @@ public class UserClass  { //implements UserDetails
     private String schoolId;
     private String faculty;
     private String department;
+    @JsonIgnore
     private String password;
 
     public UserClass(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {

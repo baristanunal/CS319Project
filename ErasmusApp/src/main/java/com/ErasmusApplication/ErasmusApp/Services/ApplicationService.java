@@ -1,28 +1,29 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.Application;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.ApplicationRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service @Transactional @AllArgsConstructor
 public class ApplicationService {
     ApplicationRepository applicationRepository;
+    HostUniversityService hostUniversityService;
 
-    @Autowired
-    public ApplicationService(ApplicationRepository applicationRepository) {
-        this.applicationRepository = applicationRepository;
+
+    /**
+     * Methods for CRUD of Applications
+     */
+    public Application saveApplication(Student student, Application newApplication){
+        newApplication.setStudent(student);
+        return applicationRepository.save(newApplication);
+
     }
-
-
-    //GET
     public Application getApplication(Long applicationId){
         return applicationRepository.findById(applicationId)
                 .orElseThrow(() ->
@@ -55,15 +56,18 @@ public class ApplicationService {
         return list;
     }
 
-    //ADD
-    public Application addNewApplication(Student student, Application newApplication){
-        newApplication.setStudent(student);
-        return applicationRepository.save(newApplication);
+    @Transactional
+    public Application updateApplication(Long applicationId,Application updatedApplication){
+        try {
+            Application application = getApplication(applicationId);
+            application.setAll(updatedApplication);
+            return application;
+        }
+        catch( Exception e){
+            throw e; //TODO  I do not know how to deal with exceptions
+        }
 
     }
-
-    //DELETE
-    //TODO Type of boolean or void?
     public boolean removeApplicationOfStudent(Long applicationId, Long userId) {
         //TODO add cornercase
         boolean exist = applicationRepository.existsById(applicationId);
@@ -90,19 +94,47 @@ public class ApplicationService {
         applicationRepository.deleteById(applicationId);
     }
 
+    /**
+     * Methods for PreferredUniversities
+     * */
 
-    //UPDATE
-    @Transactional
-    public Application updateApplication(Long applicationId,Application updatedApplication){
-        try {
-            Application application = getApplication(applicationId);
-            application.setAll(updatedApplication);
-            return application;
-        }
-        catch( Exception e){
-            throw e; //TODO  I do not know how to deal with exceptions
-        }
-
+    public Application addPreferredUni(Long appId, String nameOfUni){
+        Application app = getApplication(appId);
+        HostUniversity uni = hostUniversityService.getHostUniByName(nameOfUni);
+        app.addPreferredUniversity(uni);
+        return  app;
+    }
+    public List<HostUniversity> getPreferredUniversities(Long appId){
+        Application app = getApplication(appId);
+        return  app.getPreferredUniversities();
     }
 
+    /**
+     * Methods for PlacedHostUni
+     * */
+
+    public Application addPlacedUni(Long appId, String nameOfUni){
+        Application app = getApplication(appId);
+        HostUniversity uni = hostUniversityService.getHostUniByName(nameOfUni);
+        System.out.println("AA");
+        app.setPlacedHostUniversity(uni);
+        return app;
+    }
+    public HostUniversity getPlacedUni(Long appId){
+        Application app = getApplication(appId);
+        return app.getPlacedHostUniversity();
+    }
+
+    /**
+     * Methods for PreApproval
+     * */
+    public Application addPreApproval(Long appId, PreApproval preApproval){//Works
+        Application app = getApplication(appId);
+        app.setPreApproval(preApproval);
+        return app;
+    }
+    public Form getPreApproval(Long appId){ //Works
+        Application app = getApplication(appId);
+        return app.getPreApproval();
+    }
 }

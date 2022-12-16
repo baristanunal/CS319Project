@@ -166,6 +166,7 @@ public class Student extends UserClass {
 
     public Application getApplicationByApplicationId(Long applicationId) {
         for (int i = 0; i < applications.size(); i++){
+            System.out.println(applications.get(i).getId() +  "  AA  " + applicationId);
             if(applications.get(i).getId().equals(applicationId)){
                 return  applications.get(i);
             }

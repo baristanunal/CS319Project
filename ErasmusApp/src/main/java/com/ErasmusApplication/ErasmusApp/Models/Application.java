@@ -20,33 +20,37 @@ public class Application {
     @JsonIgnore
     @ManyToOne( fetch = FetchType.LAZY)
     private Student student;
-    private boolean isPlaced;
-    private boolean isInWaitingBin;
 
-    @JsonIgnore
     @ManyToOne
     private HostUniversity placedHostUniversity;
-    private String applicationType;
-    private Double totalPoints;
-    //    private Transcript transcript;
-    private String appliedAcademicSemester;
     @JsonIgnore
     @ManyToMany
-    private List<HostUniversity> preferredUniversities = new java.util.ArrayList<>(); //TODO solve this problem, where to store it
+    private List<HostUniversity> preferredUniversities; //TODO solve this problem, where to store it
 
+//    @JsonIgnore
+//    @OneToMany(
+//            mappedBy = "application",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true
+//    )
+//    private List<Form> forms;
 
     @JsonIgnore
-    @OneToMany(
-            mappedBy = "application",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Form> forms;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "preApproval", nullable = true)
+    private Form preApproval;
 
-    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
-    private CourseWishList courseWishList;
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "courseWishlist", nullable = true)
+    private Form courseWishlist;
 
+
+    private String applicationType;
+    private Double totalPoints;
+    private String appliedAcademicSemester;
+    private boolean isPlaced;
+    private boolean isInWaitingBin;
 
     public Application(Student student, boolean isPlaced, boolean isInWaitingBin, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester) {
         this.student = student;
@@ -73,6 +77,15 @@ public class Application {
     }
 
 
+    public boolean checkExistenceOfPreferredUni(Long uniId){
+        Iterator<HostUniversity> iterator = preferredUniversities.iterator();
+        while (iterator.hasNext()) {
+            if(iterator.next().getId().equals(uniId) ){
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
     * This method sets all properties, except relational objects : @OneToMany @OneToOne @ManyToOne  etc.
@@ -88,11 +101,18 @@ public class Application {
     }
 
 
-    public void removePreferredUniversity(HostUniversity preferredUniversity) {
-        preferredUniversities.remove(preferredUniversity);
-    }
+
     public void addPreferredUniversity(HostUniversity preferredUniversity){
         preferredUniversities.add(preferredUniversity);
+    }
+    public void addAllPreferredUniversities(List<HostUniversity> preferredUniversity){
+        for ( HostUniversity uni: preferredUniversity
+             ) {
+            preferredUniversities.add(uni);
+        }
+    }
+    public void removePreferredUniversity(HostUniversity preferredUniversity) {
+        preferredUniversities.remove(preferredUniversity);
     }
     public void removePreferredUniversityByName(String universityName) {
         Iterator<HostUniversity> iterator = preferredUniversities.iterator();
@@ -107,4 +127,7 @@ public class Application {
 
     //TODO if is not placed the we should not get hostUniversity
     // Possible solution: If the student is not placed, then we can make HostUniversity null.
+
+
+
 }
