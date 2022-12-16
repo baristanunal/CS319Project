@@ -11,6 +11,7 @@ import org.springframework.util.SerializationUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -130,6 +131,7 @@ public class StudentService {
                     String.format( "Student with With Id: " + userId + " does not have any tasks"
                     ));
         }
+        Collections.sort(tasks, (s1, s2) -> s1.getId().compareTo(s2.getId()) > 1 ? 1 : s1.getId().compareTo(s2.getId()) < 1 ? -1 : 0);
         return tasks;
 
     }

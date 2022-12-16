@@ -8,10 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.persistence.Inheritance;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -140,12 +137,15 @@ public class UserClass  { //implements UserDetails
 
 
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<String> collection = new ArrayList<>();
-    collection.add(role);
-    List<SimpleGrantedAuthority> roles = collection.stream()
-            .map(item -> new SimpleGrantedAuthority(item))
-            .collect(Collectors.toList());
-    return roles;
+    if (role == null || role.equals("")){
+      return Collections.emptyList();
+    }
+    List<GrantedAuthority> grantedAuthorityList  = new ArrayList<>();
+    List<String> listRoles = new ArrayList<>();
+    listRoles.add(role);
+    grantedAuthorityList = listRoles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+    return grantedAuthorityList;
   }
 
 }

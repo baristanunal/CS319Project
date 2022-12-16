@@ -83,8 +83,10 @@ public class UserClassController {
         userClassService.addRoleToUser(form.getUserName(),form.getRoleName());
     }
 
-
-
+    @PostMapping("/{userId}/role/addRoleToUser")
+    public void addRoleToUserById(@PathVariable Long userId, @RequestBody String role) {
+        userClassService.addRoleToUserById(userId, role);
+    }
     @DeleteMapping(path = "{userClassId}")
     public void deleteUser(@PathVariable Long userClassId){
         userClassService.deleteUser(userClassId);
