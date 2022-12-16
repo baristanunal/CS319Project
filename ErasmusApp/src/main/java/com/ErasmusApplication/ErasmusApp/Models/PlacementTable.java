@@ -26,6 +26,10 @@ public class PlacementTable {
     )
     List<Student> placements;
 
+    public PlacementTable() {
+
+    }
+
     public PlacementManager getPlacementManager() {
         return placementManager;
     }
