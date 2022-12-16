@@ -24,11 +24,15 @@ public class PlacementTable {
     @OneToMany(
             mappedBy = "placementTable"
     )
-    List<Student> placements;
+    List<Application> applications;
 
     public PlacementTable() {
 
     }
+
+  public PlacementTable( List<Application> mainList ) {
+
+  }
 
     public PlacementManager getPlacementManager() {
         return placementManager;
@@ -38,8 +42,9 @@ public class PlacementTable {
         this.placementManager = placementManager;
     }
 
-    public PlacementTable( List<Application> mainList ) {
-
+    public void addApplications( List<Application> newApplications ){
+      applications.addAll(newApplications);
     }
+
 
 }

@@ -14,7 +14,6 @@ public class WaitingBin {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
     @OneToOne(orphanRemoval = true)
     @MapsId
     private PlacementManager placementManager;
@@ -24,7 +23,7 @@ public class WaitingBin {
     @OneToMany(
             mappedBy = "waitingBin"
     )
-    List<Student> waitingStudents;
+    List<Application> applications;
 
     public PlacementManager getPlacementManager() {
         return placementManager;
@@ -33,6 +32,11 @@ public class WaitingBin {
     public void setPlacementManager(PlacementManager placementManager) {
         this.placementManager = placementManager;
     }
+
+    public void addApplications( List<Application> newApplications ){
+      applications.addAll(newApplications);
+    }
+
 
     //TODO Add method to Create Update Remove List object
 }
