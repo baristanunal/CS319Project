@@ -114,8 +114,9 @@ public class PlacementManagerService {
     List<Application> waitingBin = new ArrayList<>();
     List<List<Application>> combinedList = new ArrayList<>();
 
-    List<HostUniversityDepartment> allUniversityDepartments = new ArrayList<>();
+    List<HostUniversityDepartment> allUniversityDepartments;
     allUniversityDepartments = hostUniversityDepartmentService.getHostUniDeptByName( departmentName );
+
     Map<String, Integer> quotas = new HashMap<>();
 
     // 1. Get quotas of all universities with department "departmentName".
@@ -127,20 +128,33 @@ public class PlacementManagerService {
 
     // 2. Place students.
     for( int i = 0; i < allApplications.size(); i++ ){
+
       List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
+
       for( int j = 0; j < curPreferredUniversities.size(); j++ ){
+
         Integer curQuota = quotas.get( curPreferredUniversities.get(i).getNameOfInstitution() );
+
         if( curQuota > 0 ){
-          // Update quota.
+
+          // 2.T.1 Update quota.
           curQuota--;
           quotas.put( curPreferredUniversities.get(i).getNameOfInstitution(), curQuota );
 
+          // 2.T.2 Set placed university of the current application.
+          allApplications.get(i).setPlacedHostUniversity( curPreferredUniversities.get(j) );
 
+          // 2.T.3 Add application to the main list.
+          mainList.add( allApplications.get(i) );
+        }
+        else{
+          // 2.F Add application to the waiting bin.
+          waitingBin.add( allApplications.get(i) );
         }
       }
     }
 
-
+    // 3. Add main list and waiting bin to the combined list which will be returned.
     combinedList.add(mainList);
     combinedList.add(waitingBin);
     return combinedList;
