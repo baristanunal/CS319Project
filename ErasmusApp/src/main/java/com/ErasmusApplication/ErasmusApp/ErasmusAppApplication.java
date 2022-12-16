@@ -1,15 +1,9 @@
 package com.ErasmusApplication.ErasmusApp;
 
 
-import com.ErasmusApplication.ErasmusApp.Models.Application;
-import com.ErasmusApplication.ErasmusApp.Models.PreApproval;
-import com.ErasmusApplication.ErasmusApp.Models.Role;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
-import com.ErasmusApplication.ErasmusApp.Services.FileStorageService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
-import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,17 +1,10 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Models.*;
-import com.ErasmusApplication.ErasmusApp.Repositories.RoleRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +19,6 @@ public class UserClassService  { //implements UserDetailsService
 
     //TODO  add erasmus manager with its implementation
     //    ErasmusManager erasmusManager;
-    private final RoleRepository roleRepository;
     private final UserClassRepository userClassRepository;
     private final TaskService taskService;
 
@@ -51,7 +43,7 @@ public class UserClassService  { //implements UserDetailsService
 
         String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.addRole(roleRepository.findByName(roleName));
+        user.setRole(roleName);
         return user;
     }
     //TODO delete this just after you are sure that auth works fine
