@@ -35,6 +35,14 @@ public class Application {
 //    )
 //    private List<Form> forms;
 
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  private WaitingBin waitingBin;
+
+  @JsonIgnore
+  @ManyToOne(fetch = FetchType.LAZY)
+  private PlacementTable placementTable;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "preApproval", nullable = true)

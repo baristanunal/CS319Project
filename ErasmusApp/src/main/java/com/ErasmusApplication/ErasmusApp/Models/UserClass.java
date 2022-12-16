@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -134,10 +133,9 @@ public class UserClass  { //implements UserDetails
 
   /**
    * Methods related to roles
-   * */
-  public boolean addRole(String newRole){
+   */
+  public void setRole(String newRole){
     role = newRole;
-    return true;
   }
 
 

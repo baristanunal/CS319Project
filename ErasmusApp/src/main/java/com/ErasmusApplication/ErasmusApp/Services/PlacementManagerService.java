@@ -29,6 +29,7 @@ public class PlacementManagerService {
   // Properties
   StudentService studentService;
   HostUniversityDepartmentService hostUniversityDepartmentService;
+  UserClassService userClassService;
 
   // Methods
   @PostMapping("/import")
@@ -159,10 +160,14 @@ public class PlacementManagerService {
 
           // 2.T.3 Add application to the main list.
           mainList.add( allApplications.get(i) );
+          allApplications.get(i).setPlaced( true );
+          allApplications.get(i).setInWaitingBin( false );
         }
         else{
           // 2.F Add application to the waiting bin.
           waitingBin.add( allApplications.get(i) );
+          allApplications.get(i).setPlaced( false );
+          allApplications.get(i).setInWaitingBin( true );
         }
       }
     }
@@ -176,9 +181,17 @@ public class PlacementManagerService {
 
   public void getDataAndPlaceStudents( @RequestParam("file") MultipartFile reapExcelDataFile, int academicYear, String applicationType, String departmentName ){
 
+    WaitingBin waitingBin = new WaitingBin();
+    PlacementTable mainList = new PlacementTable();
     List<Application> allApplications = new ArrayList<>();
-    List<List<Application>> combinedList = new ArrayList<>();
+    List<List<Application>> combinedList;
+    List<DepartmentErasmusCoordinator> coordinators;
 
+    // 1. Get all coordinators of the department.
+    coordinators = userClassService.getCoordinatorsByDepartment( departmentName );
+    PlacementManager placementManager = new PlacementManager( coordinators );
+
+    // 2. Import data from Excel file.
     try{
       allApplications = importApplicationsFromExcel( reapExcelDataFile, academicYear, applicationType );
     } catch (NoSuchSemesterException | IOException e ) {
@@ -186,12 +199,18 @@ public class PlacementManagerService {
       System.out.println("Could not match semester name in one of the rows in the Excel file.");
     }
 
+    // 3. Place students.
     combinedList = placeStudents( allApplications, departmentName );
+    mainList.addApplications( combinedList.get(0) );      // main list
+    waitingBin.addApplications( combinedList.get(1) );    // waiting bin
+
+    // 4. Set placement managers.
+    mainList.setPlacementManager( placementManager );
+    waitingBin.setPlacementManager( placementManager );
 
   }
 
-  // TODO: create erasmusManager
-  // TODO: set isPlaced and isInWaitingBin
+
 
 
 

@@ -21,14 +21,6 @@ public class Student extends UserClass {
     )
     private List<Application> applications;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private WaitingBin waitingBin;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PlacementTable placementTable;
-
     private String academicYear;
     private String birthDate;
     private String nationality;
