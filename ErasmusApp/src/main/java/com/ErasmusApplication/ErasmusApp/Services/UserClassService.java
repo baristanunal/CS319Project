@@ -1,7 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Models.*;
-import com.ErasmusApplication.ErasmusApp.Repositories.RoleRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ public class UserClassService  { //implements UserDetailsService
     //    ErasmusManager erasmusManager;
     private final UserClassRepository userClassRepository;
     private final TaskService taskService;
-    private final RoleRepository roleRepository;
+
     /**
      * Methods for login of Users
      */
@@ -44,7 +43,7 @@ public class UserClassService  { //implements UserDetailsService
 
         String encodedPassword = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.addRole(roleRepository.findByName(roleName));
+        user.setRole(roleName);
         return user;
     }
     //TODO delete this just after you are sure that auth works fine
@@ -176,12 +175,11 @@ public class UserClassService  { //implements UserDetailsService
 
     public void addRoleToUser(String schoolId, String roleName) {
         UserClass user = getUserBySchoolId(schoolId);
-        Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+        user.setRole(roleName);
     }
 
-//    public List<DepartmentErasmusCoordinator> getCoordinatorsByDepartment( String departmentName ){
-//        return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
-//    }
+    public List<DepartmentErasmusCoordinator> getCoordinatorsByDepartment( String departmentName ){
+        return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
+    }
 
 }

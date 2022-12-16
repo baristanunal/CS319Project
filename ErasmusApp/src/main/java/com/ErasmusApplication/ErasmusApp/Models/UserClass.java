@@ -8,10 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.persistence.Inheritance;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -45,8 +42,7 @@ public class UserClass  { //implements UserDetails
           orphanRemoval = true
   )
   private List<Task> tasks;
-  @ManyToMany(fetch = FetchType.EAGER)
-  private Collection<Role> roles;
+  private String role;
   private String email;
   private String firstName;
   private String lastName;
@@ -134,18 +130,22 @@ public class UserClass  { //implements UserDetails
 
   /**
    * Methods related to roles
-   * */
-  public boolean addRole(Role role){
-    roles.add(role);
-    return true;  
+   */
+  public void setRole(String newRole){
+    role = newRole;
   }
 
 
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    List<SimpleGrantedAuthority> roles = getRoles().stream()
-            .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
-            .collect(Collectors.toList());
-    return roles;
+    if (role == null || role.equals("")){
+      return Collections.emptyList();
+    }
+    List<GrantedAuthority> grantedAuthorityList  = new ArrayList<>();
+    List<String> listRoles = new ArrayList<>();
+    listRoles.add(role);
+    grantedAuthorityList = listRoles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+    return grantedAuthorityList;
   }
 
 }
