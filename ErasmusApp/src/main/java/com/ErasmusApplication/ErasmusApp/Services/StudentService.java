@@ -1,9 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.Application;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.Task;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.StudentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -153,7 +150,28 @@ public class StudentService {
         student.addApplication(newApplication);
         return student;
     }
-
+    @Transactional
+    public Boolean acceptApplicationRequest(Long userId, String applicationType, String placedUni) {
+        Student student = getStudent(userId);
+        if (student.getApplications().size() == 2){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format( "Student with Id: " + userId + " has 2 applications. Student cannot have more than 2 application")
+            );
+        }
+        else if( student.hasThisTypeApplication(applicationType)){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    String.format( "Student with Id: " + userId + " has already " +  applicationType + " type of application.")
+            );
+        }
+        Application app = student.getApplicationByApplicationType(applicationType);
+        applicationService.addPlacedUni(app.getId(), placedUni);
+        app.setInWaitingBin(false);
+        app.setPlaced(true);
+        //TODO try
+        return true;
+    }
     public Application getApplicationByApplicationType(Long userId, String applicationType) {
         Student student = getStudent(userId);
         return student.getApplicationByApplicationType(applicationType);
@@ -177,7 +195,21 @@ public class StudentService {
         return student;
     }
 
+    @Transactional
+    public Student cancelApplicationAfterPlaced(Long userId, Long applicationId) {
+        //TODO TODO
+        // add extra functionality to communicate with PlacementManager
+        Student student = getStudent(userId);
+        boolean success = student.removeApplicationById(applicationId);
 
+        if(!success){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("Application With Id: " + applicationId + " does not exist in Student with Id:" + userId)
+            );
+        }
+        return student;
+    }
     public Student updateApplicationByApplicationId(Long userId, Long applicationId, Application updatedApplication) {
         Student student = getStudent(userId);
 //        Application application = student.getApplicationById(applicationId);

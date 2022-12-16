@@ -24,6 +24,7 @@ public class ApplicationService {
         return applicationRepository.save(newApplication);
 
     }
+
     public Application getApplication(Long applicationId){
         return applicationRepository.findById(applicationId)
                 .orElseThrow(() ->

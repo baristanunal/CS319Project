@@ -55,6 +55,7 @@ public class Application {
 
 
     private String applicationType;
+    @Transient
     private Double totalPoints;
     private String appliedAcademicSemester;
     private boolean isPlaced;
@@ -84,6 +85,12 @@ public class Application {
     public Application() {
     }
 
+
+    public Double getTotalPoints() {
+        //TODO TODO
+        // get from wishlist
+        return  0.0;
+    }
 
     public boolean checkExistenceOfPreferredUni(Long uniId){
         Iterator<HostUniversity> iterator = preferredUniversities.iterator();
