@@ -24,7 +24,7 @@ public class Application {
     @ManyToOne
     private HostUniversity placedHostUniversity;
     @JsonIgnore
-    @ManyToMany
+    @Transient
     private List<HostUniversity> preferredUniversities; //TODO solve this problem, where to store it
 
 //    @JsonIgnore
