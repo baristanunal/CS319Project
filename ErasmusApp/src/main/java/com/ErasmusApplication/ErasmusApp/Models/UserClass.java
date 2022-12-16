@@ -25,155 +25,129 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "UserClass")
 public class UserClass  { //implements UserDetails
-    // Properties
+  // Properties
 
-    @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = SEQUENCE,
-            generator = "user_sequence"
-    )
-    @Column(name = "id", nullable = false)
-    private Long id;
+  @Id
+  @SequenceGenerator(
+    name = "user_sequence",
+    sequenceName = "user_sequence",
+    allocationSize = 1
+  )
+  @GeneratedValue(
+    strategy = SEQUENCE,
+    generator = "user_sequence"
+  )
+  @Column(name = "id", nullable = false)
+  private Long id;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Task> tasks;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String schoolId;
-    private String faculty;
-    private String department;
-    @JsonIgnore
-    private String password;
+  @OneToMany(
+    mappedBy = "user",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
+  private List<Task> tasks;
+  private String role;
+  private String email;
+  private String firstName;
+  private String lastName;
+  private String schoolId;
+  private String faculty;
+  private String department;
+  @JsonIgnore
+  private String password;
 
-    public UserClass(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.schoolId = schoolId;
-        this.faculty = faculty;
-        this.department = department;
-        this.password  = new BCryptPasswordEncoder().encode(password);
-    }
+  public UserClass(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.schoolId = schoolId;
+    this.faculty = faculty;
+    this.department = department;
+    this.password  = new BCryptPasswordEncoder().encode(password);
+  }
 
-    public UserClass() {
-    }
+  public UserClass() {
+  }
 
-    public boolean checkExistenceOfTask(Long taskId){
-        Iterator<Task> iterator = tasks.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().getId().equals(taskId)){
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean checkExistenceOfRoles(String role){
-        Iterator<Role> iterator = roles.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().getAuthority().equals(role)){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void setAll(UserClass user) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.schoolId = schoolId;
-        this.faculty = faculty;
-        this.department = department;
-    }
-    /**
-     * Methods related to tasks
-     * */
-    public boolean addTask(Task newTask){
-        return tasks.add(newTask);
-    }
-    public boolean addTasks(List<Task> newTasks){
-        for (int i = 0; i < newTasks.size(); i++){
-            tasks.add(newTasks.get(i));
-        }
-
-        return false;
-    }
-    public boolean removeTaskById(Long taskId) {
-        Iterator<Task> iterator = tasks.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().getId().equals(taskId)) {
-                iterator.remove();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Task getTaskById(Long taskId) {
-        Iterator<Task> iterator = tasks.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().getId().equals(taskId)){
-               return iterator.next();
-            }
-        }
-        return null;
-    }
-
-    public boolean updateTaskByTaskId(Long taskId, Task task) {
-        for (int i = 0; i < tasks.size(); i++){
-            if(tasks.get(i).getId() == taskId){
-                tasks.get(i).setAll(task);
-                return true;
-            }
-        }
-        return false; // if task does not exist in User return false
-    }
-
-    /**
-     * Methods related to roles
-     * */
-    public boolean addRole(Role role){
-        roles.add(role);
+  public boolean checkExistenceOfTask(Long taskId){
+    Iterator<Task> iterator = tasks.iterator();
+    while (iterator.hasNext()) {
+      if(iterator.next().getId().equals(taskId)){
         return true;
+      }
     }
-    public boolean removeRoleById(Long roleId) {
-        Iterator<Role> iterator = roles.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().getId().equals(roleId) ){
-                iterator.remove();
-                return true;
-            }
-        }
-        return false;
+    return false;
+  }
+
+
+  public void setAll(UserClass user) {
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.schoolId = schoolId;
+    this.faculty = faculty;
+    this.department = department;
+  }
+  /**
+   * Methods related to tasks
+   * */
+  public boolean addTask(Task newTask){
+    return tasks.add(newTask);
+  }
+  public boolean addTasks(List<Task> newTasks){
+    for (int i = 0; i < newTasks.size(); i++){
+      tasks.add(newTasks.get(i));
     }
-    public boolean removeRoleByRoleName(String roleName) {
-        Iterator<Role> iterator = roles.iterator();
-        while (iterator.hasNext()) {
-            if(iterator.next().getAuthority().equals(roleName) ){
-                iterator.remove();
-                return true;
-            }
-        }
-        return false;
+
+    return false;
+  }
+  public boolean removeTaskById(Long taskId) {
+    Iterator<Task> iterator = tasks.iterator();
+    while (iterator.hasNext()) {
+      if(iterator.next().getId().equals(taskId)) {
+        iterator.remove();
+        return true;
+      }
     }
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> roles = getRoles().stream()
-                .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
-                .collect(Collectors.toList());
-        return roles;
+    return false;
+  }
+
+  public Task getTaskById(Long taskId) {
+    Iterator<Task> iterator = tasks.iterator();
+    while (iterator.hasNext()) {
+      if(iterator.next().getId().equals(taskId)){
+        return iterator.next();
+      }
     }
+    return null;
+  }
+
+  public boolean updateTaskByTaskId(Long taskId, Task task) {
+    for (int i = 0; i < tasks.size(); i++){
+      if(tasks.get(i).getId() == taskId){
+        tasks.get(i).setAll(task);
+        return true;
+      }
+    }
+    return false; // if task does not exist in User return false
+  }
+
+  /**
+   * Methods related to roles
+   * */
+  public boolean addRole(String newRole){
+    role = newRole;
+    return true;
+  }
+
+
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    Collection<String> collection = new ArrayList<>();
+    collection.add(role);
+    List<SimpleGrantedAuthority> roles = collection.stream()
+      .map(item -> new SimpleGrantedAuthority(item))
+      .collect(Collectors.toList());
+    return roles;
+  }
 
 }
-

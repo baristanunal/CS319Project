@@ -1,9 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.Role;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.Task;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.RoleRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
 import lombok.AllArgsConstructor;
@@ -185,9 +182,12 @@ public class UserClassService  { //implements UserDetailsService
      */
 
     public void addRoleToUser(String schoolId, String roleName) {
-        UserClass user = getUserBySchoolId(schoolId);
-        Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+      UserClass user = getUserBySchoolId(schoolId);
+      user.setRole(roleName);
+    }
+
+    public List<DepartmentErasmusCoordinator> getCoordinatorsByDepartment( String departmentName ){
+      return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
     }
 
 }

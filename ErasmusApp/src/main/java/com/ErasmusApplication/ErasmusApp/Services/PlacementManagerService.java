@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
+import com.ErasmusApplication.ErasmusApp.Exceptions.NoSuchSemesterException;
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -31,15 +32,27 @@ public class PlacementManagerService {
 
   // Methods
   @PostMapping("/import")
-  public List<Application> importApplicationsFromExcel(@RequestParam("file") MultipartFile reapExcelDataFile, int academicYear, String applicationType) throws IOException {
+  public List<Application> importApplicationsFromExcel(@RequestParam("file") MultipartFile reapExcelDataFile, int academicYear, String applicationType) throws NoSuchSemesterException, IOException {
+
+    /*
+    List<Application> applicationList = new ArrayList<Application>();
+    XSSFWorkbook workbook = null;
+    XSSFSheet worksheet;
+    try{
+      workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
+    } catch (IOException e ) {
+      // TODO: Send warning to frontend.
+      System.out.println("Could not read Excel workbook");
+    }
+    */
 
     List<Application> applicationList = new ArrayList<Application>();
     XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
     XSSFSheet worksheet = workbook.getSheetAt(0);
 
     for( int i=1; i<worksheet.getPhysicalNumberOfRows(); i++ ) {
-      // Application application = new Application();
-      Student student = null;
+
+      Student student;
       String schoolId;
       double totalPoints;
       String hostUniversityName;
@@ -66,7 +79,7 @@ public class PlacementManagerService {
         standardizedSemesterCode = academicYear + "/FALL";
       }
       else {
-        // throw new NoSuchSemesterException();
+        throw new NoSuchSemesterException("Could not match semester name in one of the rows in the Excel file.");
       }
 
       // Set preferred university #1.
@@ -160,6 +173,25 @@ public class PlacementManagerService {
     return combinedList;
   }
 
+
+  public void getDataAndPlaceStudents( @RequestParam("file") MultipartFile reapExcelDataFile, int academicYear, String applicationType, String departmentName ){
+
+    List<Application> allApplications = new ArrayList<>();
+    List<List<Application>> combinedList = new ArrayList<>();
+
+    try{
+      allApplications = importApplicationsFromExcel( reapExcelDataFile, academicYear, applicationType );
+    } catch (NoSuchSemesterException | IOException e ) {
+      // TODO: Send warning message to frontend.
+      System.out.println("Could not match semester name in one of the rows in the Excel file.");
+    }
+
+    combinedList = placeStudents( allApplications, departmentName );
+
+  }
+
+  // TODO: create erasmusManager
+  // TODO: set isPlaced and isInWaitingBin
 
 
 
