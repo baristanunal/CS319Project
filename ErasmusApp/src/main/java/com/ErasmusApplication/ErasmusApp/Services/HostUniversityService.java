@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
+import com.ErasmusApplication.ErasmusApp.Models.Application;
 import com.ErasmusApplication.ErasmusApp.Models.HostUniversity;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Repositories.HostUniversityRepository;
@@ -17,7 +18,7 @@ public class HostUniversityService {
 
     HostUniversityRepository hostUniversityRepository;
 
-    public HostUniversity saveHostUni(HostUniversity hostUniversity) { //TODO BEncrypt..
+    public HostUniversity saveHostUni(HostUniversity hostUniversity) {
         Optional<HostUniversity> hostUni = hostUniversityRepository.findByNameOfInstitution(hostUniversity.getNameOfInstitution());
         if( hostUni.isPresent()){
             throw new IllegalStateException("HostUniversity have already exist!");
@@ -54,4 +55,10 @@ public class HostUniversityService {
     }
 
 
+    //TODO no need delete
+    public void addPlacedApplication(String nameOfUni, Application app) {
+        HostUniversity host = getHostUniByName(nameOfUni);
+        app.setPlacedHostUniversity(host);
+        host.addPlacedApplication(app);
+    }
 }

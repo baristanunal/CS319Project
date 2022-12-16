@@ -47,7 +47,7 @@ public class ApplicationService {
 
     public List<Application> getApplicationsByStudentId(Long userId){
         List list = applicationRepository.findByStudent_Id(userId);
-        if(list.isEmpty()){
+        if(list == null || list.isEmpty()){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     String.format( "Student with With Id: " + userId + " does not have application"
@@ -113,15 +113,27 @@ public class ApplicationService {
      * Methods for PlacedHostUni
      * */
 
-    public Application addPlacedUni(Long appId, String nameOfUni){
+    public Application addPlacedUni(Long appId, String nameOfUni){ // works
         Application app = getApplication(appId);
+        if( app.getPlacedHostUniversity() != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format( "Application has aldread placed host uni")
+            );
+        }
         HostUniversity uni = hostUniversityService.getHostUniByName(nameOfUni);
-        System.out.println("AA");
         app.setPlacedHostUniversity(uni);
+//        hostUniversityService.addPlacedApplication(nameOfUni, app);
         return app;
     }
-    public HostUniversity getPlacedUni(Long appId){
+    public HostUniversity getPlacedUni(Long appId){ // works
         Application app = getApplication(appId);
+        if( app.getPlacedHostUniversity() == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format( "Application does not have placed uni yet.")
+            );
+        }
         return app.getPlacedHostUniversity();
     }
 

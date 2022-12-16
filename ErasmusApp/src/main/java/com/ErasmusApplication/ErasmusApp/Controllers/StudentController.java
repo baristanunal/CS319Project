@@ -34,7 +34,7 @@ public class StudentController {
     }
 
     @DeleteMapping("{userId}")
-    public void deleteUser(@PathVariable Long userId){
+    public void deleteStudent(@PathVariable Long userId){
         studentService.deleteStudent(userId);
     }
 
@@ -44,6 +44,7 @@ public class StudentController {
     }
 
     //TASKS
+    //In usage
     @GetMapping("{userId}/getAllTasks")
     public ResponseEntity<List<Task>> getAllTasks(@PathVariable Long userId){
             return new ResponseEntity<>(studentService.getAllTasks(userId), HttpStatus.OK);

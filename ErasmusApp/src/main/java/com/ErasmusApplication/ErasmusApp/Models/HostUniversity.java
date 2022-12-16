@@ -21,10 +21,10 @@ public class HostUniversity {
     @JsonIgnore
     @ManyToMany(mappedBy = "preferredUniversities")
     private List<Application> applications = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "placedHostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Application> placedApplications = new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostCourse> hostCourses = new ArrayList<>();
     @JsonIgnore
@@ -36,5 +36,10 @@ public class HostUniversity {
     }
 
     public HostUniversity() {
+    }
+
+    public boolean addPlacedApplication(Application app){
+        placedApplications.add(app);
+        return true;
     }
 }

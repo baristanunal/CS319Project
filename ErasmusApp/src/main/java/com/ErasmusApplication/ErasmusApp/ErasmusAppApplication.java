@@ -28,25 +28,25 @@ public class ErasmusAppApplication {
 		SpringApplication.run(ErasmusAppApplication.class, args);
 	}
 
-//	@Bean
-//	CommandLineRunner run(ApplicationService applicationService, StudentService studentService) {
-//		return args -> {
-////			Application a = new Application();
-////			a.setApplicationType("Erasmus");
-////			a.setPlaced(false);
+	@Bean
+	CommandLineRunner run(ApplicationService applicationService, StudentService studentService) {
+		return args -> {
+//			Application a = new Application();
+//			a.setApplicationType("Erasmus");
+//			a.setPlaced(false);
 //			long id = 1;
-////			studentService.addApplicationToStudent(id,a);
+//			studentService.addApplicationToStudent(id,a);
 //
-////			PreApproval preApproval = new PreApproval();
-////			preApproval.setPreApprovalDeadline("11/11/1111");
-////			applicationService.addPreApproval(id, preApproval);
-//
-////			System.out.println(studentService.getApplicationByApplicationId(id, id));
-////			long p = 2;
-////			System.out.println(applicationService.getPreApproval(p));
-//
-//		};
-//	}
+//			PreApproval preApproval = new PreApproval();
+//			preApproval.setPreApprovalDeadline("11/11/1111");
+//			applicationService.addPreApproval(id, preApproval);
+
+//			System.out.println(studentService.getApplicationByApplicationId(id, id));
+//			long p = 2;
+//			System.out.println(applicationService.getPreApproval(p));
+
+		};
+	}
 
 // 	@Bean
 //	CommandLineRunner run(UserClassService userClassService){

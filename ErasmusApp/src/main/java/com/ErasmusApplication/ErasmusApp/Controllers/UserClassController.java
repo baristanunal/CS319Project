@@ -2,10 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Controllers;
 
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
-import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
-import com.ErasmusApplication.ErasmusApp.Services.StudentService;
-import com.ErasmusApplication.ErasmusApp.Services.TaskService;
-import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
+import com.ErasmusApplication.ErasmusApp.Services.*;
 import com.ErasmusApplication.ErasmusApp.TempClasses.RoleToUserForm;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
@@ -34,24 +31,23 @@ public class UserClassController {
     //TODO sil
     private final StudentService studentService;
     private final ApplicationService applicationService;
+    private final HostUniversityService hostUniversityService;
 
-    @PostMapping("/deneme/{id1}/{id2}")
-    public ResponseEntity<Application> a(@PathVariable Long id1, @PathVariable Long id2){
-        try {
-            Application a = applicationService.addPlacedUni(id1, "hostUni1");
-            return new ResponseEntity<>(a,HttpStatus.OK);
+//    @GetMapping("/aa")
+//    public ResponseEntity<List<Application>> b(){
+//        try {
+//            long a = 1;
+//            HostUniversity h = hostUniversityService.getHostUni(a);
+//            List<Application> apps = h.getPlacedApplications();
+//            return new ResponseEntity<>(apps,HttpStatus.OK);
+//
+//        }catch (IllegalStateException e){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//    }
 
-        }catch (IllegalStateException e){
-            System.out.println("BBB");
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    @GetMapping("/deneme2/{id1}")
-    public ResponseEntity<HostUniversity> a2(@PathVariable Long id1){
-        HostUniversity a = applicationService.getPlacedUni(id1);
-        return new ResponseEntity<>(a,HttpStatus.OK);
-    }
 
+    //In usage
     @GetMapping("/getUser/{userId}")
     public ResponseEntity<UserClass> getUser( @PathVariable Long userId){
 
@@ -64,7 +60,7 @@ public class UserClassController {
 
         return userClassService.getUsers();
     }
-
+    //In usage
     @PostMapping("{userId}/tasks/remove/{taskId}")
     public ResponseEntity<UserClass> removeTaskFromUser(@PathVariable Long userId, @PathVariable Long taskId){
         UserClass user = userClassService.removeTaskFromUser(userId, taskId);
@@ -76,8 +72,9 @@ public class UserClassController {
 
         return userClassService.saveUser(userClass);
     }
+    //In usage
     @PostMapping("/{userId}/addTasks")
-    public UserClass addTasks(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
+    public UserClass addTask(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
         return userClassService.addTasks(userId,taskToUpdate);
     }
 
