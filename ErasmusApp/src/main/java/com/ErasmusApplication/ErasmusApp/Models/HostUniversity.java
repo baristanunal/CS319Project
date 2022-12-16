@@ -18,9 +18,7 @@ public class HostUniversity {
     private Long id;
 
     String nameOfInstitution;
-    @JsonIgnore
-    @ManyToMany(mappedBy = "preferredUniversities")
-    private List<Application> applications = new ArrayList<>();
+
     @JsonIgnore
     @OneToMany(mappedBy = "placedHostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Application> placedApplications = new ArrayList<>();
