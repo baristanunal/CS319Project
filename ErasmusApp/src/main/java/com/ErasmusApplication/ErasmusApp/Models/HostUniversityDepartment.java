@@ -15,9 +15,9 @@ public class HostUniversityDepartment {
   @Column(name = "id", nullable = false)
   private Long id;
 
-//  @JsonIgnore
-//  @ManyToOne( fetch = FetchType.LAZY)
-//  HostUniversity hostUniversity;
+  @JsonIgnore
+  @ManyToOne( fetch = FetchType.LAZY)
+  HostUniversity hostUniversity;
 
   int quota;
   String departmentName;
