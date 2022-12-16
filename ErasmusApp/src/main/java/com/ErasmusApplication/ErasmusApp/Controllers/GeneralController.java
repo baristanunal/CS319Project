@@ -51,9 +51,14 @@ public class GeneralController {
 
     // Methods for USER's TASKS
     @PostMapping("/{userId}/addTasks")
-    public UserClass addTask(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
+    public UserClass addTasks(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
         return userClassService.addTasks(userId,taskToUpdate);
     }
+    @PostMapping("/{userId}/addTask")
+    public UserClass addTask(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
+        return userClassService.addTaskToUser(userId,taskToUpdate);
+    }
+
     @GetMapping("{userId}/getAllTasks")
     public ResponseEntity<List<Task>> getAllTasks(@PathVariable Long userId){
         return new ResponseEntity<>(studentService.getAllTasks(userId), HttpStatus.OK);

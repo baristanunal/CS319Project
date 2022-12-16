@@ -18,7 +18,7 @@ public interface UserClassRepository extends JpaRepository<UserClass, Long> {
     @Query("select u from UserClass u where u.schoolId = ?1")
     UserClass findBySchoolId(String schoolId);
 
-    List<DepartmentErasmusCoordinator> findByDepartmentAndRole(String department, String role);
+//    List<DepartmentErasmusCoordinator> findByDepartmentAndRole(String department, String role);
 
 //    UserClass findBySchoolId(String schoolId);
 }

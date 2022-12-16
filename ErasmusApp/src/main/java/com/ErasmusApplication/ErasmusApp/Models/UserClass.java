@@ -46,7 +46,8 @@ public class UserClass  { //implements UserDetails
           orphanRemoval = true
   )
   private List<Task> tasks;
-  private String role;
+  @ManyToMany(fetch = FetchType.EAGER)
+  private Collection<Role> roles;
   private String email;
   private String firstName;
   private String lastName;
@@ -135,17 +136,15 @@ public class UserClass  { //implements UserDetails
   /**
    * Methods related to roles
    * */
-  public boolean addRole(String newRole){
-    role = newRole;
+  public boolean addRole(Role role){
+    roles.add(role);
     return true;
   }
 
 
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    Collection<String> collection = new ArrayList<>();
-    collection.add(role);
-    List<SimpleGrantedAuthority> roles = collection.stream()
-            .map(item -> new SimpleGrantedAuthority(item))
+    List<SimpleGrantedAuthority> roles = getRoles().stream()
+            .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
             .collect(Collectors.toList());
     return roles;
   }
