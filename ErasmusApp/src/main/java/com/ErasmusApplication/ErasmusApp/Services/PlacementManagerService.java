@@ -118,13 +118,14 @@ public class PlacementManagerService {
     allUniversityDepartments = hostUniversityDepartmentService.getHostUniDeptByName( departmentName );
     Map<String, Integer> quotas = new HashMap<>();
 
-    // Get quotas of
+    // 1. Get quotas of all universities with department "departmentName".
     for( int i = 0; i < allUniversityDepartments.size(); i++ ){
       String curHostUniName = allUniversityDepartments.get(i).getHostUniversity().getNameOfInstitution();
       Integer curQuota = allUniversityDepartments.get(i).getQuota();
       quotas.put( curHostUniName, curQuota );
     }
 
+    // 2. Place students.
     for( int i = 0; i < allApplications.size(); i++ ){
       List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
       for( int j = 0; j < curPreferredUniversities.size(); j++ ){
@@ -133,13 +134,12 @@ public class PlacementManagerService {
           // Update quota.
           curQuota--;
           quotas.put( curPreferredUniversities.get(i).getNameOfInstitution(), curQuota );
-          
+
+
         }
       }
     }
 
-    // 2. Get all quotas of those universities.
-    // 3. Place students according to their preferences.
 
     combinedList.add(mainList);
     combinedList.add(waitingBin);
