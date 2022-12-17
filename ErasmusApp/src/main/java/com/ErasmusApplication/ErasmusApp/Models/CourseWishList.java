@@ -14,9 +14,10 @@ public class CourseWishList {
 
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+
     private Long id;
 
-    @JsonIgnore
     @OneToMany(
             mappedBy = "courseWishList",
             cascade = CascadeType.ALL,
@@ -34,7 +35,6 @@ public class CourseWishList {
 
     @JsonIgnore
     @OneToOne(orphanRemoval = true)
-    @MapsId
     private Application application;
 
     private boolean isCompleted;

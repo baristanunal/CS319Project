@@ -38,6 +38,7 @@ public class CourseWishListService {
     //TODO just use method in UserClassService
     public CourseWishList addWishToCourseWishList(Long wlId, Wish wish) {
         CourseWishList courseWishList= getCourseWishList(wlId);
+        wish.setCourseWishList(courseWishList);
         boolean success = courseWishList.addWish(wish);
         //TODO
         if (!success) {
