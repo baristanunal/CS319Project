@@ -178,12 +178,20 @@ public class UserClassService  { //implements UserDetailsService
         UserClass user = getUserBySchoolId(schoolId);
         user.setRole(roleName);
     }
+
     public void addRoleToUserById(Long userId, String roleName) {
         UserClass user = getUser(userId);
         user.setRole(roleName);
     }
+
     public List<DepartmentErasmusCoordinator> getCoordinatorsByDepartment( String departmentName ){
-      return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
+      List<DepartmentErasmusCoordinator> coordinators =
+        userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
+      if(coordinators == null){
+        throw new NullPointerException( "There are no coordinators in department " + departmentName + " in the database." );
+      }
+      System.out.println("Getting coordinators...");
+      return coordinators;
     }
 
 }

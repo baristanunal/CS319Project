@@ -2,6 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Exceptions.NoSuchSemesterException;
 import com.ErasmusApplication.ErasmusApp.Models.*;
+import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class PlacementManagerService {
 
   // Properties
@@ -49,6 +51,7 @@ public class PlacementManagerService {
     List<Application> applicationList = new ArrayList<Application>();
     XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
     XSSFSheet worksheet = workbook.getSheetAt(0);
+    DataFormatter formatter = new DataFormatter();
 
     for( int i=1; i<worksheet.getPhysicalNumberOfRows(); i++ ) {
 
@@ -64,14 +67,14 @@ public class PlacementManagerService {
       XSSFRow row = worksheet.getRow(i);
 
       // Get student id & create student instance.
-      schoolId = row.getCell(4).getStringCellValue();
+      schoolId = formatter.formatCellValue( row.getCell(3) );
       student = studentService.getStudentBySchoolId(schoolId);
 
       // Get total points.
-      totalPoints = row.getCell(21).getNumericCellValue();
+      totalPoints = row.getCell(20).getNumericCellValue();
 
       // Get preferred semester.
-      durationPreferred = row.getCell(22).getStringCellValue();
+      durationPreferred = row.getCell(21).getStringCellValue();
       if( durationPreferred.equals("SPRING")) {
         standardizedSemesterCode = academicYear + "/SPRING";
       }
@@ -83,27 +86,27 @@ public class PlacementManagerService {
       }
 
       // Set preferred university #1.
-      hostUniversityName = row.getCell(23).getStringCellValue();
+      hostUniversityName = row.getCell(22).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
       preferredUniversities.add(hostUniversity);
 
       // Set preferred university #2.
-      hostUniversityName = row.getCell(24).getStringCellValue();
+      hostUniversityName = row.getCell(23).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
       preferredUniversities.add(hostUniversity);
 
       // Set preferred university #3.
-      hostUniversityName = row.getCell(25).getStringCellValue();
+      hostUniversityName = row.getCell(24).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
       preferredUniversities.add(hostUniversity);
 
       // Set preferred university #4.
-      hostUniversityName = row.getCell(26).getStringCellValue();
+      hostUniversityName = row.getCell(25).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
       preferredUniversities.add(hostUniversity);
 
       // Set preferred university #5.
-      hostUniversityName = row.getCell(27).getStringCellValue();
+      hostUniversityName = row.getCell(26).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
       preferredUniversities.add(hostUniversity);
 
