@@ -30,7 +30,7 @@ public class StudentController {
 
     @PostMapping("/save")
     public void saveStudent(@RequestBody Student student){
-        studentService.saveStudent(student);
+      studentService.saveStudent(student);
     }
 
     @DeleteMapping("{userId}")

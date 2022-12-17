@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @AllArgsConstructor
-@Component
+@RequestMapping
 public class PlacementManagerController {
 
   PlacementManagerService placementManagerService;
