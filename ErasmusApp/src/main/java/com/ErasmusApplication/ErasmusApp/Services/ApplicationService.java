@@ -138,16 +138,22 @@ public class ApplicationService {
         return app.getPlacedHostUniversity();
     }
 
+
     /**
-     * Methods for PreApproval
+     * Methods for CourseWishList
      * */
-    public Application addPreApproval(Long appId, PreApproval preApproval){//Works
+
+    public CourseWishList createCourseWishList(Long appId){ // works
         Application app = getApplication(appId);
-        app.setPreApproval(preApproval);
+        if( app.getPlacedHostUniversity() != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format( "Application has aldread placed host uni")
+            );
+        }
+        HostUniversity uni = hostUniversityService.getHostUniByName(nameOfUni);
+        app.setPlacedHostUniversity(uni);
+//        hostUniversityService.addPlacedApplication(nameOfUni, app);
         return app;
-    }
-    public Form getPreApproval(Long appId){ //Works
-        Application app = getApplication(appId);
-        return app.getPreApproval();
     }
 }

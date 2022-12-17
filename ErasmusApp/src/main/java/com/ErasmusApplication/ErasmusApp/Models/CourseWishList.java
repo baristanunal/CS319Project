@@ -22,21 +22,22 @@ public class CourseWishList {
             orphanRemoval = true
     )
     private List<Wish> wishes;
-    private boolean isCompleted;
-    //TODO @Transient
-    private Double totalCredit;
 
     @JsonIgnore
-    @OneToMany(
-            mappedBy = "courseWishList",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<Form> forms;
+    @OneToOne(mappedBy = "courseWishList", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Form preApproval;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "courseWishList", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Form courseTransfer;
 
     @OneToOne(orphanRemoval = true)
     @MapsId
     private Application application;
+
+    private boolean isCompleted;
+    //TODO @Transient
+    private Double totalCredit;
 
     public Application getApplication() {
         return application;
@@ -57,4 +58,9 @@ public class CourseWishList {
     public CourseWishList() {
     }
 
+    public Double getTotalPoints() {
+        //TODO TODO
+        // get from wishlist
+        return  0.0;
+    }
 }

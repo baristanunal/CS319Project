@@ -43,15 +43,12 @@ public class Application {
   @ManyToOne(fetch = FetchType.LAZY)
   private PlacementTable placementTable;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "preApproval", nullable = true)
-    private Form preApproval;
+
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "courseWishlist", nullable = true)
-    private Form courseWishlist;
+    @OneToOne(mappedBy = "application",cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    private CourseWishList courseWishlist;
 
 
     private String applicationType;
@@ -83,13 +80,14 @@ public class Application {
     }
 
     public Application() {
+
     }
 
 
     public Double getTotalPoints() {
         //TODO TODO
         // get from wishlist
-        return  0.0;
+        return  courseWishlist.getTotalPoints();
     }
 
     public boolean checkExistenceOfPreferredUni(Long uniId){
