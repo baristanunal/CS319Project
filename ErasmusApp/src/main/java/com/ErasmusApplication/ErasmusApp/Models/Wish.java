@@ -47,6 +47,12 @@ public class Wish {
         this.syllabus = wish.getSyllabus();
     }
 
+    public Double getECTS(){
+        if(courseToCountAsBilkentCourse == null){
+            return 0.0;
+        }
+        return courseToCountAsBilkentCourse.getECTS_credit();
+    }
     // Constructors
 
     // Methods

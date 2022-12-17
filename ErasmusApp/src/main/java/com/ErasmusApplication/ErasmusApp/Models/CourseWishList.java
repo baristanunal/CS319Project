@@ -46,10 +46,17 @@ public class CourseWishList {
     }
 
     public Double getTotalPoints() {
-        //TODO TODO
-        // get from wishlist
-        return  0.0;
+        if(wishes == null){
+            return 0.0;
+        }
+        Double sum = 0.0;
+
+        for (int i = 0; i < wishes.size(); i++){
+            sum = sum + wishes.get(i).getECTS();
+        }
+        return  sum;
     }
+
 
 
 

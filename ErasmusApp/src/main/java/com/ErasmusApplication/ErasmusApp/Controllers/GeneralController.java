@@ -138,4 +138,11 @@ public class GeneralController {
     public boolean addWishesToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
         return courseWishListService.addWishes(wlId,wishes);
     }
+
+    @GetMapping("/asdsa")
+    public Form a(){
+        long x = 1;
+        return courseWishListService.getPreApproval(x);
+    }
+
 }
