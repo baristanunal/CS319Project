@@ -17,8 +17,8 @@ public class HostUniversityDepartmentService {
   public List<HostUniversityDepartment> getHostUniDeptByName(String hostUniDeptName ){
     List<HostUniversityDepartment> hostUniDept = hostUniDeptRepo.findHostUniversityDepartmentsByDepartmentName(hostUniDeptName);
     if (hostUniDept.isEmpty()) {
-      throw new IllegalStateException( "Host university with name: "
-        + hostUniDeptName + " does not exist in the database." );
+      throw new IllegalStateException( "Host university with department ["
+        + hostUniDeptName + "] does not exist in the database." );
     }
     else{
       return hostUniDept;

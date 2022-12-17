@@ -16,6 +16,4 @@ public interface HostUniversityDepartmentRepository extends JpaRepository<HostUn
   List<HostUniversityDepartment> findHostUniversityDepartmentsByDepartmentName(String name);
 
 
-  // HostUniversityDepartment findBy
-
 }
