@@ -32,8 +32,7 @@ public class PlacementManagerService {
   UserClassService userClassService;
 
   // Methods
-  @PostMapping("/import")
-  public List<Application> importApplicationsFromExcel(@RequestParam("file") MultipartFile reapExcelDataFile, String academicYear, String applicationType) throws NoSuchSemesterException, IOException {
+  public List<Application> importApplicationsFromExcel( MultipartFile reapExcelDataFile, String academicYear, String applicationType) throws NoSuchSemesterException, IOException {
 
     /*
     List<Application> applicationList = new ArrayList<Application>();
@@ -69,14 +68,14 @@ public class PlacementManagerService {
       student = studentService.getStudentBySchoolId(schoolId);
 
       // Get total points.
-      totalPoints = row.getCell(11).getNumericCellValue();
+      totalPoints = row.getCell(21).getNumericCellValue();
 
       // Get preferred semester.
       durationPreferred = row.getCell(22).getStringCellValue();
-      if( durationPreferred.equals("Bahar Dönemi")) {
+      if( durationPreferred.equals("SPRING")) {
         standardizedSemesterCode = academicYear + "/SPRING";
       }
-      else if(durationPreferred.equals("Güz Dönemi") ) {
+      else if(durationPreferred.equals("FALL") ) {
         standardizedSemesterCode = academicYear + "/FALL";
       }
       else {
@@ -179,7 +178,9 @@ public class PlacementManagerService {
   }
 
 
-  public void getDataAndPlaceStudents( @RequestParam("file") MultipartFile reapExcelDataFile, String academicYear, String applicationType, String departmentName ){
+  public void getDataAndPlaceStudents( MultipartFile reapExcelDataFile, String academicYear, String applicationType, String departmentName ){
+
+    System.out.println("Started getDataAndPlaceStudents.");
 
     WaitingBin waitingBin = new WaitingBin();
     PlacementTable mainList = new PlacementTable();
@@ -207,6 +208,8 @@ public class PlacementManagerService {
     // 4. Set placement managers.
     mainList.setPlacementManager( placementManager );
     waitingBin.setPlacementManager( placementManager );
+
+    System.out.println("Finished getDataAndPlaceStudents.");
 
   }
 
