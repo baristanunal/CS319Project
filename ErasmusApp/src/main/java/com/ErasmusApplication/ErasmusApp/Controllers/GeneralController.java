@@ -2,6 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Controllers;
 
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
+import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import com.ErasmusApplication.ErasmusApp.TempClasses.RoleToUserForm;
@@ -20,7 +21,7 @@ public class GeneralController {
     private final UserClassService userClassService;
     private final StudentService studentService;
     private final JwtUtils jwtUtils;
-
+    private final ApplicationService applicationService;
     //TODO TODO
     //TODO TODO
     // TODO add role check for all methods
@@ -90,7 +91,6 @@ public class GeneralController {
         return studentService.getApplicationByApplicationId(userId,applicationId);
     }
 
-    //APPLICATION CLASS
     @PostMapping("{userId}/application/acceptApplicationRequest/{appTypeInt}")
     public Application acceptApplication(@PathVariable Long userId, @PathVariable int appTypeInt, @RequestBody HostUniversity nameOfUni){
         String applicationType = "ERASMUS";
@@ -101,5 +101,10 @@ public class GeneralController {
 
     }
 
+    //APPLICATION CLASS
+    @GetMapping("{appId}/deneme")
+    public CourseWishList createCourseWishList(@PathVariable Long appId){
+        return applicationService.createCourseWishList(appId);
+    }
 
 }

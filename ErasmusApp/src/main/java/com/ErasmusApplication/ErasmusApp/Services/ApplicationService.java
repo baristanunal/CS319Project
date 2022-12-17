@@ -14,7 +14,7 @@ import java.util.List;
 public class ApplicationService {
     ApplicationRepository applicationRepository;
     HostUniversityService hostUniversityService;
-
+    CourseWishListService courseWishListService;
 
     /**
      * Methods for CRUD of Applications
@@ -145,15 +145,13 @@ public class ApplicationService {
 
     public CourseWishList createCourseWishList(Long appId){ // works
         Application app = getApplication(appId);
-        if( app.getPlacedHostUniversity() != null) {
+        if( app.getCourseWishlist() != null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format( "Application has aldread placed host uni")
+                    String.format( "CourseWishList of application with id: " + appId + " has already placed host uni")
             );
         }
-        HostUniversity uni = hostUniversityService.getHostUniByName(nameOfUni);
-        app.setPlacedHostUniversity(uni);
-//        hostUniversityService.addPlacedApplication(nameOfUni, app);
-        return app;
+        CourseWishList courseWishList = new CourseWishList();
+        return courseWishListService.saveCourseWishList(courseWishList,app);
     }
 }

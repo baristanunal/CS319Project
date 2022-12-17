@@ -1,16 +1,25 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.Application;
-import com.ErasmusApplication.ErasmusApp.Models.Form;
-import com.ErasmusApplication.ErasmusApp.Models.PreApproval;
+import com.ErasmusApplication.ErasmusApp.Models.*;
+import com.ErasmusApplication.ErasmusApp.Repositories.CourseWishListRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
+import javax.transaction.Transactional;
+import java.util.Optional;
+
+@Service @Transactional
+@AllArgsConstructor
 public class CourseWishListService {
 
+    CourseWishListRepository courseWishListRepository;
 
 
-
+    public CourseWishList saveCourseWishList(CourseWishList courseWishList, Application application){
+        courseWishList.setApplication(application);
+        return courseWishListRepository.save(courseWishList);
+    }
 
 
 //

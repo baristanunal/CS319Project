@@ -87,6 +87,9 @@ public class Application {
     public Double getTotalPoints() {
         //TODO TODO
         // get from wishlist
+        if( courseWishlist == null){
+            return  0.0;
+        }
         return  courseWishlist.getTotalPoints();
     }
 

@@ -31,12 +31,14 @@ public class CourseWishList {
     @OneToOne(mappedBy = "courseWishList", cascade = CascadeType.ALL, orphanRemoval = true)
     private Form courseTransfer;
 
+    @JsonIgnore
     @OneToOne(orphanRemoval = true)
     @MapsId
     private Application application;
 
     private boolean isCompleted;
     //TODO @Transient
+    @Transient
     private Double totalCredit;
 
     public Application getApplication() {
