@@ -143,7 +143,7 @@ public class ApplicationService {
      * Methods for CourseWishList
      * */
 
-    public CourseWishList createCourseWishList(Long appId){ // works
+    public CourseWishList createEmptyCourseWishList(Long appId){ // works
         Application app = getApplication(appId);
         if( app.getCourseWishlist() != null) {
             throw new ResponseStatusException(
@@ -153,5 +153,10 @@ public class ApplicationService {
         }
         CourseWishList courseWishList = new CourseWishList();
         return courseWishListService.saveCourseWishList(courseWishList,app);
+    }
+
+    public CourseWishList getCourseWishList(Long applicationId) {
+        Application app = getApplication(applicationId);
+        return app.getCourseWishlist();
     }
 }

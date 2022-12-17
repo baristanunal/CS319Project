@@ -102,9 +102,14 @@ public class GeneralController {
     }
 
     //APPLICATION CLASS
-    @GetMapping("{appId}/deneme")
-    public CourseWishList createCourseWishList(@PathVariable Long appId){
-        return applicationService.createCourseWishList(appId);
+    @GetMapping("{userId}/application/createEmptyApp/{applicationId}")
+    public CourseWishList createCourseWishList(@PathVariable Long userId, @PathVariable Long applicationId){
+        return applicationService.createEmptyCourseWishList(applicationId);
+    }
+
+    @GetMapping("{userId}/application/createEmptyApp/{applicationId}")
+    public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long applicationId){
+        return applicationService.getCourseWishList(applicationId);
     }
 
 }
