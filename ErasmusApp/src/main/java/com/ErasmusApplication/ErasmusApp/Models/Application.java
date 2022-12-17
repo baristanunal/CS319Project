@@ -47,7 +47,7 @@ public class Application {
 
     @JsonIgnore
     @OneToOne(mappedBy = "application",cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
+//    @PrimaryKeyJoinColumn
     private CourseWishList courseWishlist;
 
 

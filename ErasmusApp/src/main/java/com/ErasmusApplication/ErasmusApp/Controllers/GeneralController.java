@@ -50,9 +50,9 @@ public class GeneralController {
 
 
     // Methods for USER's TASKS
-    @PostMapping("/{userId}/addTasks")
+    @PostMapping("/{userId}/addTask")
     public UserClass addTask(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
-        return userClassService.addTasks(userId,taskToUpdate);
+        return userClassService.addTaskToUser(userId,taskToUpdate);
     }
     @GetMapping("{userId}/getAllTasks")
     public ResponseEntity<List<Task>> getAllTasks(@PathVariable Long userId){
@@ -104,12 +104,12 @@ public class GeneralController {
     }
 
     //APPLICATION CLASS
-    @GetMapping("{userId}/application/createEmptyApp/{applicationId}")
+    @GetMapping("{userId}/application/createEmptyWishList/{applicationId}")
     public CourseWishList createCourseWishList(@PathVariable Long userId, @PathVariable Long applicationId){
         return applicationService.createEmptyCourseWishList(applicationId);
     }
 
-    @GetMapping("{userId}/application/getEmptyApp/{applicationId}")
+    @GetMapping("{userId}/application/getWishList/{applicationId}")
     public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long applicationId){
         return applicationService.getCourseWishList(applicationId);
     }
@@ -119,7 +119,7 @@ public class GeneralController {
     public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody Wish wish) {
         return courseWishListService.addWishToCourseWishList(wlId,wish);
     }
-    @GetMapping("{userId}/courseWishList/getAll/{wlId}")
+    @GetMapping("{userId}/courseWishList/getAllWishes/{wlId}")
     public List<Wish> getAllWishes(@PathVariable Long userId, @PathVariable Long wlId){
         return courseWishListService.getAllWishes(wlId);
     }
@@ -129,9 +129,9 @@ public class GeneralController {
         return courseWishListService.removeWishFromCourseWishList(wlId,wishId);
     }
 
-    @PutMapping("{userId}/courseWishList/update/{wlId}")
-    public CourseWishList updateWish(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody Wish wish){
-        return courseWishListService.updateWish(userId, wlId, wish);
+    @PutMapping("{userId}/courseWishList/{wlId}/update/{wishId}")
+    public CourseWishList updateWish(@PathVariable Long userId, @PathVariable Long wlId, @PathVariable Long wishId, @RequestBody Wish wish){
+        return courseWishListService.updateWish( wlId,wishId, wish);
     }
 
     @PostMapping("/{userId}/courseWishList/addWithList/{wlId}")

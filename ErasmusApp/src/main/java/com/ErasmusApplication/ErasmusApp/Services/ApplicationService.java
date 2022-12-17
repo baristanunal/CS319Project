@@ -22,7 +22,6 @@ public class ApplicationService {
     public Application saveApplication(Student student, Application newApplication){
         newApplication.setStudent(student);
         return applicationRepository.save(newApplication);
-
     }
 
     public Application getApplication(Long applicationId){
@@ -157,6 +156,10 @@ public class ApplicationService {
 
     public CourseWishList getCourseWishList(Long applicationId) {
         Application app = getApplication(applicationId);
-        return app.getCourseWishlist();
+        CourseWishList wishList = app.getCourseWishlist();
+        if(wishList == null){
+             return createEmptyCourseWishList(applicationId);
+        }
+        return wishList;
     }
 }

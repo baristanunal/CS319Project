@@ -108,7 +108,7 @@ public class UserClassService  { //implements UserDetailsService
      */
     public UserClass addTaskToUser(Long userId, Task newTask) {
         UserClass user = getUser(userId);
-//        newTask.setUser(user);
+        newTask.setUser(user);
         boolean success = user.addTask(newTask);
 
         //TODO
@@ -137,6 +137,7 @@ public class UserClassService  { //implements UserDetailsService
 
     @Transactional
     public UserClass addTasks(Long userId, Task taskToUpdate) {
+        //TODO  to obrtain addition of list you need to set all
         UserClass user = getUser(userId);
         Task task = taskService.addNewTask(taskToUpdate);
         task.setUser(user);
