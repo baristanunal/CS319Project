@@ -2,6 +2,7 @@ package com.ErasmusApplication.ErasmusApp.DataOnly;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @NoArgsConstructor

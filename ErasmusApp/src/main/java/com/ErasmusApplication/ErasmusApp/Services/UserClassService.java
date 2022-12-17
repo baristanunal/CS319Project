@@ -183,7 +183,7 @@ public class UserClassService  { //implements UserDetailsService
         user.setRole(roleName);
     }
     public List<DepartmentErasmusCoordinator> getCoordinatorsByDepartment( String departmentName ){
-        return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
+      return userClassRepository.findByDepartmentAndRole( departmentName, "depCoordinator" );
     }
 
 }
