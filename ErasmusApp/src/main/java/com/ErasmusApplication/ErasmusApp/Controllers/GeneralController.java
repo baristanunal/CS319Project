@@ -125,7 +125,7 @@ public class GeneralController {
     }
 
     @PostMapping("{userId}/courseWishList/{wlId}/removeWish/{wishId}")
-    public CourseWishList removeTaskFromUser(@PathVariable Long userId, @PathVariable Long wlId, @PathVariable Long wishId){
+    public CourseWishList removeWishFromUser(@PathVariable Long userId, @PathVariable Long wlId, @PathVariable Long wishId){
         return courseWishListService.removeWishFromCourseWishList(wlId,wishId);
     }
 
