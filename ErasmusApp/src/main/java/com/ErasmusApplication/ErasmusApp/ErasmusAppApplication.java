@@ -1,9 +1,11 @@
 package com.ErasmusApplication.ErasmusApp;
 
 
+import com.ErasmusApplication.ErasmusApp.Models.PdfGeneration;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
+import com.itextpdf.text.DocumentException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,14 +14,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 @SpringBootApplication
 @RestController
 @EnableConfigurationProperties({
-		FileStorageProperties.class // Yusuf'un kodu. Silmeyiniz.
+		FileStorageProperties.class 
 })
 public class ErasmusAppApplication {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DocumentException, IOException, URISyntaxException {
 		SpringApplication.run(ErasmusAppApplication.class, args);
+//		PdfGeneration pdfGeneration = new PdfGeneration();
+//		pdfGeneration.createPdf();
 	}
 
 	@Bean
@@ -68,4 +76,5 @@ public class ErasmusAppApplication {
 	public String h(){
 		return  "hello";
 	}
+
 }
