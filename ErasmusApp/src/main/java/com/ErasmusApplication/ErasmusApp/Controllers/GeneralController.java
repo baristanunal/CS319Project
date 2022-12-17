@@ -1,9 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
-import com.ErasmusApplication.ErasmusApp.Models.Application;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.Task;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
@@ -66,10 +63,10 @@ public class GeneralController {
     }
 
     @PutMapping("{userId}/tasks/update/{taskId}")
-    public ResponseEntity<Student> updateTask(@PathVariable Long userId, @PathVariable Long taskId, @RequestBody Task taskToUpdate){
-        Student student = studentService.updateTask(userId, taskId, taskToUpdate);
+    public ResponseEntity<UserClass> updateTask(@PathVariable Long userId, @PathVariable Long taskId, @RequestBody Task taskToUpdate){
+        UserClass user = studentService.updateTask(userId, taskId, taskToUpdate);
 
-        return new ResponseEntity<>(student, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     // STUDENT's APPLICATION
@@ -95,13 +92,13 @@ public class GeneralController {
 
     //APPLICATION CLASS
     @PostMapping("{userId}/application/acceptApplicationRequest/{appTypeInt}")
-    public Boolean acceptApplication(@PathVariable Long userId, @PathVariable int appTypeInt, @RequestBody String nameOfUni){
+    public Application acceptApplication(@PathVariable Long userId, @PathVariable int appTypeInt, @RequestBody HostUniversity nameOfUni){
         String applicationType = "ERASMUS";
         if( appTypeInt == 1){
             applicationType = "EXCHANGE";
         }
-        studentService.acceptApplicationRequest(userId,applicationType, nameOfUni);
-        return true;
+        return studentService.acceptApplicationRequest(userId,applicationType, nameOfUni.getNameOfInstitution());
+
     }
 
 }

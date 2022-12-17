@@ -153,26 +153,14 @@ public class StudentService {
         return student;
     }
     @Transactional
-    public Boolean acceptApplicationRequest(Long userId, String applicationType, String placedUni) {
+    public Application acceptApplicationRequest(Long userId, String applicationType, String placedUni) {
         Student student = getStudent(userId);
-        if (student.getApplications().size() == 2){
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    String.format( "Student with Id: " + userId + " has 2 applications. Student cannot have more than 2 application")
-            );
-        }
-        else if( student.hasThisTypeApplication(applicationType)){
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    String.format( "Student with Id: " + userId + " has already " +  applicationType + " type of application.")
-            );
-        }
+
         Application app = student.getApplicationByApplicationType(applicationType);
-        applicationService.addPlacedUni(app.getId(), placedUni);
         app.setInWaitingBin(false);
         app.setPlaced(true);
         //TODO try
-        return true;
+        return app;
     }
     public Application getApplicationByApplicationType(Long userId, String applicationType) {
         Student student = getStudent(userId);
