@@ -75,7 +75,7 @@ public class UserClassController {
     //In usage
     @PostMapping("/{userId}/addTasks")
     public UserClass addTask(@PathVariable Long userId, @RequestBody Task taskToUpdate) {
-        return userClassService.addTasks(userId,taskToUpdate);
+        return userClassService.addTaskToUser(userId,taskToUpdate);
     }
 
     @PostMapping("/role/addRoleToUser")
