@@ -80,7 +80,8 @@ public class Application {
     }
 
     public Application() {
-
+        this.isPlaced = false;
+        this.isInWaitingBin = true;
     }
 
 

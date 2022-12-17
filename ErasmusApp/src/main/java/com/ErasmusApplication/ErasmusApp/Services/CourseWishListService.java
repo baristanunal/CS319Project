@@ -94,16 +94,16 @@ public class CourseWishListService {
 
 //
 //
-//    /**
-//     * Methods for PreApproval
-//     * */
+    /**
+     * Methods for PreApproval
+     * */
 //    public Application addPreApproval(Long appId, PreApproval preApproval){//Works
 //        Application app = getApplication(appId);
 //        app.setPreApproval(preApproval);
 //        return app;
 //    }
-//    public Form getPreApproval(Long appId){ //Works
-//        Application app = getApplication(appId);
-//        return app.getPreApproval();
-//    }
+    public Form getPreApproval(Long wlId){ //Works
+        CourseWishList courseWishList = getCourseWishList(wlId);
+        return courseWishList.getPreApproval();
+    }
 }

@@ -30,12 +30,14 @@ public class Form {
 
     //TODO add relation
     //TODO Add method to Create Update Remove List object
-
-//    private List<Wish> wishes;
-
-
+    @Transient
+    private List<Wish> wishes;
 
 
+
+    public List<Wish> getWishes(){
+        return courseWishList.getWishes();
+    }
     public Form() {
         isApproved = false;
         signedByDepCoordinator = false;
