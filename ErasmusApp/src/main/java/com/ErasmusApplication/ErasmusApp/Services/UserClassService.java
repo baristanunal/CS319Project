@@ -163,8 +163,8 @@ public class UserClassService  { //implements UserDetailsService
     }
     public UserClass removeTaskFromUser(Long userId, Long taskId) {
         //TODO check whether this task belongs to this user
-        UserClass user = getUser(userId);
         taskService.deleteTask(taskId);
+        UserClass user = getUser(userId);
         return user;
     }
 

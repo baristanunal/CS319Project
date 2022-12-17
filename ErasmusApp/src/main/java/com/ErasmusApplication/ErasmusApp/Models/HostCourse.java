@@ -16,17 +16,18 @@ public class HostCourse extends Course{
     private boolean isApproved;
     private String hostCourseName;
 
-
 //    @JsonIgnore
 //    @ManyToMany(mappedBy = "correspondingHostCourses")
 //    private List<BilkentCourse> correspondingBilkentCourses;
 
     @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "host_course_wishes",
-            joinColumns = @JoinColumn(name = "host_course_id"),
-            inverseJoinColumns = @JoinColumn(name = "wishes_id"))
-    private List<Wish> wishes = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "courseToCountAsBilkentCourse",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Wish> wishes;
+
 
     @JsonIgnore
     @ManyToOne

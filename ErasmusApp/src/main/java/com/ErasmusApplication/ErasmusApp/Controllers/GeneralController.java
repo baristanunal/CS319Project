@@ -3,6 +3,7 @@ package com.ErasmusApplication.ErasmusApp.Controllers;
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
 import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
+import com.ErasmusApplication.ErasmusApp.Services.CourseWishListService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import com.ErasmusApplication.ErasmusApp.TempClasses.RoleToUserForm;
@@ -22,6 +23,7 @@ public class GeneralController {
     private final StudentService studentService;
     private final JwtUtils jwtUtils;
     private final ApplicationService applicationService;
+    private final CourseWishListService courseWishListService;
     //TODO TODO
     //TODO TODO
     // TODO add role check for all methods
@@ -107,9 +109,33 @@ public class GeneralController {
         return applicationService.createEmptyCourseWishList(applicationId);
     }
 
-    @GetMapping("{userId}/application/createEmptyApp/{applicationId}")
+    @GetMapping("{userId}/application/getEmptyApp/{applicationId}")
     public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long applicationId){
         return applicationService.getCourseWishList(applicationId);
     }
 
+    //CourseWishList
+    @PostMapping("/{userId}/courseWishList/add/{wlId}")
+    public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody Wish wish) {
+        return courseWishListService.addWishToCourseWishList(wlId,wish);
+    }
+    @GetMapping("{userId}/courseWishList/getAll/{wlId}")
+    public List<Wish> getAllWishes(@PathVariable Long userId, @PathVariable Long wlId){
+        return courseWishListService.getAllWishes(wlId);
+    }
+
+    @PostMapping("{userId}/courseWishList/{wlId}/removeWish/{wishId}")
+    public CourseWishList removeTaskFromUser(@PathVariable Long userId, @PathVariable Long wlId, @PathVariable Long wishId){
+        return courseWishListService.removeWishFromCourseWishList(wlId,wishId);
+    }
+
+    @PutMapping("{userId}/courseWishList/update/{wlId}")
+    public CourseWishList updateWish(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody Wish wish){
+        return courseWishListService.updateWish(userId, wlId, wish);
+    }
+
+    @PostMapping("/{userId}/courseWishList/addWithList/{wlId}")
+    public boolean addWishesToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
+        return courseWishListService.addWishes(wlId,wishes);
+    }
 }

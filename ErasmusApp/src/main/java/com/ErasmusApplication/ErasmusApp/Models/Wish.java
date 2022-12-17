@@ -17,26 +17,35 @@ public class Wish {
     private Long id;
 
     private String intent;
-    //TODO do smth for these
     private String standing;
     private String syllabus;
-
 
     @JsonIgnore
     @ManyToOne
     private BilkentCourse bilkentCourse;
 
-    @ManyToMany(mappedBy = "wishes")
-    private List<HostCourse> courseToCountAsBilkentCourse = new ArrayList<>();
+    @JsonIgnore
+    @ManyToOne
+    private HostCourse courseToCountAsBilkentCourse;
 
-//    private List<HostCourse> courseToCountAsBilkentCourse;
 
     @JsonIgnore
     @ManyToOne
     private CourseWishList courseWishList;
 
 
+    public Double getHostCourseCredit(){
+        if( courseToCountAsBilkentCourse == null){
+            return 0.0;
+        }
+        return courseToCountAsBilkentCourse.getECTS_credit();
+    }
 
+    public void setAll(Wish wish) {
+        this.intent = wish.getIntent();
+        this.standing = wish.getStanding();
+        this.syllabus = wish.getSyllabus();
+    }
 
     // Constructors
 
