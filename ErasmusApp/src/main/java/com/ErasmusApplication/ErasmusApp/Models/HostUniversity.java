@@ -26,7 +26,7 @@ public class HostUniversity {
     @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostCourse> hostCourses = new ArrayList<>();
     @JsonIgnore
-    @OneToMany(mappedBy = "hostUniversity")
+    @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostUniversityDepartment> departments = new ArrayList<>();
 
     public HostUniversity( String nameOfInstitution ){
@@ -34,6 +34,12 @@ public class HostUniversity {
     }
 
     public HostUniversity() {
+    }
+
+    public HostUniversity( String nameOfInstitution, List<HostCourse> hostCourses, List<HostUniversityDepartment> departments ){
+      this.nameOfInstitution = nameOfInstitution;
+      this.hostCourses = hostCourses;
+      this.departments = departments;
     }
 
     public boolean addPlacedApplication(Application app){

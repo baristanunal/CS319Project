@@ -68,6 +68,9 @@ public class PlacementManagerService {
 
       // Get student id & create student instance.
       schoolId = formatter.formatCellValue( row.getCell(3) );
+      if( schoolId.equals("") ){
+        break;
+      }
       student = studentService.getStudentBySchoolId(schoolId);
 
       // Get total points.
