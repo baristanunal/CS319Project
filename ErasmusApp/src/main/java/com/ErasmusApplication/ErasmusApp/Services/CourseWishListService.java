@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
+import com.ErasmusApplication.ErasmusApp.DataOnly.AddWishDao;
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.CourseWishListRepository;
 import lombok.AllArgsConstructor;
@@ -20,9 +21,13 @@ public class CourseWishListService {
 
     private final CourseWishListRepository courseWishListRepository;
     private final PreApprovalService preApprovalService;
-
+    private final HostCourseService hostCourseService;
+    private final HostUniversityService hostUniversityService;
+    private final CourseService courseService;
+    private final BilkentCourseService bilkentCourseService;
     public CourseWishList saveCourseWishList(CourseWishList courseWishList, Application application){
         courseWishList.setApplication(application);
+        application.setCourseWishlist(courseWishList);
         return courseWishListRepository.save(courseWishList);
     }
     public CourseWishList getCourseWishList(Long wlId) {
@@ -37,17 +42,26 @@ public class CourseWishListService {
      * */
     //TASKS
     //TODO just use method in UserClassService
-    public CourseWishList addWishToCourseWishList(Long wlId, Wish wish) {
-        CourseWishList courseWishList= getCourseWishList(wlId);
-        wish.setCourseWishList(courseWishList);
-        boolean success = courseWishList.addWish(wish);
-        //TODO
-        if (!success) {
+    public CourseWishList addWishToCourseWishList(Long userId, Long wlId, AddWishDao addWishDao) {
+        CourseWishList courseWishList = getCourseWishList(wlId);
+        Application application = courseWishList.getApplication();
+        if(application == null){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format("Failed to add wish to CourseWishList with Id: " + wlId)
+                    String.format("CourseWishList with Id: " + wlId + " does not have application which should be there. Ask for help.")
             );
         }
+        String nameOfHostUni = application.getNameOfPlacedHostUniversity();
+        HostUniversity hostUniversity = hostUniversityService.getHostUniByName(nameOfHostUni);
+        HostCourse tempHostCourse = new HostCourse(addWishDao.getHostEcts_credit(),addWishDao.getHostCourseName(),addWishDao.getHostCourseCode());
+        HostCourse hostCourse = hostCourseService.createIfNotExistOrReturn(tempHostCourse,hostUniversity);
+        Wish wish = new Wish(addWishDao.getIntent(),addWishDao.getStanding(),addWishDao.getSyllabus());
+        BilkentCourse tempBilkentCourse = new BilkentCourse(addWishDao.getBilkentEcts_credit(),addWishDao.getBilkentCourseName(),addWishDao.getBilkentCourseCode(),addWishDao.getBilkentCourseType());
+        BilkentCourse bilkentCourse = bilkentCourseService.getCourseByCode(tempBilkentCourse.getCourseCode());
+        wish.setBilkentCourse(bilkentCourse);
+        wish.setCourseToCountAsBilkentCourse(hostCourse);
+        wish.setCourseWishList(courseWishList);
+        courseWishList.addWish(wish);
         return courseWishList;//TODO
     }
     public List<Wish> getAllWishes(Long wlId){
