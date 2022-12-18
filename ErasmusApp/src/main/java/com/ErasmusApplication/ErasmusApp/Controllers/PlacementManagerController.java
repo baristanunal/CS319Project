@@ -20,7 +20,6 @@ public class PlacementManagerController {
   @PostMapping("/getDataFromExcel")
   public void getDataAndPlaceStudents(@RequestPart("file") MultipartFile reapExcelDataFile, @RequestPart("PlacementManagerDao") PlacementManagerDao data ){
     placementManagerService.getDataAndPlaceStudents( reapExcelDataFile, data.getAcademicYear(), data.getApplicationType(), data.getDepartmentName() );
-    System.out.println("Get data from Excel.");
   }
 
   /*

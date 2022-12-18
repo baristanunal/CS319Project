@@ -2,6 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Exceptions.NoSuchSemesterException;
 import com.ErasmusApplication.ErasmusApp.Models.*;
+import com.ErasmusApplication.ErasmusApp.Repositories.WaitingBinRepository;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -32,6 +33,9 @@ public class PlacementManagerService {
   StudentService studentService;
   HostUniversityDepartmentService hostUniversityDepartmentService;
   UserClassService userClassService;
+  PlacementTableService placementTableService;
+  WaitingBinService waitingBinService;
+  private final WaitingBinRepository waitingBinRepository;
 
   // Methods
   public List<Application> importApplicationsFromExcel( MultipartFile reapExcelDataFile, String academicYear, String applicationType) throws NoSuchSemesterException, IOException {
@@ -88,6 +92,15 @@ public class PlacementManagerService {
         throw new NoSuchSemesterException("Could not match semester name in one of the rows in the Excel file.");
       }
 
+      for( int j = 22; j < 27; j++ ){
+        hostUniversityName = row.getCell(j).getStringCellValue();
+        if( hostUniversityName.equals("") ){
+          break;
+        }
+        hostUniversity = new HostUniversity(hostUniversityName);
+        preferredUniversities.add(hostUniversity);
+      }
+      /*
       // Set preferred university #1.
       hostUniversityName = row.getCell(22).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
@@ -112,6 +125,8 @@ public class PlacementManagerService {
       hostUniversityName = row.getCell(26).getStringCellValue();
       hostUniversity = new HostUniversity(hostUniversityName);
       preferredUniversities.add(hostUniversity);
+      */
+
 
       // Create application object with parsed data.
       Application application = new Application(
@@ -141,24 +156,30 @@ public class PlacementManagerService {
     // 1. Get quotas of all universities with department "departmentName".
     for( int i = 0; i < allUniversityDepartments.size(); i++ ){
       String curHostUniName = allUniversityDepartments.get(i).getHostUniversity().getNameOfInstitution();
-      Integer curQuota = allUniversityDepartments.get(i).getQuota();
+      //System.out.println(curHostUniName);
+      int curQuota = allUniversityDepartments.get(i).getQuota();
       quotas.put( curHostUniName, curQuota );
     }
 
     // 2. Place students.
     for( int i = 0; i < allApplications.size(); i++ ){
+/*
+      for( int k = 0; k < allApplications.get(0).getPreferredUniversities().size(); k++ ){
+        System.out.println( allApplications.get(0).getPreferredUniversities().get(k) );
+      }
 
+ */
       List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
 
       for( int j = 0; j < curPreferredUniversities.size(); j++ ){
 
-        Integer curQuota = quotas.get( curPreferredUniversities.get(i).getNameOfInstitution() );
+        int curQuota = quotas.get( curPreferredUniversities.get(j).getNameOfInstitution() );
 
         if( curQuota > 0 ){
 
           // 2.T.1 Update quota.
           curQuota--;
-          quotas.put( curPreferredUniversities.get(i).getNameOfInstitution(), curQuota );
+          quotas.put( curPreferredUniversities.get(j).getNameOfInstitution(), curQuota );
 
           // 2.T.2 Set placed university of the current application.
           allApplications.get(i).setPlacedHostUniversity( curPreferredUniversities.get(j) );
@@ -186,10 +207,10 @@ public class PlacementManagerService {
 
   public void getDataAndPlaceStudents( MultipartFile reapExcelDataFile, String academicYear, String applicationType, String departmentName ){
 
-    System.out.println("Started getDataAndPlaceStudents.");
+    WaitingBin waitingBin = waitingBinService.saveWaitingBin( new WaitingBin() );
+    PlacementTable mainList = placementTableService.savePlacementTable(new PlacementTable());
+    System.out.println( "Main List: " + mainList);
 
-    WaitingBin waitingBin = new WaitingBin();
-    PlacementTable mainList = new PlacementTable();
     List<Application> allApplications = new ArrayList<>();
     List<List<Application>> combinedList;
     List<DepartmentErasmusCoordinator> coordinators;
@@ -201,6 +222,12 @@ public class PlacementManagerService {
     // 2. Import data from Excel file.
     try{
       allApplications = importApplicationsFromExcel( reapExcelDataFile, academicYear, applicationType );
+      if(allApplications == null){
+        System.out.println("allApplications is NULL.");
+      }
+      else {
+        System.out.println("allApplications is not NULL.");
+      }
     } catch (NoSuchSemesterException | IOException e ) {
       // TODO: Send warning message to frontend.
       System.out.println("Could not match semester name in one of the rows in the Excel file.");
@@ -208,8 +235,17 @@ public class PlacementManagerService {
 
     // 3. Place students.
     combinedList = placeStudents( allApplications, departmentName );
-    mainList.addApplications( combinedList.get(0) );      // main list
-    waitingBin.addApplications( combinedList.get(1) );    // waiting bin
+    //mainList.addApplications( combinedList.get(0) );      // main list
+    //waitingBin.addApplications( combinedList.get(1) );    // waiting bin
+
+    List<Application> mainApplications = combinedList.get(0);
+    List<Application> backupApplications = combinedList.get(1);
+
+    /*
+    for( int i = 0; i < mainApplications.size(); i++ ){
+      placementTableService.addApplicationToPlacementTable( mainList, mainApplications.get(i) );
+    }
+     */
 
     // 4. Set placement managers.
     mainList.setPlacementManager( placementManager );

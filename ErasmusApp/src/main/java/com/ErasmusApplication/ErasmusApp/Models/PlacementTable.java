@@ -26,8 +26,10 @@ public class PlacementTable {
     )
     List<Application> applications;
 
-    public PlacementTable() {
+    private int a;
 
+    public PlacementTable() {
+      a = 3;
     }
 
   public PlacementTable( List<Application> mainList ) {
@@ -45,6 +47,8 @@ public class PlacementTable {
     public void addApplications( List<Application> newApplications ){
       applications.addAll(newApplications);
     }
+
+
 
 
 }
