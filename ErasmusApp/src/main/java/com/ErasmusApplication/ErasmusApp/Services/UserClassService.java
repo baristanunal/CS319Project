@@ -108,16 +108,16 @@ public class UserClassService  { //implements UserDetailsService
      */
     public UserClass addTaskToUser(Long userId, Task newTask) {
         UserClass user = getUser(userId);
-        newTask.setUser(user);
-        boolean success = user.addTask(newTask);
-
-        //TODO
-        if (!success) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    String.format("Failed to add task to Student with Id: " + userId)
-            );
-        }
+        newTask.setUser(user); // This is enough
+//        boolean success = user.addTask(newTask);
+//
+//        //TODO
+//        if (!success) {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND,
+//                    String.format("Failed to add task to Student with Id: " + userId)
+//            );
+//        }
         return user;//TODO
     }
     public List<Task> getAllTasks(Long userId){

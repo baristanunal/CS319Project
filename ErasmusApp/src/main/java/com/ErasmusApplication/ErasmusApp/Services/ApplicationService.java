@@ -57,40 +57,25 @@ public class ApplicationService {
     }
 
     @Transactional
-    public Application updateApplication(Long applicationId,Application updatedApplication){
-        try {
-            Application application = getApplication(applicationId);
-            application.setAll(updatedApplication);
-            return application;
-        }
-        catch( Exception e){
-            throw e; //TODO  I do not know how to deal with exceptions
-        }
+    public Application updateApplication(Long userId, Long applicationId,Application updatedApplication){
+
+        Application application = getApplicationByStudentAndApplicationId(userId, applicationId);
+        application.setAll(updatedApplication);
+        return application;
+
 
     }
     public boolean removeApplicationOfStudent(Long applicationId, Long userId) {
-        //TODO add cornercase
-        boolean exist = applicationRepository.existsById(applicationId);
-        if(!exist){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    String.format( "Application With Id: " + applicationId + " does not exist in Student with Id:" + userId)
-            );
+        //This checks whether given applicationId correspond to application whose owner is user with userId
+        Application application = getApplicationByStudentAndApplicationId(userId, applicationId);
 
-        }
         applicationRepository.deleteById(applicationId);
         return true;
     }
 
-    public void removeApplication(Long applicationId) {
-        //TODO add cornercase
-        boolean exist = applicationRepository.existsById(applicationId);
-        if(!exist){
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    String.format( "Application With Id: " + applicationId + " does not exist")
-            );
-        }
+    public void removeApplication(Long userId, Long applicationId) {
+        //This checks whether given applicationId correspond to application whose owner is user with userId
+        Application application = getApplicationByStudentAndApplicationId(userId, applicationId);
         applicationRepository.deleteById(applicationId);
     }
 
@@ -112,8 +97,8 @@ public class ApplicationService {
      * Methods for PlacedHostUni
      * */
 
-    public Application addPlacedUni(Long appId, String nameOfUni){ // works
-        Application app = getApplication(appId);
+    public Application addPlacedUni(Long userId, Long appId, String nameOfUni){ // works
+        Application app = getApplicationByStudentAndApplicationId(userId,appId);
         if( app.getPlacedHostUniversity() != null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -153,8 +138,8 @@ public class ApplicationService {
         return courseWishListService.saveCourseWishList(courseWishList,app);
     }
 
-    public CourseWishList getCourseWishList(Long applicationId) {
-        Application app = getApplication(applicationId);
+    public CourseWishList getCourseWishList(Long userId, Long applicationId) {
+        Application app = getApplicationByStudentAndApplicationId(userId,applicationId);
         CourseWishList wishList = app.getCourseWishlist();
         if(wishList == null){
              return createEmptyCourseWishList(applicationId);

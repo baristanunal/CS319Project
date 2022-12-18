@@ -111,7 +111,7 @@ public class GeneralController {
 
     @GetMapping("{userId}/application/getWishList/{applicationId}")
     public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long applicationId){
-        return applicationService.getCourseWishList(applicationId);
+        return applicationService.getCourseWishList(userId,applicationId);
     }
 
     //CourseWishList
@@ -138,11 +138,16 @@ public class GeneralController {
     public boolean addWishesToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
         return courseWishListService.addWishes(wlId,wishes);
     }
-
-    @GetMapping("/asdsa")
-    public Form a(){
-        long x = 1;
-        return courseWishListService.getPreApproval(x);
+    @GetMapping("/{userId}/courseWishList/getPreApprocal/{wlId}")
+    public Form getPreApproval(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
+        return courseWishListService.getPreApproval(wlId);
     }
+
+
+//    @GetMapping("/{userId}}")
+//    public Form a(){
+//        long x = 1;
+//        return courseWishListService.getPreApproval(x);
+//    }
 
 }
