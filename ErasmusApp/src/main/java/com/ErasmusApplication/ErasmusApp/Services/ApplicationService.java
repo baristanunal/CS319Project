@@ -8,14 +8,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service @Transactional @AllArgsConstructor
 public class ApplicationService {
-    ApplicationRepository applicationRepository;
-    HostUniversityService hostUniversityService;
-    CourseWishListService courseWishListService;
+    public final ApplicationRepository applicationRepository;
+    public final HostUniversityService hostUniversityService;
+    public final CourseWishListService courseWishListService;
 
+    private final StudentService studentService;
     /**
      * Methods for CRUD of Applications
      */
@@ -138,12 +140,34 @@ public class ApplicationService {
         return courseWishListService.saveCourseWishList(courseWishList,app);
     }
 
-    public CourseWishList getCourseWishList(Long userId, Long applicationId) {
+    public CourseWishList getCourseWishList(Long userId, String appType) {
+        Long applicationId = getAppId(userId,appType);
         Application app = getApplicationByStudentAndApplicationId(userId,applicationId);
         CourseWishList wishList = app.getCourseWishlist();
         if(wishList == null){
              return createEmptyCourseWishList(applicationId);
         }
         return wishList;
+    }
+
+    public Long getAppId(Long userId, String appType) {
+
+        Application application= studentService.getApplicationByApplicationType(userId,appType);
+        return application.getId();
+    }
+
+
+    public CourseWishList getWlId(Long appId) {
+        Application application= getApplication(appId);
+        return application.getCourseWishlist();
+    }
+    public List<Wish> getAllWishesWithoutId(Long userId, String appType){
+        Long applicationId = getAppId(userId,appType);
+        CourseWishList courseWishList = getWlId(applicationId);
+        List<Wish> wishes = courseWishList.getWishes();
+        if (wishes.isEmpty()){
+            return new ArrayList<Wish>();
+        }
+        return wishes;
     }
 }

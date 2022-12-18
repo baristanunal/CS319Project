@@ -23,7 +23,6 @@ public class StudentService {
 
     StudentRepository studentRepository;
     TaskService taskService;
-    ApplicationService applicationService;
 
     /**
      * Methods for CRUD of Students

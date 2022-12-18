@@ -20,8 +20,7 @@ public class GeneralController {
     private final JwtUtils jwtUtils;
     private final ApplicationService applicationService;
     private final CourseWishListService courseWishListService;
-//    private final HostCourseService hostCourseService;
-//    private final HostUniversityService hostUniversityService;
+
     //TODO TODO
     //TODO TODO
     // TODO add role check for all methods
@@ -92,12 +91,12 @@ public class GeneralController {
     }
 
     @PostMapping("{userId}/application/acceptApplicationRequest/{appTypeInt}")
-    public Application acceptApplication(@PathVariable Long userId, @PathVariable int appTypeInt, @RequestBody HostUniversity nameOfUni){
+    public Application acceptApplication(@PathVariable Long userId, @PathVariable int appTypeInt, @RequestBody String nameOfUni){
         String applicationType = "ERASMUS";
         if( appTypeInt == 1){
             applicationType = "EXCHANGE";
         }
-        return studentService.acceptApplicationRequest(userId,applicationType, nameOfUni.getNameOfInstitution());
+        return studentService.acceptApplicationRequest(userId,applicationType, nameOfUni);
 
     }
 
@@ -107,22 +106,20 @@ public class GeneralController {
         return applicationService.createEmptyCourseWishList(applicationId);
     }
 
-    @GetMapping("{userId}/application/getWishList/{applicationId}")
-    public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long applicationId){
-        return applicationService.getCourseWishList(userId,applicationId);
+    @GetMapping("{userId}/application/getWishList/{appTypeInt}")
+    public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long appTypeInt){
+        String applicationType = "ERASMUS";
+        if( appTypeInt == 1){
+            applicationType = "EXCHANGE";
+        }
+
+        return applicationService.getCourseWishList(userId,applicationType);
     }
 
     //CourseWishList
     @PostMapping("/{userId}/courseWishList/add/{wlId}")
     public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody AddWishDao addWishDao) {
-        Wish wish = new Wish(addWishDao.getIntent(),addWishDao.getStanding(),addWishDao.getSyllabus());
-        HostCourse hostCourse = new HostCourse(addWishDao.getHostEcts_credit(),addWishDao.getHostCourseName(),addWishDao.getHostCourseCode());
-        HostUniversity hostUniversity = new HostUniversity();
-        //TODO
-//        hostCourse = hostCourseService.createIfNotExistOrReturn(hostCourse,hostUniversity);
-        BilkentCourse bilkentCourse = new BilkentCourse(addWishDao.getBilkentEcts_credit(),addWishDao.getBilkentCourseName(),addWishDao.getBilkentCourseCode(),addWishDao.getBilkentCourseType());
-
-        return courseWishListService.addWishToCourseWishList(wlId,wish);
+        return courseWishListService.addWishToCourseWishList(userId, wlId,addWishDao);
     }
     @GetMapping("{userId}/courseWishList/getAllWishes/{wlId}")
     public List<Wish> getAllWishes(@PathVariable Long userId, @PathVariable Long wlId){
@@ -139,11 +136,11 @@ public class GeneralController {
         return courseWishListService.updateWish( wlId,wishId, wish);
     }
 
-    @PostMapping("/{userId}/courseWishList/addWithList/{wlId}")
+    @PostMapping("/{userId}/courseWishList/addWishesToList/{wlId}")
     public boolean addWishesToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
         return courseWishListService.addWishes(wlId,wishes);
     }
-    @GetMapping("/{userId}/courseWishList/getPreApprocal/{wlId}")
+    @GetMapping("/{userId}/courseWishList/getPreApproval/{wlId}")
     public Form getPreApproval(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
         return courseWishListService.getPreApproval(wlId);
     }

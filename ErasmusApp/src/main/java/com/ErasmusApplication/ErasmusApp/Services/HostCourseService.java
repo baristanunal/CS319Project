@@ -29,7 +29,7 @@ public class HostCourseService {
         ));
     }
     public HostCourse createIfNotExistOrReturn(HostCourse hostCourse, HostUniversity hostUniversity) {
-        Boolean exist = hostCourseRepository.existsByNameOfCourse(hostCourse.getNameOfCourse());
+        Boolean exist = hostCourseRepository.existsByHostUniversity_NameOfInstitutionAndNameOfCourse(hostUniversity.getNameOfInstitution(),hostCourse.getNameOfCourse());
 
         if (exist){
             return getHostCourseByName(hostCourse.getNameOfCourse());

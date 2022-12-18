@@ -108,7 +108,12 @@ public class Application {
         this.appliedAcademicSemester = application.appliedAcademicSemester;
     }
 
-
+    public String getNameOfPlacedHostUniversity(){
+        if(placedHostUniversity == null){
+            return "not placed";
+        }
+        return placedHostUniversity.getNameOfInstitution();
+    }
 
     public void addPreferredUniversity(String preferredUniversity){
         preferredUniversities.add(preferredUniversity);
