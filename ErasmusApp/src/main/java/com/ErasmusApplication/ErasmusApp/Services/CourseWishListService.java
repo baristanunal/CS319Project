@@ -18,7 +18,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CourseWishListService {
 
-    CourseWishListRepository courseWishListRepository;
+    private final CourseWishListRepository courseWishListRepository;
+    private final PreApprovalService preApprovalService;
 
     public CourseWishList saveCourseWishList(CourseWishList courseWishList, Application application){
         courseWishList.setApplication(application);
@@ -97,13 +98,19 @@ public class CourseWishListService {
     /**
      * Methods for PreApproval
      * */
-//    public Application addPreApproval(Long appId, PreApproval preApproval){//Works
-//        Application app = getApplication(appId);
-//        app.setPreApproval(preApproval);
-//        return app;
-//    }
+    public PreApproval addEmptyPreApproval(Long wlId){//Works
+        CourseWishList courseWishList = getCourseWishList(wlId);
+
+        PreApproval preApproval = new PreApproval();
+
+        return preApprovalService.savePreApprovalToCourseWishList(preApproval,courseWishList);
+    }
     public Form getPreApproval(Long wlId){ //Works
         CourseWishList courseWishList = getCourseWishList(wlId);
-        return courseWishList.getPreApproval();
+        PreApproval preApproval = courseWishList.getPreApproval();
+        if(preApproval == null){
+            return addEmptyPreApproval(wlId);
+        }
+        return preApproval;
     }
 }

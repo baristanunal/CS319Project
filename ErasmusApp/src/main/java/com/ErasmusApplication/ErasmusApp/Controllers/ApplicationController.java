@@ -16,9 +16,9 @@ public class ApplicationController {
     }
 
     //TODO type of return
-    @PostMapping("/remove/{applicationId}")
-    public void removeApplication(@PathVariable Long applicationId){
-        applicationService.removeApplication(applicationId);
+    @PostMapping("/{userId]/remove/{applicationId}")
+    public void removeApplication(@PathVariable Long userId, @PathVariable Long applicationId){
+        applicationService.removeApplication(userId,applicationId);
     }
 
 
