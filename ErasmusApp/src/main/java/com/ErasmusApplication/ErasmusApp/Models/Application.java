@@ -25,7 +25,7 @@ public class Application {
     private HostUniversity placedHostUniversity;
     @JsonIgnore
     @Transient
-    private List<HostUniversity> preferredUniversities; //TODO solve this problem, where to store it
+    private List<String> preferredUniversities; //TODO solve this problem, where to store it
 
 //    @JsonIgnore
 //    @OneToMany(
@@ -68,7 +68,7 @@ public class Application {
         this.appliedAcademicSemester = appliedAcademicSemester;
     }
 
-    public Application(Student student, boolean isPlaced, boolean isInWaitingBin, List<HostUniversity> preferredUniversities, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester){
+    public Application(Student student, boolean isPlaced, boolean isInWaitingBin, List<String> preferredUniversities, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester){
       this.student = student;
       this.isPlaced = isPlaced;
       this.isInWaitingBin = isInWaitingBin;
@@ -94,10 +94,10 @@ public class Application {
         return  courseWishlist.getTotalPoints();
     }
 
-    public boolean checkExistenceOfPreferredUni(Long uniId){
-        Iterator<HostUniversity> iterator = preferredUniversities.iterator();
+    public boolean checkExistenceOfPreferredUni(String hostUniName){
+        Iterator<String> iterator = preferredUniversities.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next().getId().equals(uniId) ){
+            if(  iterator.next().equals(hostUniName) ){
                 return true;
             }
         }
@@ -119,12 +119,11 @@ public class Application {
 
 
 
-    public void addPreferredUniversity(HostUniversity preferredUniversity){
+    public void addPreferredUniversity(String preferredUniversity){
         preferredUniversities.add(preferredUniversity);
     }
-    public void addAllPreferredUniversities(List<HostUniversity> preferredUniversity){
-        for ( HostUniversity uni: preferredUniversity
-             ) {
+    public void addAllPreferredUniversities(List<String> preferredUniversity){
+        for ( String uni: preferredUniversity) {
             preferredUniversities.add(uni);
         }
     }
@@ -132,9 +131,9 @@ public class Application {
         preferredUniversities.remove(preferredUniversity);
     }
     public void removePreferredUniversityByName(String universityName) {
-        Iterator<HostUniversity> iterator = preferredUniversities.iterator();
+        Iterator<String> iterator = preferredUniversities.iterator();
         while (iterator.hasNext()) {
-            if(iterator.next().getNameOfInstitution().equals(universityName) ){
+            if(iterator.next().equals(universityName) ){
                 iterator.remove();
             }
         }

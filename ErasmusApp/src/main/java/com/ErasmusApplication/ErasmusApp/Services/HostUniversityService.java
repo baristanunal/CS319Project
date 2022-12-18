@@ -63,9 +63,9 @@ public class HostUniversityService {
         host.addPlacedApplication(app);
     }
 
-  public void apa(HostUniversity h, Application app) {
-      HostUniversity host = getHostUniByName(h.getNameOfInstitution());
-    app.setPlacedHostUniversity(host);
-    host.addPlacedApplication(app);
+  public void connectApplicationHostUniversity(String hostUniversityName, Application app) {
+      HostUniversity host = getHostUniByName(hostUniversityName);
+      app.setPlacedHostUniversity(host);
+      host.addPlacedApplication(app);
   }
 }

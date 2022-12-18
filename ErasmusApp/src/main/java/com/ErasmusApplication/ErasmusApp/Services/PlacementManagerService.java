@@ -65,9 +65,8 @@ public class PlacementManagerService {
       double totalPoints;
       String hostUniversityName;
       String durationPreferred;
-      String standardizedSemesterCode = null;
-      HostUniversity hostUniversity;
-      List<HostUniversity> preferredUniversities = new ArrayList<>();
+      String standardizedSemesterCode;
+      List<String> preferredUniversities = new ArrayList<>();
 
       XSSFRow row = worksheet.getRow(i);
 
@@ -98,9 +97,9 @@ public class PlacementManagerService {
         if( hostUniversityName.equals("") ){
           break;
         }
-        hostUniversity = new HostUniversity(hostUniversityName);
-        preferredUniversities.add(hostUniversity);
+        preferredUniversities.add(hostUniversityName);
       }
+
       /*
       // Set preferred university #1.
       hostUniversityName = row.getCell(22).getStringCellValue();
@@ -170,22 +169,21 @@ public class PlacementManagerService {
       }
 
  */
-      List<HostUniversity> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
+      List<String> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
 
       for( int j = 0; j < curPreferredUniversities.size(); j++ ){
 
-        int curQuota = quotas.get( curPreferredUniversities.get(j).getNameOfInstitution() );
+        int curQuota = quotas.get( curPreferredUniversities.get(j) );
 
         if( curQuota > 0 ){
 
           // 2.T.1 Update quota.
           curQuota--;
-          quotas.put( curPreferredUniversities.get(j).getNameOfInstitution(), curQuota );
+          quotas.put( curPreferredUniversities.get(j), curQuota );
 
           // 2.T.2 Set placed university of the current application.
-          // TODO: Do not create HostUniversity objects for preferred universities, instead use Strings.
-          //allApplications.get(i).setPlacedHostUniversity( curPreferredUniversities.get(j) );
-          //hostUniversityService.apa(curPreferredUniversities.get(j), allApplications.get(i));
+          hostUniversityService.connectApplicationHostUniversity(curPreferredUniversities.get(j), allApplications.get(i));
+
           // 2.T.3 Add application to the main list.
           mainList.add( allApplications.get(i) );
           allApplications.get(i).setPlaced( true );

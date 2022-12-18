@@ -100,13 +100,12 @@ public class ApplicationService {
 
     public Application addPreferredUni(Long appId, String nameOfUni){
         Application app = getApplication(appId);
-        HostUniversity uni = hostUniversityService.getHostUniByName(nameOfUni);
-        app.addPreferredUniversity(uni);
-        return  app;
+        app.addPreferredUniversity(nameOfUni);
+        return app;
     }
-    public List<HostUniversity> getPreferredUniversities(Long appId){
+    public List<String> getPreferredUniversities(Long appId){
         Application app = getApplication(appId);
-        return  app.getPreferredUniversities();
+        return app.getPreferredUniversities();
     }
 
     /**
