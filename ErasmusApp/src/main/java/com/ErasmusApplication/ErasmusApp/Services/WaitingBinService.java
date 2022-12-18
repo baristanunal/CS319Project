@@ -12,9 +12,8 @@ import javax.transaction.Transactional;
 @AllArgsConstructor
 public class WaitingBinService {
 
-  WaitingBinRepository waitingBinRepository;
+  public WaitingBinRepository waitingBinRepository;
 
-  WaitingBinService(){}
 
   public WaitingBin saveWaitingBin(WaitingBin waitingBin ){
     return waitingBinRepository.save(waitingBin);

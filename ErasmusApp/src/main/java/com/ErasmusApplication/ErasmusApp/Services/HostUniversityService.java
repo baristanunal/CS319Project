@@ -34,6 +34,7 @@ public class HostUniversityService {
     }
 
     public HostUniversity getHostUniByName(String nameOfUni){
+      System.out.println(nameOfUni);
         return hostUniversityRepository.findByNameOfInstitution(nameOfUni)
                 .orElseThrow(() -> new IllegalStateException(
                         "HostUniversityRepository with name: " + nameOfUni + " does not exist."
@@ -61,4 +62,10 @@ public class HostUniversityService {
         app.setPlacedHostUniversity(host);
         host.addPlacedApplication(app);
     }
+
+  public void apa(HostUniversity h, Application app) {
+      HostUniversity host = getHostUniByName(h.getNameOfInstitution());
+    app.setPlacedHostUniversity(host);
+    host.addPlacedApplication(app);
+  }
 }

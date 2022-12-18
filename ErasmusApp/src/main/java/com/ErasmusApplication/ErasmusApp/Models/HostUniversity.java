@@ -21,10 +21,10 @@ public class HostUniversity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "placedHostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Application> placedApplications = new ArrayList<>();
+    private List<Application> placedApplications ;
     @JsonIgnore
     @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HostCourse> hostCourses = new ArrayList<>();
+    private List<HostCourse> hostCourses ;
     @JsonIgnore
     @OneToMany(mappedBy = "hostUniversity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HostUniversityDepartment> departments = new ArrayList<>();

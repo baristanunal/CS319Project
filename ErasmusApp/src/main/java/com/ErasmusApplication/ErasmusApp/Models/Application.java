@@ -21,7 +21,7 @@ public class Application {
     @ManyToOne( fetch = FetchType.LAZY)
     private Student student;
 
-    @ManyToOne
+    @ManyToOne( )
     private HostUniversity placedHostUniversity;
     @JsonIgnore
     @Transient

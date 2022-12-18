@@ -31,6 +31,7 @@ public class PlacementManagerService {
 
   // Properties
   StudentService studentService;
+  HostUniversityService hostUniversityService;
   HostUniversityDepartmentService hostUniversityDepartmentService;
   UserClassService userClassService;
   PlacementTableService placementTableService;
@@ -182,8 +183,9 @@ public class PlacementManagerService {
           quotas.put( curPreferredUniversities.get(j).getNameOfInstitution(), curQuota );
 
           // 2.T.2 Set placed university of the current application.
-          allApplications.get(i).setPlacedHostUniversity( curPreferredUniversities.get(j) );
-
+          // TODO: Do not create HostUniversity objects for preferred universities, instead use Strings.
+          //allApplications.get(i).setPlacedHostUniversity( curPreferredUniversities.get(j) );
+          //hostUniversityService.apa(curPreferredUniversities.get(j), allApplications.get(i));
           // 2.T.3 Add application to the main list.
           mainList.add( allApplications.get(i) );
           allApplications.get(i).setPlaced( true );
@@ -207,10 +209,6 @@ public class PlacementManagerService {
 
   public void getDataAndPlaceStudents( MultipartFile reapExcelDataFile, String academicYear, String applicationType, String departmentName ){
 
-    WaitingBin waitingBin = waitingBinService.saveWaitingBin( new WaitingBin() );
-    PlacementTable mainList = placementTableService.savePlacementTable(new PlacementTable());
-    System.out.println( "Main List: " + mainList);
-
     List<Application> allApplications = new ArrayList<>();
     List<List<Application>> combinedList;
     List<DepartmentErasmusCoordinator> coordinators;
@@ -219,7 +217,19 @@ public class PlacementManagerService {
     coordinators = userClassService.getCoordinatorsByDepartment( departmentName );
     PlacementManager placementManager = new PlacementManager( coordinators );
 
-    // 2. Import data from Excel file.
+    // 2. Create mainList and waitingBin and set managers.
+    PlacementTable mainList = new PlacementTable();
+    mainList.setPlacementManager(placementManager);
+    mainList.setId(placementManager.getId());
+    placementTableService.savePlacementTable(mainList);
+
+    WaitingBin waitingBin = new WaitingBin();
+    waitingBin.setPlacementManager(placementManager);
+    waitingBin.setId(waitingBin.getId());
+    waitingBinService.saveWaitingBin(waitingBin);
+    System.out.println( "Main List: " + mainList);
+
+    // 3. Import data from Excel file.
     try{
       allApplications = importApplicationsFromExcel( reapExcelDataFile, academicYear, applicationType );
       if(allApplications == null){
@@ -233,23 +243,19 @@ public class PlacementManagerService {
       System.out.println("Could not match semester name in one of the rows in the Excel file.");
     }
 
-    // 3. Place students.
+    // 4. Place students.
     combinedList = placeStudents( allApplications, departmentName );
-    //mainList.addApplications( combinedList.get(0) );      // main list
-    //waitingBin.addApplications( combinedList.get(1) );    // waiting bin
 
     List<Application> mainApplications = combinedList.get(0);
-    List<Application> backupApplications = combinedList.get(1);
+    List<Application> waitingApplications = combinedList.get(1);
 
-    /*
     for( int i = 0; i < mainApplications.size(); i++ ){
-      placementTableService.addApplicationToPlacementTable( mainList, mainApplications.get(i) );
+      mainApplications.get(i).setPlacementTable( mainList );
     }
-     */
 
-    // 4. Set placement managers.
-    mainList.setPlacementManager( placementManager );
-    waitingBin.setPlacementManager( placementManager );
+    for( int i = 0; i < waitingApplications.size(); i++ ){
+      waitingApplications.get(i).setWaitingBin( waitingBin );
+    }
 
     System.out.println("Finished getDataAndPlaceStudents.");
 

@@ -16,7 +16,6 @@ public class PlacementTableService {
 
   PlacementTableRepository placementTableRepository;
 
-  PlacementTableService(){}
 
   public PlacementTable savePlacementTable( PlacementTable placementTable ){
     return placementTableRepository.save( placementTable );
