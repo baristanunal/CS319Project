@@ -52,7 +52,7 @@ public class Application {
 
 
     private String applicationType;
-    @Transient
+
     private Double totalPoints;
     private String appliedAcademicSemester;
     private boolean isPlaced;
@@ -84,15 +84,6 @@ public class Application {
         this.isInWaitingBin = true;
     }
 
-
-    public Double getTotalPoints() {
-        //TODO TODO
-        // get from wishlist
-        if( courseWishlist == null){
-            return  0.0;
-        }
-        return  courseWishlist.getTotalPoints();
-    }
 
     public boolean checkExistenceOfPreferredUni(String hostUniName){
         Iterator<String> iterator = preferredUniversities.iterator();

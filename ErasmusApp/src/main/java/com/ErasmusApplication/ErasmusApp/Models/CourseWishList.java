@@ -40,19 +40,19 @@ public class CourseWishList {
     private boolean isCompleted;
     //TODO @Transient
     @Transient
-    private Double totalCredit;
+    private double totalCredit;
 
     public CourseWishList() {
     }
 
-    public Double getTotalPoints() {
+    public double getTotalPoints() {
         if(wishes == null){
             return 0.0;
         }
-        Double sum = 0.0;
+        double sum = 0.0;
 
         for (int i = 0; i < wishes.size(); i++){
-            sum = sum + wishes.get(i).getECTS();
+            sum = sum + wishes.get(i).takeECTS();
         }
         return  sum;
     }

@@ -31,21 +31,13 @@ public class Wish {
     @ManyToOne
     private CourseWishList courseWishList;
 
-
-    public Double getHostCourseCredit(){
-        if( courseToCountAsBilkentCourse == null){
-            return 0.0;
-        }
-        return courseToCountAsBilkentCourse.getECTS_credit();
-    }
-
     public void setAll(Wish wish) {
         this.intent = wish.getIntent();
         this.standing = wish.getStanding();
         this.syllabus = wish.getSyllabus();
     }
 
-    public Double getECTS(){
+    public double takeECTS(){
         if(courseToCountAsBilkentCourse == null){
             return 0.0;
         }
