@@ -20,11 +20,9 @@ public class Wish {
     private String standing;
     private String syllabus;
 
-    @JsonIgnore
     @ManyToOne
     private BilkentCourse bilkentCourse;
 
-    @JsonIgnore
     @ManyToOne
     private HostCourse courseToCountAsBilkentCourse;
 
