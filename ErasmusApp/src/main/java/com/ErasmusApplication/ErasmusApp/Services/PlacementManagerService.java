@@ -252,12 +252,6 @@ public class PlacementManagerService {
     // 3. Import data from Excel file.
     try{
       allApplications = importApplicationsFromExcel( reapExcelDataFile, academicYear, applicationType );
-      if(allApplications == null){
-        System.out.println("allApplications is NULL.");
-      }
-      else {
-        System.out.println("allApplications is not NULL.");
-      }
     } catch (NoSuchSemesterException | IOException e ) {
       // TODO: Send warning message to frontend.
       System.out.println("Could not match semester name in one of the rows in the Excel file.");
@@ -277,12 +271,13 @@ public class PlacementManagerService {
       waitingApplications.get(i).setWaitingBin( waitingBin );
     }
 
-    System.out.println("Finished getDataAndPlaceStudents.");
-
   }
 
+  public PlacementManager getPlacementManagerById(  ){
 
 
+    
+  }
 
 
 }

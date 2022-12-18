@@ -57,6 +57,9 @@ public class Application {
     private String appliedAcademicSemester;
     private boolean isPlaced;
     private boolean isInWaitingBin;
+    @Transient
+    private String name;
+
 
     public Application(Student student, boolean isPlaced, boolean isInWaitingBin, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester) {
         this.student = student;
@@ -83,6 +86,10 @@ public class Application {
         this.isPlaced = false;
         this.isInWaitingBin = true;
     }
+
+  String getName(){
+    return student.getFirstName();
+  }
 
 
     public boolean checkExistenceOfPreferredUni(String hostUniName){
@@ -133,8 +140,8 @@ public class Application {
                 iterator.remove();
             }
         }
-
     }
+
 
 
     //TODO if is not placed the we should not get hostUniversity

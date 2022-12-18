@@ -2,6 +2,7 @@ package com.ErasmusApplication.ErasmusApp.Controllers;
 
 import com.ErasmusApplication.ErasmusApp.DataOnly.PlacementManagerDao;
 import com.ErasmusApplication.ErasmusApp.Models.PlacementManager;
+import com.ErasmusApplication.ErasmusApp.Models.PlacementTable;
 import com.ErasmusApplication.ErasmusApp.Security.AuthenticationRequest;
 import com.ErasmusApplication.ErasmusApp.Services.PlacementManagerService;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,11 @@ public class PlacementManagerController {
     placementManagerService.getDataAndPlaceStudents( reapExcelDataFile, data.getAcademicYear(), data.getApplicationType(), data.getDepartmentName() );
   }
 
+  @PostMapping("/getPlacementManager")
+  public PlacementManager getPlacementTable(){
+    placementManagerService.
+  }
+
   /*
   @PostMapping("/getDataFromExcel")
   public void getDataAndPlaceStudents( @RequestBody String departmentName){
@@ -29,11 +35,5 @@ public class PlacementManagerController {
     System.out.println("Get data from Excel.");
   }
   */
-
-
-  @PostMapping("/testExcel")
-  public void testFunc(@RequestParam("file") MultipartFile reapExcelDataFile ){
-    System.out.println("Test.");
-  }
 
 }
