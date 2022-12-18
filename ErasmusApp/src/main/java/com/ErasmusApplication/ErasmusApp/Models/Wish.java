@@ -39,6 +39,15 @@ public class Wish {
         return courseToCountAsBilkentCourse.getECTS_credit();
     }
 
+    public Wish() {
+    }
+
+    public Wish(String intent, String standing, String syllabus) {
+        this.intent = intent;
+        this.standing = standing;
+        this.syllabus = syllabus;
+    }
+
     public void setAll(Wish wish) {
         this.intent = wish.getIntent();
         this.standing = wish.getStanding();

@@ -1,13 +1,9 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
+import com.ErasmusApplication.ErasmusApp.DataOnly.AddWishDao;
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Security.JwtUtils;
-import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
-import com.ErasmusApplication.ErasmusApp.Services.CourseWishListService;
-import com.ErasmusApplication.ErasmusApp.Services.StudentService;
-import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
-import com.ErasmusApplication.ErasmusApp.TempClasses.RoleToUserForm;
-import io.jsonwebtoken.Claims;
+import com.ErasmusApplication.ErasmusApp.Services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +20,8 @@ public class GeneralController {
     private final JwtUtils jwtUtils;
     private final ApplicationService applicationService;
     private final CourseWishListService courseWishListService;
+//    private final HostCourseService hostCourseService;
+//    private final HostUniversityService hostUniversityService;
     //TODO TODO
     //TODO TODO
     // TODO add role check for all methods
@@ -116,7 +114,14 @@ public class GeneralController {
 
     //CourseWishList
     @PostMapping("/{userId}/courseWishList/add/{wlId}")
-    public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody Wish wish) {
+    public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody AddWishDao addWishDao) {
+        Wish wish = new Wish(addWishDao.getIntent(),addWishDao.getStanding(),addWishDao.getSyllabus());
+        HostCourse hostCourse = new HostCourse(addWishDao.getHostEcts_credit(),addWishDao.getHostCourseName(),addWishDao.getHostCourseCode());
+        HostUniversity hostUniversity = new HostUniversity();
+        //TODO
+//        hostCourse = hostCourseService.createIfNotExistOrReturn(hostCourse,hostUniversity);
+        BilkentCourse bilkentCourse = new BilkentCourse(addWishDao.getBilkentEcts_credit(),addWishDao.getBilkentCourseName(),addWishDao.getBilkentCourseCode(),addWishDao.getBilkentCourseType());
+
         return courseWishListService.addWishToCourseWishList(wlId,wish);
     }
     @GetMapping("{userId}/courseWishList/getAllWishes/{wlId}")

@@ -27,11 +27,11 @@ public class CourseWishList {
 
     @JsonIgnore
     @OneToOne(mappedBy = "courseWishList", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PreApproval preApproval;
+    private Form preApproval;
 
     @JsonIgnore
     @OneToOne(mappedBy = "courseWishList", cascade = CascadeType.ALL, orphanRemoval = true)
-    private CourseTransfer courseTransfer;
+    private Form courseTransfer;
 
     @JsonIgnore
     @OneToOne(orphanRemoval = true)

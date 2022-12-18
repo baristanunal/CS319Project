@@ -107,10 +107,11 @@ public class CourseWishListService {
     }
     public Form getPreApproval(Long wlId){ //Works
         CourseWishList courseWishList = getCourseWishList(wlId);
-        PreApproval preApproval = courseWishList.getPreApproval();
-        if(preApproval == null){
-            return addEmptyPreApproval(wlId);
-        }
-        return preApproval;
+//        PreApproval preApproval = courseWishList.getPreApproval();
+//        if(preApproval == null){
+//            return addEmptyPreApproval(wlId);
+//        }
+//        return preApproval;
+        return new Form();
     }
 }

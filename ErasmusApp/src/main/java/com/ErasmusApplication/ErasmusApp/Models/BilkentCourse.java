@@ -22,6 +22,9 @@ public class BilkentCourse extends Course {
     @ManyToMany(mappedBy = "bilkentCourse")
     private List<BilkentCourse> prerequisites;
 
+    private String courseType;
+
+
 //    @JsonIgnore
 //    @ManyToMany
 //    @JoinTable(name = "corresponding_bilkent-host_courses",
@@ -51,7 +54,8 @@ public class BilkentCourse extends Course {
 
 
     public BilkentCourse(Double ECTS_credit, String nameOfCourse, String courseCode, String courseType) {
-        super(ECTS_credit, nameOfCourse, courseCode, courseType);
+        super(ECTS_credit, nameOfCourse, courseCode);
+        this.courseType =courseType;
     }
 
     public BilkentCourse() {
