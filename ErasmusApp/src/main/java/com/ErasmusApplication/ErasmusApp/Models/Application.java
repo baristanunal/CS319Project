@@ -145,5 +145,11 @@ public class Application {
     // Possible solution: If the student is not placed, then we can make HostUniversity null.
 
 
+    public String getApplicationType() {
+        return applicationType;
+    }
 
+    public void setApplicationType(String applicationType) {
+        this.applicationType = applicationType;
+    }
 }
