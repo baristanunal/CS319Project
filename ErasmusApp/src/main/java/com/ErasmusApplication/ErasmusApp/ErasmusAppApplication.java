@@ -3,6 +3,7 @@ package com.ErasmusApplication.ErasmusApp;
 
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
+import com.ErasmusApplication.ErasmusApp.Services.PdfGenerationService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.itextpdf.text.DocumentException;
 import org.springframework.boot.CommandLineRunner;
@@ -24,8 +25,6 @@ import java.net.URISyntaxException;
 public class ErasmusAppApplication {
 	public static void main(String[] args) throws DocumentException, IOException, URISyntaxException {
 		SpringApplication.run(ErasmusAppApplication.class, args);
-//		PdfGeneration pdfGeneration = new PdfGeneration();
-//		pdfGeneration.createPdf();
 	}
 
 	@Bean
