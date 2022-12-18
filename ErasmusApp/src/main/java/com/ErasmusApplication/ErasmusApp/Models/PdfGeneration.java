@@ -1,25 +1,43 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
-
+import java.util.List;
+import com.ErasmusApplication.ErasmusApp.Services.StudentService;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
+import javax.transaction.Transactional;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.apache.poi.ss.util.CellUtil.BORDER_LEFT;
-import static org.apache.poi.ss.util.CellUtil.getCell;
-
-
+@Service
+@Transactional
+// ahmete: all args hata veriyor silmek zorunda kaldım
 public class PdfGeneration {
+    private StudentService studentService;
+
+    private void  aa(){
+        long x = 1;
+        Student student = studentService.getStudent(x);
+        Application application= studentService.getApplicationByApplicationType(x,"ERASMUS");
+        CourseWishList courseWishList = application.getCourseWishlist();
+//        if( courseWishList.isCompleted()){
+//
+//        }
+
+        List<Wish> wishes = courseWishList.getWishes();
+        Course bilk = wishes.get(0).getBilkentCourse();
+        Course host = wishes.get(0).getCourseToCountAsBilkentCourse();
+
+
+
+    }
     public void createPdf() throws IOException, DocumentException, URISyntaxException {
         Document document = new Document(PageSize.A4.rotate(), 50, 50, 50, 50);
         PdfWriter.getInstance(document, new FileOutputStream("D://myFile.pdf"));
@@ -140,7 +158,7 @@ public class PdfGeneration {
         hostHeader.addCell(hostCell4);
 
         // Bilkent Table
-        PdfPTable bilkentHeader = new PdfPTable(4);
+        PdfPTable bilkentHeader = new PdfPTable(3);
         PdfPCell bilkentCell1 = new PdfPCell();
         PdfPCell bilkentCell2 = new PdfPCell();
         PdfPCell bilkentCell3 = new PdfPCell();
@@ -155,6 +173,69 @@ public class PdfGeneration {
 
 
         // Create courses that will be transferred
+        int courseNumber  = 1; // will be replaced
+        for(int i = 1; i <= courseNumber; i++){
+            String rowNumber = i + "";
+
+            // Host Courses
+            PdfPCell newHostCell1 = new PdfPCell();
+            PdfPCell newHostCell2 = new PdfPCell();
+            PdfPCell newHostCell3 = new PdfPCell();
+            PdfPCell newHostCell4 = new PdfPCell();
+            newHostCell1.addElement(new Chunk(rowNumber, font12));
+            newHostCell2.addElement(new Chunk("INF4032", font12));
+            newHostCell3.addElement(new Chunk("Computer Networks",font12));
+            newHostCell4.addElement(new Chunk("3.0",font12));
+            hostHeader.addCell(newHostCell1);
+            hostHeader.addCell(newHostCell2);
+            hostHeader.addCell(newHostCell3);
+            hostHeader.addCell(newHostCell4);
+
+            // Bilkent Courses
+            PdfPCell newBilkentCell1 = new PdfPCell();
+            PdfPCell newBilkentCell2 = new PdfPCell();
+            PdfPCell newBilkentCell3 = new PdfPCell();
+            newBilkentCell1.addElement(new Chunk("Technical Elective", font12));
+            newBilkentCell2.addElement(new Chunk("3", font12));
+            newBilkentCell3.addElement(new Chunk("CS421",font12));
+            bilkentHeader.addCell(newBilkentCell1);
+            bilkentHeader.addCell(newBilkentCell2);
+            bilkentHeader.addCell(newBilkentCell3);
+        }
+
+        // Create the approved by table
+        PdfPTable tableApp = new PdfPTable(4);
+        tableApp.setSpacingBefore(15);
+        tableApp.setHorizontalAlignment(Element.ALIGN_LEFT);
+
+        PdfPCell appCell1 = new PdfPCell();
+        PdfPCell appCell2 = new PdfPCell();
+        PdfPCell appCell3 = new PdfPCell();
+        PdfPCell appCell4 = new PdfPCell();
+        PdfPCell appCell5 = new PdfPCell();
+        PdfPCell appCell6 = new PdfPCell();
+        PdfPCell appCell7 = new PdfPCell();
+        PdfPCell appCell8 = new PdfPCell();
+
+        appCell1.addElement(new Chunk("Approved by",font12));
+        appCell2.addElement(new Chunk("Name",font12));
+        appCell3.addElement(new Chunk("Signature",font12));
+        appCell4.addElement(new Chunk("Date",font12));
+        appCell5.addElement(new Chunk("Exchange Coordinator",font12));
+        appCell6.addElement(new Chunk("Can Alkan",font12));
+        appCell7.addElement(new Chunk("imzaa",font12));
+        appCell8.addElement(new Chunk("18.12.2022",font12));
+
+        tableApp.addCell(appCell1);
+        tableApp.addCell(appCell2);
+        tableApp.addCell(appCell3);
+        tableApp.addCell(appCell4);
+        tableApp.addCell(appCell5);
+        tableApp.addCell(appCell6);
+        tableApp.addCell(appCell7);
+        tableApp.addCell(appCell8);
+
+
 
 
 
@@ -169,7 +250,8 @@ public class PdfGeneration {
         table4.addCell(hostHeader);
         table4.addCell(bilkentHeader);
         document.add(table4);
-        //document.add(table5);
+        document.add(tableApp);
+
 
         document.close(); // document is closes
     }

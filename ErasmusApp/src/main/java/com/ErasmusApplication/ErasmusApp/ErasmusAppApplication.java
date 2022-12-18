@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 @SpringBootApplication
 @RestController
 @EnableConfigurationProperties({
-		FileStorageProperties.class 
+		FileStorageProperties.class
 })
 public class ErasmusAppApplication {
 	public static void main(String[] args) throws DocumentException, IOException, URISyntaxException {
