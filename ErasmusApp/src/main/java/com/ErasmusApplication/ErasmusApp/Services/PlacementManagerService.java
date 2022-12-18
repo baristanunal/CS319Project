@@ -40,22 +40,16 @@ public class PlacementManagerService {
 
   // Methods
 
-  /* CONTRACTS:
-    *  
+  /* CONTRACT:
+    PRE-CONDITIONS:
+      * International Students Office uploads a valid Excel file.
+      * The academic year of the score table is known and passed as parameter in the form YEAR-YEAR/SEMESTER (e.g. 2022-2023/FALL).
+      * The application type is known and passed as parameter (ERASMUS or EXCHANGE).
+      * The column order is correct and is the same with the sample score table on https://www.cs.bilkent.edu.tr/~calkan/erasmus/.
+    POST-CONDITIONS:
+      * List of all Application objects are returned which will be used in placeStudents() function.
   */
   public List<Application> importApplicationsFromExcel( MultipartFile reapExcelDataFile, String academicYear, String applicationType) throws NoSuchSemesterException, IOException {
-
-    /*
-    List<Application> applicationList = new ArrayList<Application>();
-    XSSFWorkbook workbook = null;
-    XSSFSheet worksheet;
-    try{
-      workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
-    } catch (IOException e ) {
-      // TODO: Send warning to frontend.
-      System.out.println("Could not read Excel workbook");
-    }
-    */
 
     List<Application> applicationList = new ArrayList<Application>();
     XSSFWorkbook workbook = new XSSFWorkbook(reapExcelDataFile.getInputStream());
@@ -146,6 +140,14 @@ public class PlacementManagerService {
     return applicationList;
   }
 
+
+  /* CONTRACT:
+    PRE-CONDITIONS:
+      * A list of all applications is passed as parameter which contains Application objects.
+      * The abbreviated version of department name which represents the score table's department is passed as parameter (e.g. CS).
+    POST-CONDITIONS:
+      * List of two Lists are returned which contains the main list at index 0 and waiting bin at index 1.
+  */
   public List<List<Application>> placeStudents( List<Application> allApplications, String departmentName ){
 
     List<Application> mainList = new ArrayList<>();
@@ -214,7 +216,17 @@ public class PlacementManagerService {
     return combinedList;
   }
 
-
+  /* CONTRACT:
+      PRE-CONDITIONS:
+        * International Students Office uploads a valid Excel file.
+        * The academic year of the score table is known and passed as parameter in the form YEAR-YEAR/SEMESTER (e.g. 2022-2023/FALL).
+        * The application type is known and passed as parameter (ERASMUS or EXCHANGE).
+        * The column order is correct and is the same with the sample score table on https://www.cs.bilkent.edu.tr/~calkan/erasmus/.
+        * A list of all applications is passed as parameter which contains Application objects.
+        * The abbreviated version of department name which represents the score table's department is passed as parameter (e.g. CS).
+      POST-CONDITIONS:
+        * List of two Lists are returned which contains the main list at index 0 and waiting bin at index 1.
+    */
   public void getDataAndPlaceStudents( MultipartFile reapExcelDataFile, String academicYear, String applicationType, String departmentName ){
 
     List<Application> allApplications = new ArrayList<>();
