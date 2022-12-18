@@ -163,12 +163,7 @@ public class PlacementManagerService {
 
     // 2. Place students.
     for( int i = 0; i < allApplications.size(); i++ ){
-/*
-      for( int k = 0; k < allApplications.get(0).getPreferredUniversities().size(); k++ ){
-        System.out.println( allApplications.get(0).getPreferredUniversities().get(k) );
-      }
 
- */
       List<String> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
 
       for( int j = 0; j < curPreferredUniversities.size(); j++ ){
