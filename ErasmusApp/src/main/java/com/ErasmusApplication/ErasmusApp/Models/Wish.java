@@ -32,13 +32,6 @@ public class Wish {
     private CourseWishList courseWishList;
 
 
-    public Double getHostCourseCredit(){
-        if( courseToCountAsBilkentCourse == null){
-            return 0.0;
-        }
-        return courseToCountAsBilkentCourse.getECTS_credit();
-    }
-
     public Wish() {
     }
 
@@ -54,7 +47,7 @@ public class Wish {
         this.syllabus = wish.getSyllabus();
     }
 
-    public Double getECTS(){
+    public double takeECTS(){
         if(courseToCountAsBilkentCourse == null){
             return 0.0;
         }

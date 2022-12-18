@@ -1,7 +1,6 @@
 package com.ErasmusApplication.ErasmusApp;
 
 
-import com.ErasmusApplication.ErasmusApp.Models.PdfGeneration;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Services.ApplicationService;
 import com.ErasmusApplication.ErasmusApp.Services.StudentService;
@@ -14,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 

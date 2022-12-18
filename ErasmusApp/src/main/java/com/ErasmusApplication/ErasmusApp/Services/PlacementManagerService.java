@@ -39,6 +39,10 @@ public class PlacementManagerService {
   private final WaitingBinRepository waitingBinRepository;
 
   // Methods
+
+  /* CONTRACTS:
+    *  
+  */
   public List<Application> importApplicationsFromExcel( MultipartFile reapExcelDataFile, String academicYear, String applicationType) throws NoSuchSemesterException, IOException {
 
     /*
@@ -164,11 +168,18 @@ public class PlacementManagerService {
     // 2. Place students.
     for( int i = 0; i < allApplications.size(); i++ ){
 
+      System.out.println("\nApplication number #" + i );
+
       List<String> curPreferredUniversities = allApplications.get(i).getPreferredUniversities();
 
-      for( int j = 0; j < curPreferredUniversities.size(); j++ ){
+      boolean placed = false;
+      for( int j = 0; (j < curPreferredUniversities.size()) && !placed; j++ ){
+
+        System.out.print( curPreferredUniversities.get(j) );
 
         int curQuota = quotas.get( curPreferredUniversities.get(j) );
+
+        System.out.println( ", Quota: " + curQuota );
 
         if( curQuota > 0 ){
 
@@ -178,18 +189,22 @@ public class PlacementManagerService {
 
           // 2.T.2 Set placed university of the current application.
           hostUniversityService.connectApplicationHostUniversity(curPreferredUniversities.get(j), allApplications.get(i));
+          System.out.println( "PLACED: " + curPreferredUniversities.get(j) );
 
           // 2.T.3 Add application to the main list.
           mainList.add( allApplications.get(i) );
           allApplications.get(i).setPlaced( true );
           allApplications.get(i).setInWaitingBin( false );
+
+          placed = true;
         }
-        else{
-          // 2.F Add application to the waiting bin.
-          waitingBin.add( allApplications.get(i) );
-          allApplications.get(i).setPlaced( false );
-          allApplications.get(i).setInWaitingBin( true );
-        }
+      }
+      if( !placed ){
+        // 3.F Add application to the waiting bin.
+        waitingBin.add( allApplications.get(i) );
+        allApplications.get(i).setPlaced( false );
+        allApplications.get(i).setInWaitingBin( true );
+
       }
     }
 
