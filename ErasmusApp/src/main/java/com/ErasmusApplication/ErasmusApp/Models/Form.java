@@ -30,8 +30,11 @@ public class Form {
 
     //TODO add relation
     //TODO Add method to Create Update Remove List object
+
     @Transient
     private List<Wish> wishes;
+    //private List<Wish> wishes;
+
 
 
 
