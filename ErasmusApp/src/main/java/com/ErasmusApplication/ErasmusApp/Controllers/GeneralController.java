@@ -121,7 +121,7 @@ public class GeneralController {
     public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody AddWishDao addWishDao) {
         return courseWishListService.addWishToCourseWishList(userId, wlId,addWishDao);
     }
-    @GetMapping("{userId}/courseWishList/getAllWishes/{appTypeInt}")
+    @GetMapping("{userId}/courseWishList/getAllWishes/{wlId}")
     public List<Wish> getAllWishes(@PathVariable Long userId, @PathVariable Long wlId){
         return courseWishListService.getAllWishes(wlId);
     }
@@ -136,11 +136,11 @@ public class GeneralController {
         return courseWishListService.updateWish( wlId,wishId, wish);
     }
 
-    @PostMapping("/{userId}/courseWishList/addWithList/{wlId}")
+    @PostMapping("/{userId}/courseWishList/addWishesToList/{wlId}")
     public boolean addWishesToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
         return courseWishListService.addWishes(wlId,wishes);
     }
-    @GetMapping("/{userId}/courseWishList/getPreApprocal/{wlId}")
+    @GetMapping("/{userId}/courseWishList/getPreApproval/{wlId}")
     public Form getPreApproval(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody List<Wish>  wishes) {
         return courseWishListService.getPreApproval(wlId);
     }

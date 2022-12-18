@@ -17,6 +17,7 @@ public class ApplicationService {
     public final HostUniversityService hostUniversityService;
     public final CourseWishListService courseWishListService;
 
+    private final StudentService studentService;
     /**
      * Methods for CRUD of Applications
      */
@@ -150,7 +151,8 @@ public class ApplicationService {
     }
 
     public Long getAppId(Long userId, String appType) {
-        Application application= applicationRepository.findByStudent_IdAndStudent_Applications_ApplicationType(userId, appType);
+
+        Application application= studentService.getApplicationByApplicationType(userId,appType);
         return application.getId();
     }
 
