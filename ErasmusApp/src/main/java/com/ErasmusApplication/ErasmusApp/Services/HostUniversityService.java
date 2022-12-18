@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class HostUniversityService {
 
     HostUniversityRepository hostUniversityRepository;
+
 
     public HostUniversity saveHostUni(HostUniversity hostUniversity) {
         Optional<HostUniversity> hostUni = hostUniversityRepository.findByNameOfInstitution(hostUniversity.getNameOfInstitution());
@@ -33,12 +35,13 @@ public class HostUniversityService {
                 ));
     }
 
+    // TODO: Fix this method.
     public HostUniversity getHostUniByName(String nameOfUni){
-      System.out.println(nameOfUni);
         return hostUniversityRepository.findByNameOfInstitution(nameOfUni)
                 .orElseThrow(() -> new IllegalStateException(
                         "HostUniversityRepository with name: " + nameOfUni + " does not exist."
                 ));
+
     }
     public void updateNameOfHostUni(Long uniId,HostUniversity hostUniversity){
         HostUniversity host = getHostUni(uniId);

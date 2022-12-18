@@ -26,17 +26,15 @@ public class PlacementTable {
     )
     List<Application> applications;
 
-    private int a;
-
-    public PlacementTable() {
-      a = 3;
-    }
-
   public PlacementTable( List<Application> mainList ) {
 
   }
 
-    public PlacementManager getPlacementManager() {
+  public PlacementTable() {
+
+  }
+
+  public PlacementManager getPlacementManager() {
         return placementManager;
     }
 
