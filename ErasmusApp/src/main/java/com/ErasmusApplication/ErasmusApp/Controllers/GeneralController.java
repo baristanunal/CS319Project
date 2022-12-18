@@ -106,9 +106,14 @@ public class GeneralController {
         return applicationService.createEmptyCourseWishList(applicationId);
     }
 
-    @GetMapping("{userId}/application/getWishList/{applicationId}")
-    public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long applicationId){
-        return applicationService.getCourseWishList(userId,applicationId);
+    @GetMapping("{userId}/application/getWishList/{appTypeInt}")
+    public CourseWishList getCourseWishList(@PathVariable Long userId,@PathVariable Long appTypeInt){
+        String applicationType = "ERASMUS";
+        if( appTypeInt == 1){
+            applicationType = "EXCHANGE";
+        }
+
+        return applicationService.getCourseWishList(userId,applicationType);
     }
 
     //CourseWishList
@@ -116,7 +121,7 @@ public class GeneralController {
     public CourseWishList addWishToCourseWishList(@PathVariable Long userId, @PathVariable Long wlId, @RequestBody AddWishDao addWishDao) {
         return courseWishListService.addWishToCourseWishList(userId, wlId,addWishDao);
     }
-    @GetMapping("{userId}/courseWishList/getAllWishes/{wlId}")
+    @GetMapping("{userId}/courseWishList/getAllWishes/{appTypeInt}")
     public List<Wish> getAllWishes(@PathVariable Long userId, @PathVariable Long wlId){
         return courseWishListService.getAllWishes(wlId);
     }

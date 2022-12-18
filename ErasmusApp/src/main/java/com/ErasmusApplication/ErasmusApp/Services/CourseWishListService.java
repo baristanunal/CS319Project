@@ -64,6 +64,10 @@ public class CourseWishListService {
         courseWishList.addWish(wish);
         return courseWishList;//TODO
     }
+
+
+
+
     public List<Wish> getAllWishes(Long wlId){
         CourseWishList courseWishList= getCourseWishList(wlId);
         List<Wish> wishes = courseWishList.getWishes();
