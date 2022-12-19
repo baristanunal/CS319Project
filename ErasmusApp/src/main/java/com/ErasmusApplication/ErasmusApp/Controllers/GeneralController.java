@@ -146,8 +146,9 @@ public class GeneralController {
     }
 
     @GetMapping("/getPlacementManager")
-    public PlacementManager getPlacementManager(@RequestBody String schoold){
-        return departmentErasmusCoordinatorService.getPlacementManager(schoold);
+    public PlacementManager getPlacementManager(){
+        //TODO delete "3"
+        return departmentErasmusCoordinatorService.getPlacementManager("3");
 
     }
 //    @GetMapping("/{userId}}")

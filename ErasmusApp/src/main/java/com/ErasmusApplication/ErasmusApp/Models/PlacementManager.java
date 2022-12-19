@@ -1,6 +1,7 @@
 package com.ErasmusApplication.ErasmusApp.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import lombok.*;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 @Entity
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlacementManager {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
