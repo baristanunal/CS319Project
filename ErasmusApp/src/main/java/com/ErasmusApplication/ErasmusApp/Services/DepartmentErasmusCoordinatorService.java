@@ -1,8 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
-import com.ErasmusApplication.ErasmusApp.Models.DepartmentErasmusCoordinator;
-import com.ErasmusApplication.ErasmusApp.Models.PlacementManager;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.DepartmentErasmusCoordinatorRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +15,7 @@ import java.util.Optional;
 public class DepartmentErasmusCoordinatorService {
 
     DepartmentErasmusCoordinatorRepository departmentErasmusCoordinatorRepository;
-
+    ApplicationService applicationService;
     public DepartmentErasmusCoordinator saveDepartmentErasmusCoordinator(DepartmentErasmusCoordinator user) {
         DepartmentErasmusCoordinator depErCoord = departmentErasmusCoordinatorRepository.findBySchoolId(user.getSchoolId());
         System.out.println( "Dept. Erasmus Coordinator Id: " + user.getSchoolId());
@@ -48,5 +46,11 @@ public class DepartmentErasmusCoordinatorService {
     public PlacementManager getPlacementManager(String schoolId){
         DepartmentErasmusCoordinator coord = getBySchoolId(schoolId);
         return coord.getPlacementManager();
+    }
+
+    public void approvePreApproval(Long applicationId){
+        Application application = applicationService.getApplication(applicationId);
+        CourseWishList courseWishList = application.getCourseWishlist();
+        courseWishList.setApproved(true);
     }
 }

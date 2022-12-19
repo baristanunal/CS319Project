@@ -38,6 +38,9 @@ public class CourseWishList {
     private Application application;
 
     private boolean isCompleted;
+
+    private boolean isApproved;
+    private boolean isPassed; // coursetransfer
     //TODO @Transient
     @Transient
     private double totalCredit;

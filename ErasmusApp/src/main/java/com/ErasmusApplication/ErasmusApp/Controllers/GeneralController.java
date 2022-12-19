@@ -231,10 +231,32 @@ public class GeneralController {
         return departmentErasmusCoordinatorService.getPlacementManager(sId);
 
     }
+
+    @GetMapping("/approvePreApproval/{appId}")
+    public void approvePreApproval(@RequestHeader (name="Authorization") String token, @RequestBody Long appId ){
+        String stringToken = token.substring(7);
+        Claims a = jwtUtils.decrypt(stringToken);
+        String sId = a.getSubject();
+
+        departmentErasmusCoordinatorService.approvePreApproval(appId);
+
+    }
+    @GetMapping("/submitPreAppForApproval")
+    public void approvePreApproval(@RequestHeader (name="Authorization") String token){
+        String stringToken = token.substring(7);
+        Claims a = jwtUtils.decrypt(stringToken);
+        String sId = a.getSubject();
+
+        courseWishListService.submitPreAppForApproval(sId);
+
+    }
+/*
+
 //    @GetMapping("/{userId}}")
 //    public Form a(){
 //        long x = 1;
 //        return courseWishListService.getPreApproval(x);
 //    }
+*/
 
 }

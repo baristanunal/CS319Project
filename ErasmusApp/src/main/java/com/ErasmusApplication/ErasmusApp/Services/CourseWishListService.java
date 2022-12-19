@@ -4,16 +4,13 @@ import com.ErasmusApplication.ErasmusApp.DataOnly.AddWishDao;
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.CourseWishListRepository;
 import lombok.AllArgsConstructor;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service @Transactional
 @AllArgsConstructor
@@ -25,6 +22,8 @@ public class CourseWishListService {
     private final HostUniversityService hostUniversityService;
     private final CourseService courseService;
     private final BilkentCourseService bilkentCourseService;
+    private final StudentService studentService;
+    private final UserClassService userClassService;
     public CourseWishList saveCourseWishList(CourseWishList courseWishList, Application application){
         courseWishList.setApplication(application);
         application.setCourseWishlist(courseWishList);
@@ -131,5 +130,16 @@ public class CourseWishListService {
 //        }
 //        return preApproval;
         return new Form();
+    }
+
+    public void submitPreAppForApproval(String sId){
+        Student student = studentService.getStudentBySchoolId(sId);
+        // No need to null check since we assumed coordinators were already saved
+        List<DepartmentErasmusCoordinator> coord = userClassService.getCoordinatorsByDepartment(student.getDepartment());
+        DepartmentErasmusCoordinator firstCord = coord.get(0);
+        Task newTask = new Task();
+        newTask.setDeadline("10 days");
+        newTask.setContent("Student with schoolId:" + sId + " sent you approval request for Pre Approval form");
+        userClassService.addTaskToUser(firstCord.getSchoolId(),newTask);
     }
 }
