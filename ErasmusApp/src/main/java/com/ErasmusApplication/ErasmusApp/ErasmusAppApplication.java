@@ -151,6 +151,7 @@ public class ErasmusAppApplication {
     }
 
 
+
 	@RequestMapping("/h")
 	public String h(){
 		return  "hello";
