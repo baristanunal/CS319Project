@@ -2,6 +2,8 @@ package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Exceptions.NoSuchSemesterException;
 import com.ErasmusApplication.ErasmusApp.Models.*;
+import com.ErasmusApplication.ErasmusApp.Payload.PlacementManagerResponse;
+import com.ErasmusApplication.ErasmusApp.Repositories.PlacementManagerRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.WaitingBinRepository;
 import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
@@ -36,6 +38,7 @@ public class PlacementManagerService {
   UserClassService userClassService;
   PlacementTableService placementTableService;
   WaitingBinService waitingBinService;
+  PlacementManagerRepository placementManagerRepository;
   private final WaitingBinRepository waitingBinRepository;
 
   // Methods
@@ -235,8 +238,12 @@ public class PlacementManagerService {
 
     // 1. Get all coordinators of the department.
     coordinators = userClassService.getCoordinatorsByDepartment( departmentName );
-    PlacementManager placementManager = new PlacementManager( coordinators );
-
+    PlacementManager placementManager = new PlacementManager();
+    placementManagerRepository.save(placementManager);
+    for (int i = 0; i < coordinators.size(); i++){
+      coordinators.get(i).setPlacementManager(placementManager);
+    }
+    
     // 2. Create mainList and waitingBin and set managers.
     PlacementTable mainList = new PlacementTable();
     mainList.setPlacementManager(placementManager);
