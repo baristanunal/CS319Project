@@ -37,10 +37,15 @@ public class DepartmentErasmusCoordinatorService {
 
     public DepartmentErasmusCoordinator getBySchoolId(String schoolId) {
         DepartmentErasmusCoordinator coord = departmentErasmusCoordinatorRepository.findBySchoolId(schoolId);
+        if (coord == null){
+            System.out.println(schoolId);
+            throw new IllegalStateException("depcoord does not exists");
+
+        }
         return coord;
     }
     public PlacementManager getPlacementManager(String schoolId){
-        DepartmentErasmusCoordinator coord = departmentErasmusCoordinatorRepository.findBySchoolId(schoolId);
+        DepartmentErasmusCoordinator coord = getBySchoolId(schoolId);
         return coord.getPlacementManager();
     }
 }
