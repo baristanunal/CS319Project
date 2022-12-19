@@ -28,7 +28,15 @@ import java.nio.file.Paths;
 @AllArgsConstructor
 public class PdfGenerationService {
     private StudentService studentService;
-    
+
+    /** CONTRACT:
+      PRE-CONDITIONS:
+        * Student with the requested ID exists
+        * Application with the requested ID exists
+      POST-CONDITIONS:
+        * Pre Approval pdf is created
+
+    */
     public void makePdf(Long userId, Long theApplicationId) throws IOException, DocumentException, URISyntaxException {
         // Get the required information from the student
         long id = userId; // parametre olarak mı alıcaz?? ahmet
@@ -48,13 +56,6 @@ public class PdfGenerationService {
         int slashIndex = academicYearAndSemester.indexOf("/");
         String academicYear = academicYearAndSemester.substring(0,slashIndex);
         String semester = academicYearAndSemester.substring(slashIndex + 1);
-
-
-
-
-
-
-
 
         // Create the PDF
         Document document = new Document(PageSize.A4.rotate(), 50, 50, 50, 50);
@@ -162,9 +163,6 @@ public class PdfGenerationService {
         table2.addCell(icell3);
         table2.addCell(icell4);
 
-
-
-
         // Create header
         PdfPTable table4 = new PdfPTable(2);
         table4.setSpacingBefore(15);
@@ -210,7 +208,6 @@ public class PdfGenerationService {
         courses.addCell(courses5);
         courses.addCell(courses6);
         courses.addCell(courses7);
-
 
         // Create courses that will be transferred
         List<Wish> wishes = application.getCourseWishlist().getWishes();
@@ -275,8 +272,6 @@ public class PdfGenerationService {
         // Convert it to string
         String strDate = dateFormat.format(date);
 
-
-
         PdfPTable tableApp = new PdfPTable(4);
         tableApp.setSpacingBefore(15);
         tableApp.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -307,13 +302,6 @@ public class PdfGenerationService {
         tableApp.addCell(appCell6);
         tableApp.addCell(appCell7);
         tableApp.addCell(appCell8);
-
-
-
-
-
-
-
 
         // Add elements
         document.add(image);

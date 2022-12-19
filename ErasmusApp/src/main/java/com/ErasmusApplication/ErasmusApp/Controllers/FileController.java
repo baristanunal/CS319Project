@@ -26,10 +26,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FileController {
 
+    // Properties
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
-
     private FileStorageService fileStorageService;
 
+    // Methods
     @PostMapping("/uploadFile")
     public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
 
