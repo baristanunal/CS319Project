@@ -66,6 +66,9 @@ public class ErasmusAppApplication {
                 DepartmentErasmusCoordinator departmentErasmusCoordinator = new DepartmentErasmusCoordinator("Eray", "Tuzun", "5000", "ENG", "CS", "depCoordinator", "name.surname@ug.bilkent.edu.tr", "password");
                 departmentErasmusCoordinatorService.saveDepartmentErasmusCoordinator(departmentErasmusCoordinator);
 
+                UserClass iso = new UserClass( "ISO", "ISO", "0000", "NONE", "NONE", "iso", "iso@bilkent.edu.tr", "password" );
+                userClassService.saveUser( iso );
+
                 // Add host universities to the database.
                 List<HostUniversityDepartment> hostUniversityDepartments0 = new ArrayList<>();
                 HostUniversityDepartment department0 = new HostUniversityDepartment("CS", 1);
