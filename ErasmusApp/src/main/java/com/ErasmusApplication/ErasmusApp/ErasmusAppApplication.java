@@ -58,7 +58,7 @@ public class ErasmusAppApplication {
       userClassService.saveUser( user6 );
       UserClass user7 = new UserClass( "Bora", "Akdari", "22000007", "ENG", "CS", "student" );
       userClassService.saveUser( user7 );
-      UserClass user8 = new UserClass( "Melis", "Bakan", "22000006", "ENG", "CS", "student" );
+      UserClass user8 = new UserClass( "Melis", "Bakan", "22000008", "ENG", "CS", "student" );
       userClassService.saveUser( user8 );
 
 
