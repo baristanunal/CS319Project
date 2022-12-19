@@ -1,10 +1,7 @@
 package com.ErasmusApplication.ErasmusApp;
 
 
-import com.ErasmusApplication.ErasmusApp.Models.HostUniversity;
-import com.ErasmusApplication.ErasmusApp.Models.HostUniversityDepartment;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Repositories.HostUniversityDepartmentRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
@@ -147,6 +144,8 @@ public class ErasmusAppApplication {
       hostUniversityService.saveHostUni( hostUniversity9 );
       department9.setHostUniversity( hostUniversity9 );
       hostUniversityDepartmentRepository.save(department9);
+
+            Wish wish = new Wish();
 
 //			Application a = new Application();
 //			a.setApplicationType("Erasmus");

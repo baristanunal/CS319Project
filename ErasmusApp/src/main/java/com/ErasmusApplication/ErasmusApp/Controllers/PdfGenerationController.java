@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Controllers;
 
+import com.ErasmusApplication.ErasmusApp.Models.Application;
 import com.ErasmusApplication.ErasmusApp.Services.PdfGenerationService;
 import com.itextpdf.text.DocumentException;
 import lombok.AllArgsConstructor;
@@ -24,10 +25,19 @@ public class PdfGenerationController {
     public PdfGenerationController(PdfGenerationService pdfGenerationService) {
         this.pdfGenerationService = pdfGenerationService;
     }
-    @PostMapping("{userId}/{applicationId}/createPdf")
-    public void createPdf(@PathVariable Long userId, @PathVariable Long applicationId) throws DocumentException, IOException, URISyntaxException {
-        pdfGenerationService.makePdf(userId,applicationId);
+    @PostMapping("{studentId}/{appTypeInt}/createPdf")
+    public void createPdf(@PathVariable Long studentId, @PathVariable int appTypeInt) throws DocumentException, IOException, URISyntaxException {
+        String applicationType = "ERASMUS";
+        if( appTypeInt == 1){
+            applicationType = "EXCHANGE";
+        }
+        pdfGenerationService.makePdf(studentId,applicationType);
     }
+
+
+
+
+
 
 
 }

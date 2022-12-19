@@ -14,11 +14,20 @@ import java.util.Optional;
 @Service
 @Transactional
 @AllArgsConstructor
+
 public class CourseService {
+    // Properties
     private final CourseRepository courseRepository;
 
 
+    // Methods
 
+    /** CONTRACT:
+     PRE-CONDITIONS:
+     * Course with the requested ID exists
+     POST-CONDITIONS:
+     * Corresponding Course is returned
+     */
     public Course getCourse(Long courseId){
         return courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalStateException(

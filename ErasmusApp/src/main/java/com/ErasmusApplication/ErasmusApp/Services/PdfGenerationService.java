@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 @AllArgsConstructor
 public class PdfGenerationService {
     private StudentService studentService;
+    private ApplicationService applicationService;
 
     /** CONTRACT:
       PRE-CONDITIONS:
@@ -35,12 +36,11 @@ public class PdfGenerationService {
         * Application with the requested ID exists
       POST-CONDITIONS:
         * Pre Approval pdf is created
-
     */
-    public void makePdf(Long userId, Long theApplicationId) throws IOException, DocumentException, URISyntaxException {
+    public void makePdf(Long studentId, String applicationType) throws IOException, DocumentException, URISyntaxException {
         // Get the required information from the student
-        long id = userId; // parametre olarak mı alıcaz?? ahmet
-        long applicationId = theApplicationId;
+        long id = studentId;
+        //long applicationId = theApplicationId;
         Student student = studentService.getStudent(id);
 
         String studentName = student.getFirstName();
@@ -48,9 +48,11 @@ public class PdfGenerationService {
         String studentID = student.getSchoolId();
         String department = student.getDepartment();
 
-        Application application = student.getApplicationById(applicationId);
+        Application application = student.getApplicationByApplicationType(applicationType);
+
+        //Application application = student.getApplicationById(applicationId);
         String hostName = application.getPlacedHostUniversity().getNameOfInstitution();
-        // appliedAcademicSemester nasıl alıcaz
+
         String academicYearAndSemester = application.getAppliedAcademicSemester();
 
         int slashIndex = academicYearAndSemester.indexOf("/");
@@ -210,7 +212,8 @@ public class PdfGenerationService {
         courses.addCell(courses7);
 
         // Create courses that will be transferred
-        List<Wish> wishes = application.getCourseWishlist().getWishes();
+        List<Wish> wishes = applicationService.getCourseWishList(id,applicationType).getWishes();
+        //List<Wish> wishes = application.getCourseWishlist().getWishes();
         int courseNumber = wishes.size();
         for(int i = 1; i <= courseNumber; i++){
             // Get information about the new course by using the student object

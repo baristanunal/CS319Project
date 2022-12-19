@@ -11,9 +11,19 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 @AllArgsConstructor
+
 public class BilkentCourseService {
+    // Properties
     private final BilkentCourseRepository bilkentCourseRepository;
 
+    // Methods
+
+    /** CONTRACT:
+     PRE-CONDITIONS:
+     * Course with the requested ID exists
+     POST-CONDITIONS:
+     * Corresponding Bilkent Course is returned
+     */
     public BilkentCourse getCourse(Long courseId){
         return bilkentCourseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalStateException(
@@ -21,6 +31,13 @@ public class BilkentCourseService {
                 ));
     }
 
+    /** CONTRACT:
+     PRE-CONDITIONS:
+     * String is passed as an argument
+     * Course with the requested String exists
+     POST-CONDITIONS:
+     * Corresponding Bilkent Course is returned
+     */
     public BilkentCourse getCourseByCode(String courseCode) {
         return bilkentCourseRepository.findByCourseCode(courseCode)
                 .orElseThrow(() -> new IllegalStateException(
