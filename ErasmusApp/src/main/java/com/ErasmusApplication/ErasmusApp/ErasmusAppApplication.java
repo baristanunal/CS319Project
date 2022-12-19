@@ -6,6 +6,7 @@ import com.ErasmusApplication.ErasmusApp.Models.HostUniversityDepartment;
 import com.ErasmusApplication.ErasmusApp.Models.Student;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
+import com.ErasmusApplication.ErasmusApp.Repositories.HostUniversityDepartmentRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
 import com.ErasmusApplication.ErasmusApp.Services.*;
 import com.itextpdf.text.DocumentException;
@@ -29,9 +30,12 @@ import java.util.List;
 })
 public class ErasmusAppApplication {
   private final UserClassRepository userClassRepository;
+  private final HostUniversityDepartmentRepository hostUniversityDepartmentRepository;
 
-  public ErasmusAppApplication(UserClassRepository userClassRepository) {
+  public ErasmusAppApplication(UserClassRepository userClassRepository,
+                               HostUniversityDepartmentRepository hostUniversityDepartmentRepository) {
     this.userClassRepository = userClassRepository;
+    this.hostUniversityDepartmentRepository = hostUniversityDepartmentRepository;
   }
 
   public static void main(String[] args) throws DocumentException, IOException, URISyntaxException {
@@ -69,60 +73,80 @@ public class ErasmusAppApplication {
       hostUniversityDepartments0.add(department0);
       HostUniversity hostUniversity0 = new HostUniversity( "EPF", hostUniversityDepartments0  );
       hostUniversityService.saveHostUni( hostUniversity0 );
+      department0.setHostUniversity( hostUniversity0 );
+      hostUniversityDepartmentRepository.save(department0);
 
       List<HostUniversityDepartment> hostUniversityDepartments1 = new ArrayList<>();
       HostUniversityDepartment department1 = new HostUniversityDepartment( "CS", 2 );
       hostUniversityDepartments1.add(department1);
       HostUniversity hostUniversity1 = new HostUniversity( "Vrije University", hostUniversityDepartments1  );
       hostUniversityService.saveHostUni( hostUniversity1 );
+      department1.setHostUniversity( hostUniversity1 );
+      hostUniversityDepartmentRepository.save(department1);
 
       List<HostUniversityDepartment> hostUniversityDepartments2 = new ArrayList<>();
       HostUniversityDepartment department2 = new HostUniversityDepartment( "CS", 1 );
       hostUniversityDepartments2.add(department2);
       HostUniversity hostUniversity2 = new HostUniversity( "Roskilde University", hostUniversityDepartments2  );
       hostUniversityService.saveHostUni( hostUniversity2 );
+      department2.setHostUniversity( hostUniversity2 );
+      hostUniversityDepartmentRepository.save(department2);
 
       List<HostUniversityDepartment> hostUniversityDepartments3 = new ArrayList<>();
       HostUniversityDepartment department3 = new HostUniversityDepartment( "CS", 1 );
       hostUniversityDepartments3.add(department3);
       HostUniversity hostUniversity3 = new HostUniversity( "ESIEA", hostUniversityDepartments3  );
       hostUniversityService.saveHostUni( hostUniversity3 );
+      department3.setHostUniversity( hostUniversity3 );
+      hostUniversityDepartmentRepository.save(department3);
 
       List<HostUniversityDepartment> hostUniversityDepartments4 = new ArrayList<>();
       HostUniversityDepartment department4 = new HostUniversityDepartment( "CS", 1 );
       hostUniversityDepartments4.add(department4);
       HostUniversity hostUniversity4 = new HostUniversity( "ESIEE Paris", hostUniversityDepartments4  );
       hostUniversityService.saveHostUni( hostUniversity4 );
+      department4.setHostUniversity( hostUniversity4 );
+      hostUniversityDepartmentRepository.save(department4);
 
       List<HostUniversityDepartment> hostUniversityDepartments5 = new ArrayList<>();
       HostUniversityDepartment department5 = new HostUniversityDepartment( "CS", 3 );
       hostUniversityDepartments5.add(department5);
       HostUniversity hostUniversity5 = new HostUniversity( "Saarland University", hostUniversityDepartments5  );
       hostUniversityService.saveHostUni( hostUniversity5 );
+      department5.setHostUniversity( hostUniversity5 );
+      hostUniversityDepartmentRepository.save(department5);
 
       List<HostUniversityDepartment> hostUniversityDepartments6 = new ArrayList<>();
       HostUniversityDepartment department6 = new HostUniversityDepartment( "CS", 1 );
       hostUniversityDepartments6.add(department6);
       HostUniversity hostUniversity6 = new HostUniversity( "AGH University of Science and Technology", hostUniversityDepartments6  );
       hostUniversityService.saveHostUni( hostUniversity6 );
+      department6.setHostUniversity( hostUniversity6 );
+      hostUniversityDepartmentRepository.save(department6);
 
       List<HostUniversityDepartment> hostUniversityDepartments7 = new ArrayList<>();
       HostUniversityDepartment department7 = new HostUniversityDepartment( "CS", 2 );
       hostUniversityDepartments7.add(department7);
       HostUniversity hostUniversity7 = new HostUniversity( "Kingston University", hostUniversityDepartments7  );
       hostUniversityService.saveHostUni( hostUniversity7 );
+      department7.setHostUniversity( hostUniversity7 );
+      hostUniversityDepartmentRepository.save(department7);
 
       List<HostUniversityDepartment> hostUniversityDepartments8 = new ArrayList<>();
       HostUniversityDepartment department8 = new HostUniversityDepartment( "CS", 1 );
       hostUniversityDepartments8.add(department8);
       HostUniversity hostUniversity8 = new HostUniversity( "Universita degli Studi di LAquila", hostUniversityDepartments8  );
       hostUniversityService.saveHostUni( hostUniversity8 );
+      department8.setHostUniversity( hostUniversity8 );
+      hostUniversityDepartmentRepository.save(department8);
 
       List<HostUniversityDepartment> hostUniversityDepartments9 = new ArrayList<>();
       HostUniversityDepartment department9 = new HostUniversityDepartment( "EEE", 5 );
       hostUniversityDepartments9.add(department9);
       HostUniversity hostUniversity9 = new HostUniversity( "Vienna University", hostUniversityDepartments9  );
       hostUniversityService.saveHostUni( hostUniversity9 );
+      department9.setHostUniversity( hostUniversity9 );
+      hostUniversityDepartmentRepository.save(department9);
 
 //			Application a = new Application();
 //			a.setApplicationType("Erasmus");
