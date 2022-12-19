@@ -35,6 +35,12 @@ public class CourseService {
                 ));
     }
 
+    /** CONTRACT:
+     PRE-CONDITIONS:
+     * String is passed as an argument
+     POST-CONDITIONS:
+     * Corresponding Course is returned
+     */
     public Course getCourseByCode(String courseCode) {
         return courseRepository.findByCourseCode(courseCode)
                 .orElseThrow(() -> new IllegalStateException(

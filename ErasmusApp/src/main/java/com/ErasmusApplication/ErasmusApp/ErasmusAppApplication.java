@@ -147,7 +147,7 @@ public class ErasmusAppApplication {
       department9.setHostUniversity( hostUniversity9 );
       hostUniversityDepartmentRepository.save(department9);
 
-            Wish wish = new Wish();
+            
 
 //			Application a = new Application();
 //			a.setApplicationType("Erasmus");
