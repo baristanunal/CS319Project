@@ -22,6 +22,7 @@ public class FileStorageService {
 
     private final Path fileStorageLocation;
 
+
     @Autowired
     public FileStorageService(FileStorageProperties fileStorageProperties) {
         
@@ -35,7 +36,13 @@ public class FileStorageService {
         }
     }
 
-
+    /** CONTRACT:
+     PRE-CONDITIONS:
+     * File which is in the MultipartFile format is passed as an argument
+     * File is not corrupted
+     POST-CONDITIONS:
+     * File is stored locally
+     */
     public String storeFile(MultipartFile file) {
         // Normalize file name
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -56,6 +63,14 @@ public class FileStorageService {
         }
     }
 
+    /** CONTRACT:
+     PRE-CONDITIONS:
+     * String is passed as an argument
+     * filename should be the name of the one of the previously uploaded file
+     * REMARK!! If there is more than one file with the same name last uploaded will be returned
+     POST-CONDITIONS:
+     * File is returned
+     */
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
