@@ -42,23 +42,23 @@ public class ErasmusAppApplication {
 		return args -> {
 
       // Add students to the database.
-      UserClass user0 = new UserClass( "Baris Tan", "Unal", "22000000", "ENG", "CS", "student" );
+      UserClass user0 = new UserClass( "Baris Tan", "Unal", "22000000", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user0 );
-      UserClass user1 = new UserClass( "Yusuf", "Senyuz", "22000001", "ENG", "CS", "student" );
+      UserClass user1 = new UserClass( "Yusuf", "Senyuz", "22000001", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user1 );
-      UserClass user2 = new UserClass( "Ahmet", "Sahin", "22000002", "ENG", "CS", "student" );
+      UserClass user2 = new UserClass( "Ahmet", "Sahin", "22000002", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user2 );
-      UserClass user3 = new UserClass( "Kaan Berk", "Kabadayi", "22000003", "ENG", "CS", "student" );
+      UserClass user3 = new UserClass( "Kaan Berk", "Kabadayi", "22000003", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user3 );
-      UserClass user4 = new UserClass( "Ugur Can", "Altun", "22000004", "ENG", "CS", "student" );
+      UserClass user4 = new UserClass( "Ugur Can", "Altun", "22000004", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user4 );
-      UserClass user5 = new UserClass( "Meric", "Serezli", "22000005", "ENG", "CS", "student" );
+      UserClass user5 = new UserClass( "Meric", "Serezli", "22000005", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user5 );
-      UserClass user6 = new UserClass( "Defne", "Yildirim", "22000006", "ENG", "CS", "student" );
+      UserClass user6 = new UserClass( "Defne", "Yildirim", "22000006", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user6 );
-      UserClass user7 = new UserClass( "Bora", "Akdari", "22000007", "ENG", "CS", "student" );
+      UserClass user7 = new UserClass( "Bora", "Akdari", "22000007", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user7 );
-      UserClass user8 = new UserClass( "Melis", "Bakan", "22000008", "ENG", "CS", "student" );
+      UserClass user8 = new UserClass( "Melis", "Bakan", "22000008", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user8 );
 
 
