@@ -41,6 +41,10 @@ public class Student extends UserClass {
         super(email, firstName, lastName, schoolId, faculty, department,password);
     }
 
+    public Student( String firstName, String lastName, String schoolId, String faculty, String department, String role, String email, String password ){
+      super( firstName, lastName, schoolId, faculty, department, role, email, password );
+    }
+
 
 
     //TODO unnecessary, if we want to delete or remove, we will iterate over List and we could handle it if it does not exist
