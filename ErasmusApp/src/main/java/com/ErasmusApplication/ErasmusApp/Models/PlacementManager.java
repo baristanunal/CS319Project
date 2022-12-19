@@ -7,12 +7,12 @@ import javax.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PlacementManager {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

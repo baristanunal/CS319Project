@@ -62,7 +62,7 @@ public class Application {
     @Transient
     private String lastName;
     @Transient
-    private String studentId;
+    private String schoolId;
 
 
 
