@@ -22,8 +22,8 @@ public class DepartmentErasmusCoordinator extends UserClass {
         this.placementManager = placementManager;
     }
 
-    public DepartmentErasmusCoordinator(String email, String firstName, String lastName, String schoolId, String faculty, String department,String password) {
-        super(email, firstName, lastName, schoolId, faculty, department,password);
+    public DepartmentErasmusCoordinator( String firstName, String lastName, String schoolId, String faculty, String department, String role, String email, String password) {
+      super( firstName, lastName, schoolId, faculty, department, role, email, password );
     }
 
     public DepartmentErasmusCoordinator() {

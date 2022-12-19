@@ -20,7 +20,8 @@ public class DepartmentErasmusCoordinatorService {
 
     public DepartmentErasmusCoordinator saveDepartmentErasmusCoordinator(DepartmentErasmusCoordinator user) {
         DepartmentErasmusCoordinator depErCoord = departmentErasmusCoordinatorRepository.findBySchoolId(user.getSchoolId());
-        if( depErCoord == null){
+        System.out.println( "Dept. Erasmus Coordinator Id: " + user.getSchoolId());
+        if( depErCoord != null){
             throw new IllegalStateException("School Id is taken!");
         }
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

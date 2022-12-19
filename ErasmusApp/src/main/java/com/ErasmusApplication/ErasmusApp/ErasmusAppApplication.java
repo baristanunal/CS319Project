@@ -1,10 +1,7 @@
 package com.ErasmusApplication.ErasmusApp;
 
 
-import com.ErasmusApplication.ErasmusApp.Models.HostUniversity;
-import com.ErasmusApplication.ErasmusApp.Models.HostUniversityDepartment;
-import com.ErasmusApplication.ErasmusApp.Models.Student;
-import com.ErasmusApplication.ErasmusApp.Models.UserClass;
+import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Properties.FileStorageProperties;
 import com.ErasmusApplication.ErasmusApp.Repositories.HostUniversityDepartmentRepository;
 import com.ErasmusApplication.ErasmusApp.Repositories.UserClassRepository;
@@ -43,7 +40,7 @@ public class ErasmusAppApplication {
 	}
 
 	@Bean
-	CommandLineRunner run(ApplicationService applicationService, UserClassService userClassService, HostUniversityService hostUniversityService, HostUniversityDepartmentService hostUniversityDepartmentService ) {
+	CommandLineRunner run( UserClassService userClassService, HostUniversityService hostUniversityService, DepartmentErasmusCoordinatorService departmentErasmusCoordinatorService ) {
 		return args -> {
 
       // Add students to the database.
@@ -66,6 +63,8 @@ public class ErasmusAppApplication {
       Student user8 = new Student( "Melis", "Bakan", "22000008", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password" );
       userClassService.saveUser( user8 );
 
+      DepartmentErasmusCoordinator departmentErasmusCoordinator = new DepartmentErasmusCoordinator( "Eray", "Tuzun", "5000", "ENG", "CS", "depCoordinator", "name.surname@ug.bilkent.edu.tr", "password" );
+      departmentErasmusCoordinatorService.saveDepartmentErasmusCoordinator( departmentErasmusCoordinator );
 
       // Add host universities to the database.
       List<HostUniversityDepartment> hostUniversityDepartments0 = new ArrayList<>();
