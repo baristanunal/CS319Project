@@ -273,11 +273,7 @@ public class PlacementManagerService {
 
   }
 
-  public PlacementManager getPlacementManagerById(  ){
 
-
-    
-  }
 
 
 }

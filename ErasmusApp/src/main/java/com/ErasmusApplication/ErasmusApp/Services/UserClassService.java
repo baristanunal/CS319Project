@@ -81,6 +81,9 @@ public class UserClassService  { //implements UserDetailsService
 
     public UserClass getUserBySchoolId(String schoolId) {
         UserClass user = userClassRepository.findBySchoolId(schoolId);
+        if( user == null){
+            throw new IllegalStateException("No user is exists!");
+        }
         return user;
     }
 

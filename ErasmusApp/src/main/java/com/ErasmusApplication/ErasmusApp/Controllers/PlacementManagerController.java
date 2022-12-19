@@ -23,10 +23,7 @@ public class PlacementManagerController {
     placementManagerService.getDataAndPlaceStudents( reapExcelDataFile, data.getAcademicYear(), data.getApplicationType(), data.getDepartmentName() );
   }
 
-  @PostMapping("/getPlacementManager")
-  public PlacementManager getPlacementTable(){
-    placementManagerService.
-  }
+
 
   /*
   @PostMapping("/getDataFromExcel")

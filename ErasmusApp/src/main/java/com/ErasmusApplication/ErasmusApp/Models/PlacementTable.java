@@ -14,13 +14,12 @@ public class PlacementTable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-
+    @JsonIgnore
     @OneToOne(orphanRemoval = true)
     @MapsId
     private PlacementManager placementManager;
 
     //TODO determine whether keep students or applications
-    @JsonIgnore
     @OneToMany(
             mappedBy = "placementTable"
     )

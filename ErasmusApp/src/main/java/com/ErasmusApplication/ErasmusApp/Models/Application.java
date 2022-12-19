@@ -21,7 +21,7 @@ public class Application {
     @ManyToOne( fetch = FetchType.LAZY)
     private Student student;
 
-    @ManyToOne( )
+    @ManyToOne
     private HostUniversity placedHostUniversity;
     @JsonIgnore
     @Transient
@@ -58,7 +58,12 @@ public class Application {
     private boolean isPlaced;
     private boolean isInWaitingBin;
     @Transient
-    private String name;
+    private String firstName;
+    @Transient
+    private String lastName;
+    @Transient
+    private String studentId;
+
 
 
     public Application(Student student, boolean isPlaced, boolean isInWaitingBin, HostUniversity placedHostUniversity, String applicationType, Double totalPoints, String appliedAcademicSemester) {
@@ -87,9 +92,6 @@ public class Application {
         this.isInWaitingBin = true;
     }
 
-  String getName(){
-    return student.getFirstName();
-  }
 
 
     public boolean checkExistenceOfPreferredUni(String hostUniName){
@@ -115,6 +117,15 @@ public class Application {
         this.appliedAcademicSemester = application.appliedAcademicSemester;
     }
 
+    public String getFirstName(){
+        return student.getFirstName();
+    }
+    public String getLastName(){
+        return student.getLastName();
+    }
+    public String getSchoolId(){
+        return student.getSchoolId();
+    }
     public String getNameOfPlacedHostUniversity(){
         if(placedHostUniversity == null){
             return "not placed";

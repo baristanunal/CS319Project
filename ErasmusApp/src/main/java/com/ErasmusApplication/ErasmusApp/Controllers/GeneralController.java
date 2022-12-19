@@ -20,7 +20,7 @@ public class GeneralController {
     private final JwtUtils jwtUtils;
     private final ApplicationService applicationService;
     private final CourseWishListService courseWishListService;
-
+    private final DepartmentErasmusCoordinatorService departmentErasmusCoordinatorService;
     //TODO TODO
     //TODO TODO
     // TODO add role check for all methods
@@ -145,7 +145,11 @@ public class GeneralController {
         return courseWishListService.getPreApproval(wlId);
     }
 
+    @GetMapping("/getPlacementManager")
+    public PlacementManager getPlacementTable(@RequestBody String schoold){
+        return departmentErasmusCoordinatorService.getPlacementManager(schoold);
 
+    }
 //    @GetMapping("/{userId}}")
 //    public Form a(){
 //        long x = 1;
