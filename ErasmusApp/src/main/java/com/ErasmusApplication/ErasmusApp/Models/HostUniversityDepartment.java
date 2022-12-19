@@ -26,4 +26,9 @@ public class HostUniversityDepartment {
 
   }
 
+  public HostUniversityDepartment( String departmentName, int quota ){
+    this.departmentName = departmentName;
+    this.quota = quota;
+  }
+
 }

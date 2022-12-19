@@ -3,6 +3,7 @@ package com.ErasmusApplication.ErasmusApp.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import lombok.Data;
+import org.apache.catalina.Host;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,11 @@ public class HostUniversity {
     public HostUniversity( String nameOfInstitution, List<HostCourse> hostCourses, List<HostUniversityDepartment> departments ){
       this.nameOfInstitution = nameOfInstitution;
       this.hostCourses = hostCourses;
+      this.departments = departments;
+    }
+
+    public HostUniversity( String nameOfInstitution, List<HostUniversityDepartment> departments ){
+      this.nameOfInstitution = nameOfInstitution;
       this.departments = departments;
     }
 
