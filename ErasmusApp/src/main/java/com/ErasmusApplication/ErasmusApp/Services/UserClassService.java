@@ -78,7 +78,13 @@ public class UserClassService  { //implements UserDetailsService
                 "User With Id: " + userId + " does not exist."
         ));
     }
-
+    public String getRole(String schoolId) {
+        UserClass user = getUserBySchoolId(schoolId);
+        if(user == null){
+            return null;
+        }
+        return user.getRole();
+    }
     public UserClass getUserBySchoolId(String schoolId) {
         UserClass user = userClassRepository.findBySchoolId(schoolId);
         if( user == null){
@@ -109,8 +115,8 @@ public class UserClassService  { //implements UserDetailsService
     /**
      * Methods related to tasks
      */
-    public UserClass addTaskToUser(Long userId, Task newTask) {
-        UserClass user = getUser(userId);
+    public UserClass addTaskToUser(String schoolId, Task newTask) {
+        UserClass user = getUserBySchoolId(schoolId);
         newTask.setUser(user); // This is enough
 //        boolean success = user.addTask(newTask);
 //
@@ -165,10 +171,10 @@ public class UserClassService  { //implements UserDetailsService
 
         return user;
     }
-    public UserClass removeTaskFromUser(Long userId, Long taskId) {
+    public UserClass removeTaskFromUser(String sId, Long taskId) {
         //TODO check whether this task belongs to this user
-        taskService.deleteTask(taskId);
-        UserClass user = getUser(userId);
+        UserClass user = getUserBySchoolId(sId);
+        user.removeTaskById(taskId);
         return user;
     }
 

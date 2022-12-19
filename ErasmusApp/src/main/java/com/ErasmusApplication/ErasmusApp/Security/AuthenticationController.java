@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Security;
 
+import com.ErasmusApplication.ErasmusApp.DataOnly.AuthDao;
 import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Services.UserClassService;
 import io.jsonwebtoken.Claims;
@@ -42,26 +43,31 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request){
+    public ResponseEntity<AuthDao> authenticate(@RequestBody AuthenticationRequest request){
+        System.out.println(request);
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
             );
         }
         catch (BadCredentialsException e){
-            return new ResponseEntity<>("Incorrect username or password",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
 //        authenticationManager.authenticate(
 //                new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
 //        );
 
-
+        AuthDao authDao = new AuthDao();
         final UserDetails user = userDao.findUserBySchoolId(request.getUserName());
+        authDao.setRole(userClassService.getRole(request.getUserName()));
         if (user != null){
-                return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+//                return new ResponseEntity<>(jwtUtils.generateToken(user), HttpStatus.OK);
+            authDao.setToken(jwtUtils.generateToken(user));
+            return new ResponseEntity<>(authDao, HttpStatus.OK);
+
         }
-        return new ResponseEntity<>("authentication failed",HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 

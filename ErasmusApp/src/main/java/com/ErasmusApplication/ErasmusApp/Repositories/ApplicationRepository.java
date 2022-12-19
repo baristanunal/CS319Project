@@ -26,6 +26,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
             where a.student.id = ?1 and applications.applicationType = ?2""")
     Application findByStudent_IdAndStudent_Applications_ApplicationType(Long id, String applicationType);
 
+    @Query("""
+            select a from Application a inner join a.student.applications applications
+            where a.student.schoolId = ?1 and applications.id = ?2""")
+    Optional<Application> findByStudent_SchoolIdAndStudent_Applications_Id(String schoolId, Long id);
+
+
 
 
 

@@ -55,12 +55,12 @@ public class ApplicationService {
      POST-CONDITIONS:
      * Corresponding Application is returned
      */
-    public Application getApplicationByStudentAndApplicationId(Long userId, Long applicationId){
-        return applicationRepository.findByStudent_IdAndId(userId, applicationId)
+    public Application getApplicationByStudentAndApplicationId(String sId, Long applicationId){
+        return applicationRepository.findByStudent_SchoolIdAndStudent_Applications_Id(sId, applicationId)
                 .orElseThrow(() ->
                         new ResponseStatusException(
                                 HttpStatus.UNAUTHORIZED,
-                                String.format(  "Application With Id: " + applicationId + " does not belong to Student with Id: " + userId
+                                String.format(  "Application With Id: " + applicationId + " does not belong to Student with schoolId: " + sId
                                 ))
                 );
 
@@ -93,9 +93,9 @@ public class ApplicationService {
      * Corresponding Application of the Corresponding student is returned
      */
     @Transactional
-    public Application updateApplication(Long userId, Long applicationId,Application updatedApplication){
+    public Application updateApplication(String sId, Long applicationId,Application updatedApplication){
 
-        Application application = getApplicationByStudentAndApplicationId(userId, applicationId);
+        Application application = getApplicationByStudentAndApplicationId(sId, applicationId);
         application.setAll(updatedApplication);
         return application;
 
@@ -110,9 +110,9 @@ public class ApplicationService {
      * Application with the id is deleted
      * Success of removal is returned
      */
-    public boolean removeApplicationOfStudent(Long applicationId, Long userId) {
+    public boolean removeApplicationOfStudent(Long applicationId, String sId) {
         //This checks whether given applicationId correspond to application whose owner is user with userId
-        Application application = getApplicationByStudentAndApplicationId(userId, applicationId);
+        Application application = getApplicationByStudentAndApplicationId(sId, applicationId);
 
         applicationRepository.deleteById(applicationId);
         return true;
@@ -125,9 +125,9 @@ public class ApplicationService {
      POST-CONDITIONS:
      * Application with the id is deleted
      */
-    public void removeApplication(Long userId, Long applicationId) {
+    public void removeApplication(String sId, Long applicationId) {
         //This checks whether given applicationId correspond to application whose owner is user with userId
-        Application application = getApplicationByStudentAndApplicationId(userId, applicationId);
+        Application application = getApplicationByStudentAndApplicationId(sId, applicationId);
         applicationRepository.deleteById(applicationId);
     }
 
@@ -172,8 +172,8 @@ public class ApplicationService {
      * University is added to application
      * Corresponding application is returned
      */
-    public Application addPlacedUni(Long userId, Long appId, String nameOfUni){ // works
-        Application app = getApplicationByStudentAndApplicationId(userId,appId);
+    public Application addPlacedUni(String sId, Long appId, String nameOfUni){ // works
+        Application app = getApplicationByStudentAndApplicationId(sId,appId);
         if( app.getPlacedHostUniversity() != null) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
@@ -236,9 +236,9 @@ public class ApplicationService {
      POST-CONDITIONS:
      * CourseWishList is returned
      */
-    public CourseWishList getCourseWishList(Long userId, String appType) {
-        Long applicationId = getAppId(userId,appType);
-        Application app = getApplicationByStudentAndApplicationId(userId,applicationId);
+    public CourseWishList getCourseWishList(String sId ,String appType) {
+        Long applicationId = getAppId(sId,appType);
+        Application app = getApplicationByStudentAndApplicationId(sId,applicationId);
         CourseWishList wishList = app.getCourseWishlist();
         if(wishList == null){
              return createEmptyCourseWishList(applicationId);
@@ -253,9 +253,9 @@ public class ApplicationService {
      POST-CONDITIONS:
      * ID of the application of the user is returned
      */
-    public Long getAppId(Long userId, String appType) {
+    public Long getAppId(String sId, String appType) {
 
-        Application application= studentService.getApplicationByApplicationType(userId,appType);
+        Application application= studentService.getApplicationByApplicationType(sId,appType);
         return application.getId();
     }
 
@@ -285,8 +285,8 @@ public class ApplicationService {
      POST-CONDITIONS:
      * List of the wishes of the user are returned
      */
-    public List<Wish> getAllWishesWithoutId(Long userId, String appType){
-        Long applicationId = getAppId(userId,appType);
+    public List<Wish> getAllWishesWithoutId(String sId, String appType){
+        Long applicationId = getAppId(sId,appType);
         CourseWishList courseWishList = getWlId(applicationId);
         List<Wish> wishes = courseWishList.getWishes();
         if (wishes.isEmpty()){

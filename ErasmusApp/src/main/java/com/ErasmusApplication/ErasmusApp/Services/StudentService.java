@@ -55,8 +55,8 @@ public class StudentService {
       }
     }
     @Transactional
-    public void updateStudent(Long userId,Student updatedStudent){
-        Student student = getStudent(userId);
+    public void updateStudent(String sId,Student updatedStudent){
+        Student student = getStudentBySchoolId(sId);
 
         student.setAll(updatedStudent);
 
@@ -106,28 +106,28 @@ public class StudentService {
     }
 
     @Transactional
-    public Student updateTask(Long userId, Long taskId, Task taskToUpdate) {
-        Student student = getStudent(userId);
+    public Student updateTask(String sId, Long taskId, Task taskToUpdate) {
+        Student student = getStudentBySchoolId(sId);
         boolean isExist = student.updateTaskByTaskId(taskId,taskToUpdate);
 
         if (!isExist){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format("Task with Id: " + taskId + " is not belong to Student with Id: " +userId)
+                    String.format("Task with Id: " + taskId + " is not belong to Student with school Id: " +sId)
             );
         }
 
         return student;
     }
 
-    public List<Task> getAllTasks(Long userId){
-        Student student = getStudent(userId);
+    public List<Task> getAllTasks(String schoolId){
+        Student student = getStudentBySchoolId(schoolId);
         List<Task> tasks = student.getTasks();
 
         if (tasks.isEmpty()){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format( "Student with With Id: " + userId + " does not have any tasks"
+                    String.format( "Student with With School Id: " + schoolId + " does not have any tasks"
                     ));
         }
         Collections.sort(tasks, (s1, s2) -> s1.getId().compareTo(s2.getId()) > 1 ? 1 : s1.getId().compareTo(s2.getId()) < 1 ? -1 : 0);
@@ -152,8 +152,8 @@ public class StudentService {
         return student;
     }
     @Transactional
-    public Application acceptApplicationRequest(Long userId, String applicationType, String placedUni) {
-        Student student = getStudent(userId);
+    public Application acceptApplicationRequest(String sId, String applicationType, String placedUni) {
+        Student student = getStudentBySchoolId(sId);
 
         Application app = student.getApplicationByApplicationType(applicationType);
         app.setInWaitingBin(false);
@@ -161,13 +161,16 @@ public class StudentService {
         //TODO try
         return app;
     }
-    public Application getApplicationByApplicationType(Long userId, String applicationType) {
-        Student student = getStudent(userId);
+    public Application getApplicationByApplicationType(String sId, String applicationType) {
+        Student student = getStudentBySchoolId(sId);
         return student.getApplicationByApplicationType(applicationType);
     }
-
-    public Application getApplicationByApplicationId(Long userId,Long applicationId) {
-        Student student = getStudent(userId);
+    public Application getApplicationByApplicationTypeSId(String sId, String applicationType) {
+        Student student = getStudentBySchoolId(sId);
+        return student.getApplicationByApplicationType(applicationType);
+    }
+    public Application getApplicationByApplicationId(String sId,Long applicationId) {
+        Student student = getStudentBySchoolId(sId);
         return student.getApplicationByApplicationId(applicationId);
     }
     @Transactional
@@ -185,16 +188,16 @@ public class StudentService {
     }
 
     @Transactional
-    public Student cancelApplicationAfterPlaced(Long userId, Long applicationId) {
+    public Student cancelApplicationAfterPlaced(String sId, Long applicationId) {
         //TODO TODO
         // add extra functionality to communicate with PlacementManager
-        Student student = getStudent(userId);
+        Student student = getStudentBySchoolId(sId);
         boolean success = student.removeApplicationById(applicationId);
 
         if(!success){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format("Application With Id: " + applicationId + " does not exist in Student with Id:" + userId)
+                    String.format("Application With Id: " + applicationId + " does not exist in Student with schoolId Id:" + sId)
             );
         }
         return student;

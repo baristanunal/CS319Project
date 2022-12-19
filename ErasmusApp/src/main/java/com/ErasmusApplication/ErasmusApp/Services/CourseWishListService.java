@@ -42,7 +42,7 @@ public class CourseWishListService {
      * */
     //TASKS
     //TODO just use method in UserClassService
-    public CourseWishList addWishToCourseWishList(Long userId, Long wlId, AddWishDao addWishDao) {
+    public CourseWishList addWishToCourseWishList(String sId, Long wlId, AddWishDao addWishDao) {
         CourseWishList courseWishList = getCourseWishList(wlId);
         Application application = courseWishList.getApplication();
         if(application == null){
