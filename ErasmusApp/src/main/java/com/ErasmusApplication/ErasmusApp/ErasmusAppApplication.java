@@ -120,7 +120,7 @@ public class ErasmusAppApplication {
       List<HostUniversityDepartment> hostUniversityDepartments9 = new ArrayList<>();
       HostUniversityDepartment department9 = new HostUniversityDepartment( "EEE", 5 );
       hostUniversityDepartments9.add(department9);
-      HostUniversity hostUniversity9 = new HostUniversity( "Universita degli Studi di LAquila", hostUniversityDepartments9  );
+      HostUniversity hostUniversity9 = new HostUniversity( "Vienna University", hostUniversityDepartments9  );
       hostUniversityService.saveHostUni( hostUniversity9 );
 
 //			Application a = new Application();
