@@ -37,11 +37,11 @@ public class PdfGenerationService {
       POST-CONDITIONS:
         * Pre Approval pdf is created
     */
-    public void makePdf(Long studentId, String applicationType) throws IOException, DocumentException, URISyntaxException {
+    public void makePdf(String sId, String applicationType) throws IOException, DocumentException, URISyntaxException {
         // Get the required information from the student
-        long id = studentId;
+
         //long applicationId = theApplicationId;
-        Student student = studentService.getStudent(id);
+        Student student = studentService.getStudentBySchoolId(sId);
 
         String studentName = student.getFirstName();
         String studentSurName = student.getLastName();
@@ -212,7 +212,7 @@ public class PdfGenerationService {
         courses.addCell(courses7);
 
         // Create courses that will be transferred
-        List<Wish> wishes = applicationService.getCourseWishList(id,applicationType).getWishes();
+        List<Wish> wishes = applicationService.getCourseWishList(sId,applicationType).getWishes();
         //List<Wish> wishes = application.getCourseWishlist().getWishes();
         int courseNumber = wishes.size();
         for(int i = 1; i <= courseNumber; i++){
