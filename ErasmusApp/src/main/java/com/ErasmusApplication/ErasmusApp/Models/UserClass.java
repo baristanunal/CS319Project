@@ -62,13 +62,15 @@ public class UserClass  { //implements UserDetails
     this.password  = new BCryptPasswordEncoder().encode(password);
   }
 
-  public UserClass( String firstName, String lastName, String schoolId, String faculty, String department, String role ){
+  public UserClass( String firstName, String lastName, String schoolId, String faculty, String department, String role, String email, String password ){
     this.firstName = firstName;
     this.lastName = lastName;
     this.schoolId = schoolId;
     this.faculty = faculty;
     this.department = department;
     this.role = role;
+    this.email = email;
+    this.password = password;
   }
 
   public UserClass() {
