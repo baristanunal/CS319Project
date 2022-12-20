@@ -1,0 +1,16 @@
+{
+    "tasks": [
+        {
+            "id": 1,
+            "content": "This is your first task1",
+            "deadline": "10 October 2022",
+            "status": "Not Completed"
+        },
+        {
+            "id": 2,
+            "content": "This is your second task2",
+            "deadline": "15 October 2022",
+            "status": "Completed"
+        }
+    ]
+}
