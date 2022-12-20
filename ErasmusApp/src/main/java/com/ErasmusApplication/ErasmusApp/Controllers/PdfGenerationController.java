@@ -18,6 +18,7 @@ import java.net.URISyntaxException;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping()
 public class PdfGenerationController {
     private final JwtUtils jwtUtils;
     private final PdfGenerationService pdfGenerationService;

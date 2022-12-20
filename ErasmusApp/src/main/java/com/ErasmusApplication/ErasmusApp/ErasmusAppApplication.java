@@ -40,9 +40,14 @@ public class ErasmusAppApplication {
 	}
 
 	@Bean
-	CommandLineRunner run( UserClassService userClassService, HostUniversityService hostUniversityService, DepartmentErasmusCoordinatorService departmentErasmusCoordinatorService ) {
+	CommandLineRunner run( BilkentCourseService bilkentCourseService,UserClassService userClassService, HostUniversityService hostUniversityService, DepartmentErasmusCoordinatorService departmentErasmusCoordinatorService ) {
           return args -> {
-
+                bilkentCourseService.saveBilkentCourse(new BilkentCourse(5.0,"Operating Systems","CS 342", "Mandatory Course"));
+                bilkentCourseService.saveBilkentCourse(new BilkentCourse(5.0,"Database Systems","CS 353", "Mandatory Course"));
+                bilkentCourseService.saveBilkentCourse(new BilkentCourse(5.0,"Basics of Signals and Systems","EEE 391", "Mandatory Course"));
+                bilkentCourseService.saveBilkentCourse(new BilkentCourse(5.0,"Algorithms I","CS 473", "Mandatory Course"));
+                bilkentCourseService.saveBilkentCourse(new BilkentCourse(5.0,"Principles of Engineering Management","IE 400", "Mandatory Course"));
+                bilkentCourseService.saveBilkentCourse(new BilkentCourse(5.0,"How Houses Build People","ADA 265", "Arts Core Elective"));
                 // Add students to the database.
                 Student user0 = new Student("Baris Tan", "Unal", "22000000", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password");
                 userClassService.saveUser(user0);
@@ -63,10 +68,10 @@ public class ErasmusAppApplication {
                 Student user8 = new Student("Melis", "Bakan", "22000008", "ENG", "CS", "student", "name.surname@ug.bilkent.edu.tr", "password");
                 userClassService.saveUser(user8);
 
-                DepartmentErasmusCoordinator departmentErasmusCoordinator = new DepartmentErasmusCoordinator("Eray", "Tuzun", "5000", "ENG", "CS", "depCoordinator", "name.surname@ug.bilkent.edu.tr", "password");
+                DepartmentErasmusCoordinator departmentErasmusCoordinator = new DepartmentErasmusCoordinator("Can", "Alkan", "5000", "ENG", "CS", "depCoordinator", "name.surname@ug.bilkent.edu.tr", "password");
                 departmentErasmusCoordinatorService.saveDepartmentErasmusCoordinator(departmentErasmusCoordinator);
 
-                UserClass iso = new UserClass( "ISO", "ISO", "0000", "NONE", "NONE", "iso", "iso@bilkent.edu.tr", "password" );
+                UserClass iso = new UserClass( "Elif", "Unsal", "0000", "NONE", "NONE", "iso", "iso@bilkent.edu.tr", "password" );
                 userClassService.saveUser( iso );
 
                 // Add host universities to the database.
@@ -149,6 +154,47 @@ public class ErasmusAppApplication {
                 hostUniversityService.saveHostUni(hostUniversity9);
                 department9.setHostUniversity(hostUniversity9);
                 hostUniversityDepartmentRepository.save(department9);
+
+                Task task1 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000000",task1);
+
+                Task task2 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000001",task2);
+
+                Task task3 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000002",task3);
+
+                Task task4 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000003",task4);
+
+                Task task5 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000004",task5);
+
+                Task task6 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000005",task6);
+
+                Task task7 = new Task("Create Course Wishlist","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("22000006",task7);
+
+                Task task8= new Task("Finalize Placements","20.12.2022","Not Completed");
+                userClassService.addTaskToUserSid("5000",task8);
+
+                UserClass adm = new UserClass( "Yelda Irem", "Ates", "1000", "NONE", "NONE", "admCoordinator", "adm@bilkent.edu.tr", "password" );
+                userClassService.saveUser( adm );
+
+                UserClass fac = new UserClass( "Faculty Admin", "Committee", "2000", "NONE", "NONE", "faCommittee", "fac@bilkent.edu.tr", "password" );
+                userClassService.saveUser( fac );
+
+                UserClass dean = new UserClass( "Orhan", "Arikan", "3000", "NONE", "NONE", "dean", "dean@bilkent.edu.tr", "password" );
+                userClassService.saveUser( dean );
+
+                UserClass dChair = new UserClass( "Selim", "Aksoy", "4000", "NONE", "NONE", "dChair", "dean@bilkent.edu.tr", "password" );
+                userClassService.saveUser( dChair );
+
+                UserClass courseCoordinator = new UserClass( "Eray", "Tuzun", "6000", "NONE", "NONE", "courseCoordinator", "dean@bilkent.edu.tr", "password" );
+                userClassService.saveUser( courseCoordinator);
+
+
 
           };
     }

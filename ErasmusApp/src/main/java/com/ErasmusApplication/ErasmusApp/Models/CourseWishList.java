@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class CourseWishList {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Wish> wishes;
+    private List<Wish> wishes = new ArrayList<>();
 
     @JsonIgnore
     @OneToOne(mappedBy = "courseWishList", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -1,5 +1,6 @@
 package com.ErasmusApplication.ErasmusApp.Services;
 
+import com.ErasmusApplication.ErasmusApp.DataOnly.AddWishDao;
 import com.ErasmusApplication.ErasmusApp.Models.*;
 import com.ErasmusApplication.ErasmusApp.Repositories.ApplicationRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class ApplicationService {
     public final HostUniversityService hostUniversityService;
     public final CourseWishListService courseWishListService;
 
+    private final HostCourseService hostCourseService;
+    private final BilkentCourseService bilkentCourseService;
     private final StudentService studentService;
 
     /**
@@ -227,6 +230,32 @@ public class ApplicationService {
         CourseWishList courseWishList = new CourseWishList();
         return courseWishListService.saveCourseWishList(courseWishList,app);
     }
+
+    public CourseWishList addWishToCourseWishList(String sId, String appType, AddWishDao addWishDao) {
+
+        CourseWishList courseWishList = getCourseWishList(sId,appType);
+        Application application = courseWishList.getApplication();
+        if(application == null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    String.format("CourseWishList does not exist for student with schoolId: " + sId + " does not have application which should be there. Ask for help.")
+            );
+        }
+        String nameOfHostUni = application.getNameOfPlacedHostUniversity();
+        HostUniversity hostUniversity = hostUniversityService.getHostUniByName(nameOfHostUni);
+        HostCourse tempHostCourse = new HostCourse(addWishDao.getHostEcts_credit(),addWishDao.getHostCourseName(),addWishDao.getHostCourseCode());
+        HostCourse hostCourse = hostCourseService.createIfNotExistOrReturn(tempHostCourse,hostUniversity);
+        Wish wish = new Wish(addWishDao.getIntent(),addWishDao.getStanding(),addWishDao.getSyllabus());
+        BilkentCourse tempBilkentCourse = new BilkentCourse(addWishDao.getBilkentEcts_credit(),addWishDao.getBilkentCourseName(),addWishDao.getBilkentCourseCode(),addWishDao.getBilkentCourseType());
+        BilkentCourse bilkentCourse = bilkentCourseService.getCourseByCode(tempBilkentCourse.getCourseCode());
+        wish.setBilkentCourse(bilkentCourse);
+        wish.setCourseToCountAsBilkentCourse(hostCourse);
+        wish.setCourseWishList(courseWishList);
+        courseWishList.addWish(wish);
+        return courseWishList;//TODO
+    }
+
+
 
     /** CONTRACT:
      PRE-CONDITIONS:

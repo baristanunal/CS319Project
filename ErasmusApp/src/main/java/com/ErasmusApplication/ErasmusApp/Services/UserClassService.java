@@ -115,9 +115,11 @@ public class UserClassService  { //implements UserDetailsService
     /**
      * Methods related to tasks
      */
-    public UserClass addTaskToUser(String schoolId, Task newTask) {
-        UserClass user = getUserBySchoolId(schoolId);
+
+    public UserClass addTaskToUserById(Long id, Task newTask) {
+        UserClass user = getUser(id);
         newTask.setUser(user); // This is enough
+        taskService.addNewTask(newTask);
 //        boolean success = user.addTask(newTask);
 //
 //        //TODO
@@ -129,15 +131,46 @@ public class UserClassService  { //implements UserDetailsService
 //        }
         return user;//TODO
     }
-    public List<Task> getAllTasks(Long userId){
-        UserClass user = getUser(userId);
+    public UserClass addTaskToUserSid(String uId, Task newTask) {
+        UserClass user = getUserBySchoolId(uId);
+        newTask.setUser(user); // This is enough
+        taskService.addNewTask(newTask);
+//        boolean success = user.addTask(newTask);
+//
+//        //TODO
+//        if (!success) {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND,
+//                    String.format("Failed to add task to Student with Id: " + userId)
+//            );
+//        }
+        return user;//TODO
+    }
+    public UserClass addTaskToUser(String schoolId, Task newTask) {
+        UserClass user = getUserBySchoolId(schoolId);
+        newTask.setUser(user); // This is enough
+        taskService.addNewTask(newTask);
+
+//        boolean success = user.addTask(newTask);
+//
+//        //TODO
+//        if (!success) {
+//            throw new ResponseStatusException(
+//                    HttpStatus.NOT_FOUND,
+//                    String.format("Failed to add task to Student with Id: " + userId)
+//            );
+//        }
+        return user;//TODO
+    }
+    public List<Task> getAllTasks(String sId){
+        UserClass user = getUserBySchoolId(sId);
         List<Task> tasks = user.getTasks();
 
         //TODO  return empty list
         if (tasks.isEmpty()){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format( "user with With Id: " + userId + " does not have any tasks"
+                    String.format( "user with With schoold Id: " + sId + " does not have any tasks"
                     ));
         }
         return tasks;
@@ -158,14 +191,14 @@ public class UserClassService  { //implements UserDetailsService
         return user;
     }
 
-    public UserClass updateTask(Long userId, Long taskId, Task taskToUpdate) {
-        UserClass user = getUser(userId);
+    public UserClass updateTask(String sId, Long taskId, Task taskToUpdate) {
+        UserClass user = getUserBySchoolId(sId);
         boolean isExist = user.updateTaskByTaskId(taskId,taskToUpdate);
 
         if (!isExist){
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
-                    String.format("Task with Id: " + taskId + " is not belong to User with Id: " +userId)
+                    String.format("Task with Id: " + taskId + " is not belong to User with Id: " +sId)
             );
         }
 

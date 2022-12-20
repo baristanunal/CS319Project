@@ -41,7 +41,7 @@ public class UserClass  { //implements UserDetails
           cascade = CascadeType.ALL,
           orphanRemoval = true
   )
-  private List<Task> tasks;
+  private List<Task> tasks = new ArrayList<>();
   private String role;
   private String email;
   private String firstName;

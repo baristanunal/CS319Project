@@ -56,13 +56,13 @@ public class GeneralController {
 
 
     // Methods for USER's TASKS
-    @PostMapping("/addTask")
-    public UserClass addTask(@RequestHeader (name="Authorization") String token, @RequestBody Task taskToUpdate) {
-        String stringToken = token.substring(7);
-        Claims a = jwtUtils.decrypt(stringToken);
-        String sId = a.getSubject();
+    @PostMapping("/{id}/addTask")
+    public UserClass addTask(@PathVariable Long id, @RequestBody Task taskToUpdate) {
+//        String stringToken = token.substring(7);
+//        Claims a = jwtUtils.decrypt(stringToken);
+//        String sId = a.getSubject();
 
-        return userClassService.addTaskToUser(sId,taskToUpdate);
+        return userClassService.addTaskToUserById(id,taskToUpdate);
     }
     @GetMapping("/getAllTasks")
     public ResponseEntity<List<Task>> getAllTasks(@RequestHeader (name="Authorization") String token){
@@ -70,10 +70,10 @@ public class GeneralController {
         Claims a = jwtUtils.decrypt(stringToken);
         String sId = a.getSubject();
 
-        return new ResponseEntity<>(studentService.getAllTasks(sId), HttpStatus.OK);
+        return new ResponseEntity<>(userClassService.getAllTasks(sId), HttpStatus.OK);
     }
 
-    @PostMapping("/tasks/remove/{taskId}")
+    @DeleteMapping("/tasks/remove/{taskId}")
     public ResponseEntity<UserClass> removeTaskFromUser(@RequestHeader (name="Authorization") String token, @PathVariable Long taskId){
         String stringToken = token.substring(7);
         Claims a = jwtUtils.decrypt(stringToken);
@@ -88,7 +88,7 @@ public class GeneralController {
         String stringToken = token.substring(7);
         Claims a = jwtUtils.decrypt(stringToken);
         String sId = a.getSubject();
-        UserClass user = studentService.updateTask(sId, taskId, taskToUpdate);
+        UserClass user = userClassService.updateTask(sId, taskId, taskToUpdate);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -170,13 +170,16 @@ public class GeneralController {
     }
 
     //CourseWishList
-    @PostMapping("/courseWishList/add/{wlId}")
-    public CourseWishList addWishToCourseWishList(@RequestHeader (name="Authorization") String token, @PathVariable Long wlId, @RequestBody AddWishDao addWishDao) {
+    @PostMapping("/courseWishList/add/{appTypeInt}")
+    public CourseWishList addWishToCourseWishList(@RequestHeader (name="Authorization") String token, @PathVariable Long appTypeInt, @RequestBody AddWishDao addWishDao) {
         String stringToken = token.substring(7);
         Claims a = jwtUtils.decrypt(stringToken);
         String sId = a.getSubject();
-
-        return courseWishListService.addWishToCourseWishList(sId, wlId,addWishDao);
+        String applicationType = "ERASMUS";
+        if( appTypeInt == 1){
+            applicationType = "EXCHANGE";
+        }
+        return applicationService.addWishToCourseWishList(sId, applicationType,addWishDao);
     }
     @GetMapping("/courseWishList/getAllWishes/{wlId}")
     public List<Wish> getAllWishes(@RequestHeader (name="Authorization") String token,@PathVariable Long userId, @PathVariable Long wlId){

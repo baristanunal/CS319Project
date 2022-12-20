@@ -128,7 +128,7 @@ public class Application {
     }
     public String getNameOfPlacedHostUniversity(){
         if(placedHostUniversity == null){
-            return "not placed";
+            return "Not Placed";
         }
         return placedHostUniversity.getNameOfInstitution();
     }

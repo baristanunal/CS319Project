@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -23,7 +25,7 @@ public class WaitingBin {
     @OneToMany(
             mappedBy = "waitingBin"
     )
-    List<Application> applications;
+    List<Application> applications = new ArrayList<>();
 
     public PlacementManager getPlacementManager() {
         return placementManager;
@@ -37,6 +39,10 @@ public class WaitingBin {
       applications.addAll(newApplications);
     }
 
+    public List<Application> getApplications() {
+        Collections.sort(applications, (s1, s2) -> s1.getId().compareTo(s2.getId()) > 1 ? 1 : s1.getId().compareTo(s2.getId()) < 1 ? -1 : 0);
+        return applications;
+    }
 
     //TODO Add method to Create Update Remove List object
 }

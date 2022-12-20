@@ -61,7 +61,7 @@ public class PdfGenerationService {
 
         // Create the PDF
         Document document = new Document(PageSize.A4.rotate(), 50, 50, 50, 50);
-        PdfWriter.getInstance(document, new FileOutputStream("D://myFile.pdf"));
+        PdfWriter.getInstance(document, new FileOutputStream("PreApproval.pdf"));
         document.open(); // document is opened
 
         // Create Bilkent image
@@ -258,12 +258,12 @@ public class PdfGenerationService {
 
         // Find the Exchange Coordinator
         String exCoordinator = "";
-        if ( hostName == "University of L'Aquila" || hostName == "Roskilde University"
-                || hostName == "AGH University of Science and Technology"
-                || hostName == "Ecole Polytechnique Federale de Lausanne"
-                || hostName == "Vrije Universiteit Amsterdam"
-                || hostName == "Ecole Nationale Superieure Des Techniques Industrielles et des Mines DAlbi"){
-            exCoordinator = "Ayşegül Dündar";
+        if ( hostName.equals( "University of L'Aquila") || hostName.equals( "Roskilde University")
+                || hostName.equals( "AGH University of Science and Technology")
+                || hostName.equals( "EPF" )
+                || hostName.equals( "Vrije Universiteit Amsterdam")
+                || hostName.equals( "Ecole Nationale Superieure Des Techniques Industrielles et des Mines DAlbi")){
+            exCoordinator = "Aysegül Dündar";
         }
         else{
             exCoordinator = "Can Alkan";
@@ -294,7 +294,7 @@ public class PdfGenerationService {
         appCell4.addElement(new Chunk("Date",font12));
         appCell5.addElement(new Chunk("Exchange Coordinator",font12));
         appCell6.addElement(new Chunk(exCoordinator,font12));
-        appCell7.addElement(new Chunk("placeholder",font12));
+        appCell7.addElement(new Chunk("",font12));
         appCell8.addElement(new Chunk(strDate,font12));
 
         tableApp.addCell(appCell1);

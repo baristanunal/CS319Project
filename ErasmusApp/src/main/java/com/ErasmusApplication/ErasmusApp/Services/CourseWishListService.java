@@ -71,9 +71,9 @@ public class CourseWishListService {
         CourseWishList courseWishList= getCourseWishList(wlId);
         List<Wish> wishes = courseWishList.getWishes();
         //TODO  return empty list
-        if (wishes.isEmpty()){
-            return null;
-        }
+//        if (wishes.isEmpty()){
+//            return null;
+//        }
         return wishes;
     }
 

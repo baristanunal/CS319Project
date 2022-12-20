@@ -36,9 +36,10 @@ public class DepartmentErasmusCoordinatorService {
 
     public DepartmentErasmusCoordinator getBySchoolId(String schoolId) {
         DepartmentErasmusCoordinator coord = departmentErasmusCoordinatorRepository.findBySchoolId(schoolId);
+        System.out.println(schoolId);
         if (coord == null){
             System.out.println(schoolId);
-            throw new IllegalStateException("depcoord does not exists");
+            throw new IllegalStateException("depcoord does not exists" + schoolId);
 
         }
         return coord;

@@ -2,11 +2,14 @@ package com.ErasmusApplication.ErasmusApp.Services;
 
 import com.ErasmusApplication.ErasmusApp.Models.BilkentCourse;
 import com.ErasmusApplication.ErasmusApp.Models.Course;
+import com.ErasmusApplication.ErasmusApp.Models.UserClass;
 import com.ErasmusApplication.ErasmusApp.Repositories.BilkentCourseRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -18,6 +21,9 @@ public class BilkentCourseService {
 
     // Methods
 
+    public BilkentCourse saveBilkentCourse(BilkentCourse bilkentCourse) {
+        return bilkentCourseRepository.save(bilkentCourse);
+    }
     /** CONTRACT:
      PRE-CONDITIONS:
      * Course with the requested ID exists
