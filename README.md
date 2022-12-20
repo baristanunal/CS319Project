@@ -68,6 +68,7 @@ The aim of this project is to enhance the usage of Bilkent Erasmus Application b
 * Host institution failed to open the course for Erasmus student, (pre approval process starts again).
 
 ## Build Instructions
+We used the iText library and person who will build our application should have the iText library in his/her computer. The iText can be downloaded from this [link](https://search.maven.org/search?q=a:itextpdf). After you visit the this webpage you should download the iTextPdf ( select the com.itextpdf and then select jar). In the absence of this library, the program will possibly crash.
 
 To run backend:
 Download Intellij Ultimate edition.
