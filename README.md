@@ -66,3 +66,29 @@ The aim of this project is to enhance the usage of Bilkent Erasmus Application b
 ### Possible Corner Cases:
 * The courses that were accepted before but their syllabus have changed.
 * Host institution failed to open the course for Erasmus student, (pre approval process starts again).
+
+## Build Instructions
+
+To run backend:
+Download Intellij Ultimate edition.
+Download PostgreSQL 15 from enterprisedb. Give password to your account ( which is asked to you to finish the building process of PostgreSQL)
+Clone our code from Github to your computer.
+After downloading PostgreSQL, access psql from the command line.
+If you are using windows write “psql -U postgres” to console and write the password that you gave.
+If you are using macOS, write “psql” to the console and write the password that you gave.
+Then write “CREATE DATABASE erasmusappdb;” to the console. ( Be sure you logged on psql successfully)
+Then write
+If you are using windows write ‘GRANT ALL PRIVILEGES ON DATABASE “erasmusappdb” TO postgres;’ to console.
+If you are using macOS, ‘GRANT ALL PRIVILEGES ON DATABASE “erasmusappdb” TO $DefaultUser;’ to console. ( $DefaultUser is the default use of your computer. After you wrote psql in console, psql shows your default user.)
+Open Intellij, download all necessary files which are shown by Intellij IDEA. Then update the “/resources/application.properties” file.(write your username and password)
+Click on the “Database” field on the right side of the Intellij idea. ( You have to use the Intellij Ultimate edition. Otherwise you have to follow different procedure which we did not use)
+Run a program and open “http://localhost:3000/” from your browser.
+
+
+To run frontend:
+Clone code from github.
+Write “npm install”.
+Then write “npm start”.
+
+After these steps the application is working.
+
