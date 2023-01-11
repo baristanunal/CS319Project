@@ -98,15 +98,14 @@ public class UserClass  { //implements UserDetails
   /**
    * Methods related to tasks
    * */
-  public boolean addTask(Task newTask){
-    return tasks.add(newTask);
+  public void addTask(Task newTask){
+    newTask.setUser( this );        // this should solve the connectivity problem?
+    tasks.add(newTask);
   }
-  public boolean addTasks(List<Task> newTasks){
+  public void addTasks(List<Task> newTasks){
     for (int i = 0; i < newTasks.size(); i++){
       tasks.add(newTasks.get(i));
     }
-
-    return false;
   }
   public boolean removeTaskById(Long taskId) {
     Iterator<Task> iterator = tasks.iterator();

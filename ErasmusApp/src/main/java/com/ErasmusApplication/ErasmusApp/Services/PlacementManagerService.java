@@ -291,13 +291,14 @@ public class PlacementManagerService {
       coordinator.addTask(crdTask);
     }
 
-    for (Application allApplication : allApplications) {
-      allApplication.getStudent().addTask(studentTask);
+    for (Application application : allApplications) {
+      application.getStudent().addTask(studentTask);
+      System.out.println( application.getStudent().getTasks() );
     }
 
+
+
   }
-
-
 
 
 }
