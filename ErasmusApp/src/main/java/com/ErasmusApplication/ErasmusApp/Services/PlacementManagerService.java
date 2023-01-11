@@ -243,7 +243,7 @@ public class PlacementManagerService {
     for (int i = 0; i < coordinators.size(); i++){
       coordinators.get(i).setPlacementManager(placementManager);
     }
-    
+
     // 2. Create mainList and waitingBin and set managers.
     PlacementTable mainList = new PlacementTable();
     mainList.setPlacementManager(placementManager);
@@ -276,6 +276,23 @@ public class PlacementManagerService {
 
     for( int i = 0; i < waitingApplications.size(); i++ ){
       waitingApplications.get(i).setWaitingBin( waitingBin );
+    }
+
+    // 5. Add task to the Dept. Erasmus Coordinator(s).
+    Task crdTask = new Task(
+      "View the initial placements and confirm.",
+      "01.01.2024");
+
+    Task studentTask = new Task(
+      "Accept / reject your placement.",
+      "01.01.2024");
+
+    for( DepartmentErasmusCoordinator coordinator: coordinators ){
+      coordinator.addTask(crdTask);
+    }
+
+    for (Application allApplication : allApplications) {
+      allApplication.getStudent().addTask(studentTask);
     }
 
   }

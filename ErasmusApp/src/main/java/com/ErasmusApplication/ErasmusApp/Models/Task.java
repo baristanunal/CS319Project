@@ -40,11 +40,17 @@ public class Task {
 
     }
 
-    public Task(String content, String deadline, String status) {
+    public Task(String content, String deadline) {
         this.content = content;
         this.deadline = deadline;
-        this.status = "Not Complete";
+        this.status = "Pending";
     }
+
+  public Task(String content, String deadline, String status) {
+    this.content = content;
+    this.deadline = deadline;
+    this.status = status;
+  }
 
 
     public void setAll(Task task) {
