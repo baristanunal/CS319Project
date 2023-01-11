@@ -278,22 +278,22 @@ public class PlacementManagerService {
       waitingApplications.get(i).setWaitingBin( waitingBin );
     }
 
+    System.out.println("\nAdding tasks...");
+
     // 5. Add task to the Dept. Erasmus Coordinator(s).
-    Task crdTask = new Task(
-      "View the initial placements and confirm.",
-      "01.01.2024");
-
-    Task studentTask = new Task(
-      "Accept / reject your placement.",
-      "01.01.2024");
-
     for( DepartmentErasmusCoordinator coordinator: coordinators ){
-      coordinator.addTask(crdTask);
+      Task crdTask = new Task(
+        "View the initial placements and confirm.",
+        "01.01.2024");
+      userClassService.addTaskToUserSid( coordinator.getSchoolId(), crdTask );
     }
 
     for (Application application : allApplications) {
-      application.getStudent().addTask(studentTask);
-      System.out.println( application.getStudent().getTasks() );
+      System.out.println( "Student ID: " + application.getStudent().getSchoolId());
+      Task studentTask = new Task(
+        "Accept / reject your placement.",
+        "01.01.2024");
+      userClassService.addTaskToUserSid( application.getStudent().getSchoolId(), studentTask );
     }
 
 
