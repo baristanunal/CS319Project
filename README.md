@@ -1,5 +1,6 @@
 # CS319Project
 frontend repo: https://github.com/ugurcanaltun/cs319-project-frontend
+
 video: https://www.youtube.com/watch?v=ZgadC4pmx84
 # Authors
  - [Ahmet Şahin](https://github.com/ahmet541)
