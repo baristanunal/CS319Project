@@ -9,10 +9,10 @@ video: https://www.youtube.com/watch?v=ZgadC4pmx84
  - [Uğur Can Altun](https://github.com/ugurcanaltun)
  - [Yusuf Şenyüz](https://github.com/YusufSenyuz)
  
- <h1 align="center"> Oyku's Project: Web-based extension to the existing Bilkent Erasmus Application </h1>
+ <h1 align="center"> Erasmus Management System: Web-based extension to the existing Bilkent Erasmus Application </h1>
  
 ## Description
-Oyku's Project is a web-based extension to the existing Bilkent Erasmus Application that intends to enhance the usage of the application by moving all of the paperwork and communication done outside of the scope of the application to the digital grounds, which is inside of the scope of the current Bilkent Erasmus Application with an user-friendly user interface. 
+Erasmus Management System is a web-based extension to the existing Bilkent Erasmus Application that intends to enhance the usage of the application by moving all of the paperwork and communication done outside of the scope of the application to the digital grounds, which is inside of the scope of the current Bilkent Erasmus Application with an user-friendly user interface. 
  
 ## Aim
 The aim of this project is to enhance the usage of Bilkent Erasmus Application by the current users and potential users that are neglected of the applicaton due to current undigitized means of processing tasks that are related to Erasmus and exchange programs. We intend to improve the standards of carrying out tasks related to Erasmus and other exchange programs by digitizing the remaining undigitized paperwork and means of communication and support the current program by providing high-level features that serve the aim that is mentioned above.
